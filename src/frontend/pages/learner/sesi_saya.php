@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'learner') {
 $user_id = $_SESSION['user_id'];
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : $_SESSION['email'];
 
-$siswa_query = "SELECT * FROM siswa WHERE email = '$user_email' LIMIT 1";
+$siswa_query = "SELECT * FROM mahasiswa WHERE email = '$user_email' LIMIT 1";
 $siswa_result = mysqli_query($conn, $siswa_query);
 $siswa_data = mysqli_fetch_assoc($siswa_result);
 
@@ -53,7 +53,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sesi Belajar Saya - PeerLearn</title>
+    <title>Sesi Belajar Saya - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
@@ -63,18 +63,18 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
         <ul class="sb-menu">
-            <li><a href="dashboard_siswa.php">Beranda</a></li>
+            <li><a href="dashboard_mahasiswa.php">Beranda</a></li>
             <li><a href="../public/search_result.php">Cari Tutor</a></li>
             <li><a href="sesi_saya.php" class="active">Sesi Saya</a></li>
             <li><a href="riwayat.php">Riwayat Booking</a></li>
         </ul>
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -119,7 +119,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
     gap: 10px;
     font-size: 24px;
     font-weight: 700;
-    color: #cc5500;
+    color: #1a5276;
 }
 .sb-brand .logo {
     height: 40px;
@@ -141,8 +141,8 @@ $bookings_result = mysqli_query($conn, $bookings_query);
     border-bottom: 2px solid transparent;
 }
 .sb-menu a:hover, .sb-menu a.active {
-    color: #FF6B35;
-    border-bottom-color: #FF6B35;
+    color: #1a5276;
+    border-bottom-color: #1a5276;
 }
 .sb-daftar {
     padding: 10px 20px;
@@ -163,7 +163,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 
 .page-header h1 {
     font-size: 32px;
-    color: #cc5500;
+    color: #1a5276;
     margin-bottom: 10px;
 }
 
@@ -185,12 +185,12 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 }
 
 .tab:hover {
-    color: #FF6B35;
+    color: #1a5276;
 }
 
 .tab.active {
-    color: #FF6B35;
-    border-bottom-color: #FF6B35;
+    color: #1a5276;
+    border-bottom-color: #1a5276;
 }
 
 .session-card {
@@ -199,11 +199,11 @@ $bookings_result = mysqli_query($conn, $bookings_query);
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    border-left: 4px solid #cc5500;
+    border-left: 4px solid #1a5276;
 }
 
 .session-card.pending { border-left-color: #FFC107; }
-.session-card.confirmed { border-left-color: #cc5500; }
+.session-card.confirmed { border-left-color: #1a5276; }
 .session-card.completed { border-left-color: #28A745; }
 .session-card.cancelled { border-left-color: #DC3545; }
 
@@ -223,7 +223,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #cc5500, #ff9329);
+    background: linear-gradient(135deg, #1a5276, #2e86c1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -272,7 +272,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 }
 
 .detail-item i {
-    color: #FF6B35;
+    color: #1a5276;
     font-size: 18px;
 }
 
@@ -325,16 +325,16 @@ $bookings_result = mysqli_query($conn, $bookings_query);
                         <div class="tutor-details">
                             <h3><?php echo htmlspecialchars($booking['tutor_name']); ?></h3>
                             <p><?php echo htmlspecialchars($booking['subject_name']); ?></p>
-                            <p style="color: #FF6B35; font-weight: 600; margin-top: 5px;"><?php echo $price_formatted; ?></p>
+                            <p style="color: #1a5276; font-weight: 600; margin-top: 5px;"><?php echo $price_formatted; ?></p>
                         </div>
                     </div>
                     <span class="status-badge status-<?php echo $booking['status']; ?>">
                         <?php 
                         $status_text = [
-                            'pending' => '🕐 Akan Datang',
-                            'confirmed' => '✅ Selesai',
-                            'completed' => '✅ Selesai',
-                            'cancelled' => '❌ Dibatalkan'
+                            'pending' => 'ðŸ• Akan Datang',
+                            'confirmed' => 'âœ… Selesai',
+                            'completed' => 'âœ… Selesai',
+                            'cancelled' => 'âŒ Dibatalkan'
                         ];
                         echo $status_text[$booking['status']] ?? ucfirst($booking['status']);
                         ?>
@@ -375,7 +375,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
                 </div>
 
                 <?php if ($booking['notes']): ?>
-                <div style="margin-top: 15px; padding: 12px; background: white; border-left: 3px solid #ff9329; border-radius: 4px;">
+                <div style="margin-top: 15px; padding: 12px; background: white; border-left: 3px solid #2e86c1; border-radius: 4px;">
                     <small style="color: #666; font-weight: 600;">Catatan:</small>
                     <p style="margin: 5px 0 0 0;"><?php echo htmlspecialchars($booking['notes']); ?></p>
                 </div>
@@ -383,7 +383,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 
                 <?php if ($booking['status'] == 'completed'): ?>
                 <div style="margin-top: 15px; text-align: right;">
-                    <button onclick="openReviewModal(<?php echo $booking['id']; ?>)" class="btn" style="background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer;">
+                    <button onclick="openReviewModal(<?php echo $booking['id']; ?>)" class="btn" style="background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer;">
                         <i class="bi bi-star"></i> Beri Review
                     </button>
                 </div>
@@ -402,7 +402,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
             <i class="bi bi-calendar-x"></i>
             <h3>Belum Ada Sesi</h3>
             <p>Anda belum memiliki jadwal belajar. Mulai cari tutor dan booking sesi belajar!</p>
-            <a href="../public/search_result.php" style="display: inline-block; margin-top: 20px; background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600;">
+            <a href="../public/search_result.php" style="display: inline-block; margin-top: 20px; background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600;">
                 <i class="bi bi-search"></i> Cari Tutor
             </a>
         </div>
@@ -440,7 +440,7 @@ function closeReviewModal() {
     <div class="review-modal-content" style="background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative;">
         <button onclick="closeReviewModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 30px; cursor: pointer; color: #999;">&times;</button>
         <div style="margin-bottom: 30px;">
-            <h2 style="color: #cc5500; margin: 0 0 10px 0;">Beri Rating & Review</h2>
+            <h2 style="color: #1a5276; margin: 0 0 10px 0;">Beri Rating & Review</h2>
             <p style="color: #666; margin: 0;">Bagikan pengalaman belajar Anda</p>
         </div>
         <form id="reviewForm" action="../../../backend/learner/submit_review.php" method="POST">
@@ -449,15 +449,15 @@ function closeReviewModal() {
             <div style="margin-bottom: 25px; text-align: center;">
                 <div class="rating-input" style="display: flex; flex-direction: row-reverse; justify-content: center; gap: 10px;">
                     <input type="radio" name="rating" value="5" id="rating5" required style="display: none;">
-                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(5)">⭐</label>
+                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(5)">â­</label>
                     <input type="radio" name="rating" value="4" id="rating4" style="display: none;">
-                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(4)">⭐</label>
+                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(4)">â­</label>
                     <input type="radio" name="rating" value="3" id="rating3" style="display: none;">
-                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(3)">⭐</label>
+                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(3)">â­</label>
                     <input type="radio" name="rating" value="2" id="rating2" style="display: none;">
-                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(2)">⭐</label>
+                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(2)">â­</label>
                     <input type="radio" name="rating" value="1" id="rating1" style="display: none;">
-                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(1)">⭐</label>
+                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s;" onclick="selectRating(1)">â­</label>
                 </div>
             </div>
             
@@ -469,7 +469,7 @@ function closeReviewModal() {
             
             <div style="display: flex; gap: 15px; justify-content: flex-end;">
                 <button type="button" onclick="closeReviewModal()" style="padding: 12px 30px; background: #f0f0f0; color: #333; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Batal</button>
-                <button type="submit" style="padding: 12px 30px; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Kirim Review</button>
+                <button type="submit" style="padding: 12px 30px; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Kirim Review</button>
             </div>
         </form>
     </div>
@@ -500,3 +500,8 @@ document.getElementById('reviewModal').addEventListener('click', function(e) {
 </script>
 
 <?php require_once '../../layouts/footer.php'; ?>
+
+
+
+
+

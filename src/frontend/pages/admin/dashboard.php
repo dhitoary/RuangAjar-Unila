@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_set_cookie_params(0, '/'); 
 session_start();
 
@@ -20,16 +20,16 @@ $page = $_GET['page'] ?? 'home';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - PeerLearn</title>
+    <title>Admin Panel - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
-            --primary-dark: #cc5500;
-            --primary-light: #ff9329;
+            --primary-dark: #1a5276;
+            --primary-light: #2e86c1;
             --accent-yellow: #ffb866;
-            --accent-orange: #FF6B35;
+            --accent-orange: #1a5276;
             --bg-light: #F8FAFB;
         }
         
@@ -150,7 +150,7 @@ $page = $_GET['page'] ?? 'home';
 <div class="d-flex" id="wrapper">
     <div id="sidebar-wrapper">
         <div class="sidebar-heading text-center py-4 border-bottom border-secondary fs-4 fw-bold">
-            PeerLearn
+            RuangAjar
         </div>
             <div class="list-group list-group-flush">
                 <a href="?page=home" class="list-group-item list-group-item-action <?= $page == 'home' ? 'active' : '' ?>">
@@ -159,8 +159,8 @@ $page = $_GET['page'] ?? 'home';
                 <a href="?page=tutor" class="list-group-item list-group-item-action <?= $page == 'tutor' ? 'active' : '' ?>">
                 <i class="fas fa-chalkboard-teacher me-2"></i> Data Tutor
                 </a>
-                <a href="?page=siswa" class="list-group-item list-group-item-action <?= $page == 'siswa' ? 'active' : '' ?>">
-                <i class="fas fa-user-graduate me-2"></i> Data Siswa
+                <a href="?page=mahasiswa" class="list-group-item list-group-item-action <?= $page == 'mahasiswa' ? 'active' : '' ?>">
+                <i class="fas fa-user-graduate me-2"></i> Data Mahasiswa
                 </a>
                 <a href="?page=verifikasi" class="list-group-item list-group-item-action <?= $page == 'verifikasi' ? 'active' : '' ?>">
                 <i class="fas fa-check-circle me-2"></i> Verifikasi
@@ -240,3 +240,4 @@ $page = $_GET['page'] ?? 'home';
 
 </body>
 </html>
+

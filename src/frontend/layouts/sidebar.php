@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 if (!isset($assetPath)) {
   $assetPath = "../../assets/";
 }
@@ -8,7 +8,7 @@ if (!isset($assetPath)) {
   
   <div class="sb-side-header">
     <img src="<?php echo $assetPath ?>img/logo.png" class="sb-side-logo">
-    <span class="sb-side-title">PeerLearn</span>
+    <span class="sb-side-title">RuangAjar</span>
   </div>
 
   <ul class="sb-side-menu">
@@ -46,3 +46,4 @@ if (!isset($assetPath)) {
   </ul>
 
 </div>
+

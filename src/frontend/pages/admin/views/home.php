@@ -1,7 +1,7 @@
-<?php
+﻿<?php
 global $conn;
 
-$qSiswa = mysqli_query($conn, "SELECT COUNT(*) as total FROM siswa");
+$qSiswa = mysqli_query($conn, "SELECT COUNT(*) as total FROM mahasiswa");
 $totalSiswa = mysqli_fetch_assoc($qSiswa)['total'];
 
 $qTutor = mysqli_query($conn, "SELECT COUNT(*) as total FROM tutor");
@@ -35,7 +35,7 @@ for ($i = 11; $i >= 0; $i--) {
     $monthName = date('M', strtotime("-$i months"));
     $monthLabels[] = $monthName;
     
-    $qSiswaMonth = mysqli_query($conn, "SELECT COUNT(*) as total FROM siswa WHERE DATE_FORMAT(created_at, '%Y-%m') = '$date'");
+    $qSiswaMonth = mysqli_query($conn, "SELECT COUNT(*) as total FROM mahasiswa WHERE DATE_FORMAT(created_at, '%Y-%m') = '$date'");
     $monthlyDataSiswa[] = (int)mysqli_fetch_assoc($qSiswaMonth)['total'];
     
     $qTutorMonth = mysqli_query($conn, "SELECT COUNT(*) as total FROM tutor WHERE DATE_FORMAT(created_at, '%Y-%m') = '$date'");
@@ -63,13 +63,13 @@ $logResult = mysqli_query($conn, $logQuery);
 
 <div class="row g-4 mb-4">
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #cc5500 0%, #0A5A70 100%); color: white;">
+        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #1a5276 0%, #0A5A70 100%); color: white;">
             <div class="card-body d-flex align-items-center">
                 <div class="bg-white bg-opacity-20 p-3 rounded-circle me-3">
                     <i class="fas fa-user-graduate fa-2x text-white"></i>
                 </div>
                 <div>
-                    <h6 class="mb-1 small text-uppercase fw-bold opacity-75">Total Siswa</h6>
+                    <h6 class="mb-1 small text-uppercase fw-bold opacity-75">Total Mahasiswa</h6>
                     <h2 class="mb-0 fw-bold"><?= $totalSiswa ?></h2>
                     <small class="opacity-75"><i class="fas fa-check-circle"></i> Data Realtime</small>
                 </div>
@@ -78,12 +78,12 @@ $logResult = mysqli_query($conn, $logQuery);
     </div>
 
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #ff9329 0%, #ffd4c1 100%);">
+        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #2e86c1 0%, #ffd4c1 100%);">
             <div class="card-body d-flex align-items-center">
-                <div class="bg-white bg-opacity-50 p-3 rounded-circle me-3" style="color: #cc5500;">
+                <div class="bg-white bg-opacity-50 p-3 rounded-circle me-3" style="color: #1a5276;">
                     <i class="fas fa-chalkboard-teacher fa-2x"></i>
                 </div>
-                <div style="color: #cc5500;">
+                <div style="color: #1a5276;">
                     <h6 class="mb-1 small text-uppercase fw-bold opacity-75">Total Tutor</h6>
                     <h2 class="mb-0 fw-bold"><?= $totalTutor ?></h2>
                     <small class="opacity-75"><i class="fas fa-check-circle"></i> Data Realtime</small>
@@ -108,7 +108,7 @@ $logResult = mysqli_query($conn, $logQuery);
     </div>
 
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%); color: white;">
+        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #1a5276 0%, #FF8C61 100%); color: white;">
             <div class="card-body d-flex align-items-center">
                 <div class="bg-white bg-opacity-20 p-3 rounded-circle me-3">
                     <i class="fas fa-bell fa-2x text-white"></i>
@@ -125,8 +125,8 @@ $logResult = mysqli_query($conn, $logQuery);
 
 <div class="row g-4 mb-4">
     <div class="col-lg-8">
-        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #cc5500 !important;">
-            <div class="card-header py-3" style="background: linear-gradient(135deg, #cc5500 0%, #0A5A70 100%); color: white;">
+        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #1a5276 !important;">
+            <div class="card-header py-3" style="background: linear-gradient(135deg, #1a5276 0%, #0A5A70 100%); color: white;">
                 <h5 class="card-title mb-0 fw-bold"><i class="fas fa-chart-line me-2"></i>Tren Pendaftaran (12 Bulan Terakhir)</h5>
             </div>
             <div class="card-body">
@@ -136,8 +136,8 @@ $logResult = mysqli_query($conn, $logQuery);
     </div>
 
     <div class="col-lg-4">
-        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #ff9329 !important;">
-            <div class="card-header py-3" style="background: linear-gradient(135deg, #ff9329 0%, #ffd4c1 100%); color: #cc5500;">
+        <div class="card border-0 shadow-sm h-100" style="border-left: 4px solid #2e86c1 !important;">
+            <div class="card-header py-3" style="background: linear-gradient(135deg, #2e86c1 0%, #ffd4c1 100%); color: #1a5276;">
                 <h5 class="card-title mb-0 fw-bold"><i class="fas fa-graduation-cap me-2"></i>Sebaran Keahlian Tutor</h5>
             </div>
             <div class="card-body d-flex align-items-center justify-content-center">
@@ -151,29 +151,29 @@ $logResult = mysqli_query($conn, $logQuery);
 
 <div class="card border-0 shadow-sm" style="border-left: 4px solid #ffb866 !important;">
     <div class="card-header py-3 d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, rgba(255, 147, 41, 0.15) 0%, rgba(255, 184, 102, 0.15) 100%);">
-    <h5 class="mb-0 fw-bold" style="color: #cc5500;"><i class="fas fa-history me-2"></i>Pendaftaran Terbaru</h5>
+    <h5 class="mb-0 fw-bold" style="color: #1a5276;"><i class="fas fa-history me-2"></i>Pendaftaran Terbaru</h5>
     
     <div class="dropdown">
         <button class="btn btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" 
-                style="background: #cc5500; color: white; border: none;">
+                style="background: #1a5276; color: white; border: none;">
             <i class="fas fa-eye me-1"></i>Lihat Semua
         </button>
         <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-            <li><h6 class="dropdown-header text-uppercase small" style="color: #cc5500;">Pilih Data</h6></li>
+            <li><h6 class="dropdown-header text-uppercase small" style="color: #1a5276;">Pilih Data</h6></li>
             <li>
-                <a class="dropdown-item" href="?page=siswa">
-                    <i class="fas fa-user-graduate me-2" style="color: #cc5500;"></i> Data Siswa
+                <a class="dropdown-item" href="?page=mahasiswa">
+                    <i class="fas fa-user-graduate me-2" style="color: #1a5276;"></i> Data Mahasiswa
                 </a>
             </li>
             <li>
                 <a class="dropdown-item" href="?page=tutor">
-                    <i class="fas fa-chalkboard-teacher me-2" style="color: #ff9329;"></i> Data Tutor
+                    <i class="fas fa-chalkboard-teacher me-2" style="color: #2e86c1;"></i> Data Tutor
                 </a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
                 <a class="dropdown-item" href="?page=verifikasi">
-                    <i class="fas fa-check-circle me-2" style="color: #FF6B35;"></i> Cek Verifikasi
+                    <i class="fas fa-check-circle me-2" style="color: #1a5276;"></i> Cek Verifikasi
                 </a>
             </li>
         </ul>
@@ -217,7 +217,7 @@ $logResult = mysqli_query($conn, $logQuery);
                             $statusText = 'Tutor';
                         } elseif ($log['role'] == 'learner') {
                             $statusClass = 'primary';
-                            $statusText = 'Siswa';
+                            $statusText = 'Mahasiswa';
                         }
                     ?>
                     <tr>
@@ -233,7 +233,7 @@ $logResult = mysqli_query($conn, $logQuery);
                         <td>
                             <?php if ($log['role'] == 'learner'): ?>
                                 <span class="badge bg-primary-subtle text-primary">
-                                    <i class="fas fa-user-graduate me-1"></i> Siswa Baru
+                                    <i class="fas fa-user-graduate me-1"></i> Mahasiswa Baru
                                 </span>
                             <?php else: ?>
                                 <span class="badge bg-success-subtle text-success">
@@ -271,15 +271,15 @@ $logResult = mysqli_query($conn, $logQuery);
         data: {
             labels: monthLabels,
             datasets: [{
-                label: 'Siswa Baru',
+                label: 'Mahasiswa Baru',
                 data: siswaData,
-                borderColor: '#cc5500',
+                borderColor: '#1a5276',
                 backgroundColor: 'rgba(12, 74, 96, 0.1)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
                 pointRadius: 5,
-                pointBackgroundColor: '#cc5500',
+                pointBackgroundColor: '#1a5276',
                 pointBorderColor: '#fff',
                 pointBorderWidth: 2,
                 pointHoverRadius: 7
@@ -287,13 +287,13 @@ $logResult = mysqli_query($conn, $logQuery);
             {
                 label: 'Tutor Baru',
                 data: tutorData,
-                borderColor: '#FF6B35',
+                borderColor: '#1a5276',
                 backgroundColor: 'rgba(255, 107, 53, 0.1)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
                 pointRadius: 5,
-                pointBackgroundColor: '#FF6B35',
+                pointBackgroundColor: '#1a5276',
                 pointBorderColor: '#fff',
                 pointBorderWidth: 2,
                 pointHoverRadius: 7
@@ -363,9 +363,9 @@ $logResult = mysqli_query($conn, $logQuery);
     const dbData = <?= $jsonData ?>;
 
     const colors = [
-        '#cc5500',
-        '#ff9329',
-        '#FF6B35',
+        '#1a5276',
+        '#2e86c1',
+        '#1a5276',
         '#ffb866',
         '#4A90E2',
         '#50C878',
@@ -438,3 +438,4 @@ $logResult = mysqli_query($conn, $logQuery);
         }
     });
 </script>
+

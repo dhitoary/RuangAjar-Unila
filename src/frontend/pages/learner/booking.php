@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'learner') {
 
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : $_SESSION['email'];
 
-$siswa_query = "SELECT * FROM siswa WHERE email = '$user_email' LIMIT 1";
+$siswa_query = "SELECT * FROM mahasiswa WHERE email = '$user_email' LIMIT 1";
 $siswa_result = mysqli_query($conn, $siswa_query);
 $siswa_data = mysqli_fetch_assoc($siswa_result);
 
@@ -45,7 +45,7 @@ if ($tutor_id > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Tutor - PeerLearn</title>
+    <title>Booking Tutor - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
@@ -54,13 +54,13 @@ if ($tutor_id > 0) {
 <!-- NAVBAR KHUSUS LEARNER -->
 <nav class="sb-navbar" style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100;">
     <div style="max-width: 1400px; margin: 0 auto; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #cc5500;">
-            <img src="/kelompok/kelompok_21/src/assets/img/logo.png" alt="PeerLearn Logo" style="width: 40px; height: 40px;">
-            <span>PeerLearn</span>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #1a5276;">
+            <img src="/kelompok/kelompok_21/src/assets/img/logo.png" alt="RuangAjar Logo" style="width: 40px; height: 40px;">
+            <span>RuangAjar</span>
         </div>
 
         <ul style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
-            <li><a href="dashboard_siswa.php" style="text-decoration: none; color: #333; font-weight: 500;">Beranda</a></li>
+            <li><a href="dashboard_mahasiswa.php" style="text-decoration: none; color: #333; font-weight: 500;">Beranda</a></li>
             <li><a href="../public/search_result.php" style="text-decoration: none; color: #333; font-weight: 500;">Cari Tutor</a></li>
             <li><a href="sesi_saya.php" style="text-decoration: none; color: #333; font-weight: 500;">Sesi Saya</a></li>
             <li><a href="riwayat.php" style="text-decoration: none; color: #333; font-weight: 500;">Riwayat Booking</a></li>
@@ -68,7 +68,7 @@ if ($tutor_id > 0) {
 
         <div>
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" style="display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); color: white; padding: 10px 25px; border-radius: 25px; border: none; cursor: pointer; font-weight: 600;">
+                <button onclick="toggleDropdown()" style="display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); color: white; padding: 10px 25px; border-radius: 25px; border: none; cursor: pointer; font-weight: 600;">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -104,7 +104,7 @@ if ($tutor_id > 0) {
 }
 
 .booking-header h1 {
-    color: #cc5500;
+    color: #1a5276;
     margin-bottom: 10px;
 }
 
@@ -143,9 +143,9 @@ if ($tutor_id > 0) {
 }
 
 .step.active {
-    background: #FF6B35;
+    background: #1a5276;
     color: white;
-    border-color: #FF6B35;
+    border-color: #1a5276;
 }
 
 .step.completed {
@@ -184,7 +184,7 @@ if ($tutor_id > 0) {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #cc5500, #ff9329);
+    background: linear-gradient(135deg, #1a5276, #2e86c1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -207,12 +207,12 @@ if ($tutor_id > 0) {
 }
 
 .subject-option:hover {
-    border-color: #ff9329;
+    border-color: #2e86c1;
     background: #f0f9ff;
 }
 
 .subject-option.selected {
-    border-color: #FF6B35;
+    border-color: #1a5276;
     background: #fff5f0;
 }
 
@@ -242,7 +242,7 @@ if ($tutor_id > 0) {
 
 .form-input:focus {
     outline: none;
-    border-color: #ff9329;
+    border-color: #2e86c1;
     box-shadow: 0 0 0 3px rgba(154, 212, 214, 0.1);
 }
 
@@ -261,7 +261,7 @@ if ($tutor_id > 0) {
 }
 
 .confirmation-details strong {
-    color: #cc5500;
+    color: #1a5276;
 }
 
 .btn-group {
@@ -290,7 +290,7 @@ if ($tutor_id > 0) {
 
 .btn-primary {
     padding: 12px 30px;
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
     color: white;
     border: none;
     border-radius: 25px;
@@ -354,7 +354,7 @@ if ($tutor_id > 0) {
             
             <div class="step-content active" id="step1">
                 <div class="booking-card">
-                    <h2 style="margin-bottom: 20px; color: #cc5500;">Pilih Mata Pelajaran</h2>
+                    <h2 style="margin-bottom: 20px; color: #1a5276;">Pilih Mata Kuliah</h2>
                     
                     <div class="tutor-info">
                         <div class="tutor-avatar">
@@ -370,7 +370,7 @@ if ($tutor_id > 0) {
 
                     <div class="subject-select">
                         <?php if (empty($subjects_list)): ?>
-                            <p>Tutor ini belum memiliki mata pelajaran yang tersedia.</p>
+                            <p>Tutor ini belum memiliki mata kuliah yang tersedia.</p>
                         <?php else: ?>
                             <?php foreach ($subjects_list as $subject): ?>
                                 <div class="subject-option <?php echo ($subject_id == $subject['id']) ? 'selected' : ''; ?>" onclick="selectSubject(this)">
@@ -378,7 +378,7 @@ if ($tutor_id > 0) {
                                         <input type="radio" name="subject_id" value="<?php echo $subject['id']; ?>" 
                                                <?php echo ($subject_id == $subject['id']) ? 'checked' : ''; ?> required>
                                         <strong style="font-size: 16px;"><?php echo htmlspecialchars($subject['subject_name']); ?></strong>
-                                        <span style="float: right; color: #FF6B35; font-weight: bold; font-size: 16px;">
+                                        <span style="float: right; color: #1a5276; font-weight: bold; font-size: 16px;">
                                             Rp <?php echo number_format($subject['price'], 0, ',', '.'); ?>
                                         </span>
                                         <?php if (!empty($subject['description'])): ?>
@@ -401,7 +401,7 @@ if ($tutor_id > 0) {
 
             <div class="step-content" id="step2">
                 <div class="booking-card">
-                    <h2 style="margin-bottom: 20px; color: #cc5500;">Pilih Tanggal & Waktu</h2>
+                    <h2 style="margin-bottom: 20px; color: #1a5276;">Pilih Tanggal & Waktu</h2>
                     
                     <div class="form-group">
                         <label class="form-label">Tanggal</label>
@@ -429,7 +429,7 @@ if ($tutor_id > 0) {
 
             <div class="step-content" id="step3">
                 <div class="booking-card">
-                    <h2 style="margin-bottom: 20px; color: #cc5500;">Konfirmasi Booking</h2>
+                    <h2 style="margin-bottom: 20px; color: #1a5276;">Konfirmasi Booking</h2>
                     
                     <div class="confirmation-details" id="confirmationDetails">
                         <!-- Akan diisi oleh JavaScript -->
@@ -437,8 +437,8 @@ if ($tutor_id > 0) {
 
                     <div class="btn-group">
                         <button type="button" class="btn-secondary" onclick="prevStep(2)">Kembali</button>
-                        <button type="submit" class="btn-primary">
-                            <i class="bi bi-check-circle"></i> Konfirmasi & Booking
+                        <button type="button" class="btn-primary" id="btnPayNow" onclick="submitAndPay()">
+                            <i class="bi bi-credit-card"></i> Booking & Bayar
                         </button>
                     </div>
                 </div>
@@ -491,7 +491,7 @@ function nextStep(step) {
     if (step === 2) {
         const subjectId = document.querySelector('input[name="subject_id"]:checked');
         if (!subjectId) {
-            alert('Harap pilih mata pelajaran terlebih dahulu');
+            alert('Harap pilih mata kuliah terlebih dahulu');
             return;
         }
     }
@@ -527,7 +527,7 @@ function updateConfirmation() {
     
     document.getElementById('confirmationDetails').innerHTML = `
         <p><strong>Tutor:</strong> <span>${tutorName}</span></p>
-        <p><strong>Mata Pelajaran:</strong> <span>${subjectName}</span></p>
+        <p><strong>Mata Kuliah:</strong> <span>${subjectName}</span></p>
         <p><strong>Harga:</strong> <span>${subjectPrice}</span></p>
         <p><strong>Tanggal:</strong> <span>${dateFormatted}</span></p>
         <p><strong>Waktu:</strong> <span>${time}</span></p>
@@ -535,7 +535,7 @@ function updateConfirmation() {
         ${notes ? `<p><strong>Catatan:</strong> <span>${notes}</span></p>` : ''}
         <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
         <p style="font-size: 12px; color: #666; margin: 0;">
-            <i class="bi bi-info-circle"></i> Setelah booking dikonfirmasi, admin akan menghubungi Anda via WhatsApp untuk konfirmasi pembayaran.
+            <i class="bi bi-shield-check"></i> Pembayaran aman melalui Midtrans (Transfer Bank, E-Wallet, Kartu Kredit/Debit).
         </p>
     `;
 }
@@ -565,7 +565,69 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.booking-header').after(stepIndicator);
     updateStepIndicator();
 });
+function submitAndPay() {
+    const form = document.getElementById('bookingForm');
+    const formData = new FormData(form);
+    const btn = document.getElementById('btnPayNow');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Memproses...';
+
+    // First submit booking via AJAX
+    fetch('../../../backend/learner/booking_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.booking_id) {
+            // Create Midtrans transaction
+            return fetch('../../../backend/learner/create_transaction.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ booking_id: data.booking_id })
+            }).then(res => res.json());
+        } else {
+            throw new Error(data.error || 'Gagal membuat booking');
+        }
+    })
+    .then(data => {
+        if (data.snap_token) {
+            window.snap.pay(data.snap_token, {
+                onSuccess: function() {
+                    window.location.href = 'sesi_saya.php?status=payment_success';
+                },
+                onPending: function() {
+                    window.location.href = 'sesi_saya.php?status=payment_pending';
+                },
+                onError: function() {
+                    alert('Pembayaran gagal. Silakan coba lagi.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-credit-card"></i> Booking & Bayar';
+                },
+                onClose: function() {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-credit-card"></i> Booking & Bayar';
+                }
+            });
+        } else {
+            throw new Error(data.error || 'Gagal membuat transaksi pembayaran');
+        }
+    })
+    .catch(err => {
+        alert(err.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-credit-card"></i> Booking & Bayar';
+    });
+}
 </script>
 
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-Rr8SHccGS2EF86NA"></script>
+
 <?php require_once '../../layouts/footer.php'; ?>
+
+
+
+
+
+
 

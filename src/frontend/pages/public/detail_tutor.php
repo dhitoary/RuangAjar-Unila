@@ -54,9 +54,9 @@ if (!$tutorData && isset($_GET['nama'])) {
 // Jika tutor masih tidak ditemukan, tampilkan pesan error
 if (!$tutorData) {
     echo '<div style="max-width: 800px; margin: 100px auto; text-align: center; padding: 40px;">';
-    echo '<h2 style="color: #FF6B35;">Tutor Tidak Ditemukan</h2>';
+    echo '<h2 style="color: #1a5276;">Tutor Tidak Ditemukan</h2>';
     echo '<p style="color: #666; margin: 20px 0;">Maaf, data tutor yang Anda cari tidak tersedia atau sudah tidak aktif.</p>';
-    echo '<a href="search_result.php" style="display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Cari Tutor Lain</a>';
+    echo '<a href="search_result.php" style="display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Cari Tutor Lain</a>';
     echo '</div>';
     include '../../layouts/footer.php';
     exit;
@@ -84,10 +84,11 @@ $reviews = [
 $initial = strtoupper(substr($tutorData['nama_lengkap'], 0, 2));
 
 // Parse pendidikan (assuming format: "Institusi | Jurusan | Tahun")
-$pendidikanParts = explode('|', $tutorData['pendidikan'] ?? 'Institut Teknologi Sumatera | S1 Fisika | 2018 - 2022');
-$institusi = trim($pendidikanParts[0] ?? 'Institut Teknologi');
-$jurusan = trim($pendidikanParts[1] ?? 'S1 Fisika');
-$tahunPendidikan = trim($pendidikanParts[2] ?? '2018 - 2022');
+// Parse pendidikan (assuming format: "Institusi | Jurusan | Tahun")
+$pendidikanParts = explode('|', $tutorData['pendidikan'] ?? 'Universitas Lampung | S1 Ilmu Komputer | 2021');
+$institusi = trim($pendidikanParts[0] ?? 'Universitas Lampung');
+$jurusan = trim($pendidikanParts[1] ?? 'S1 ' . ($tutorData['fakultas'] ?? 'FMIPA'));
+$tahunPendidikan = trim($pendidikanParts[2] ?? ($tutorData['angkatan'] ?? '2021'));
 
 // Calculate IPK from pendidikan or default
 $ipk = '3.85';
@@ -125,7 +126,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     .tutor-avatar {
         width: 120px;
         height: 120px;
-        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
         border-radius: 50%;
         margin: 0 auto 20px;
         display: flex;
@@ -140,7 +141,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     .tutor-name {
         font-size: 24px;
         font-weight: 700;
-        color: #1a5f7a;
+        color: #1a5276;
         text-align: center;
         margin-bottom: 8px;
         display: flex;
@@ -181,7 +182,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     .stat-value {
         font-size: 28px;
         font-weight: 800;
-        color: #FF6B35;
+        color: #1a5276;
         display: block;
     }
 
@@ -200,7 +201,7 @@ $userRole = $_SESSION['user_role'] ?? '';
 
     .btn-request {
         padding: 15px;
-        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
         color: white;
         border: none;
         border-radius: 12px;
@@ -250,7 +251,7 @@ $userRole = $_SESSION['user_role'] ?? '';
 
     .info-title {
         font-weight: 700;
-        color: #1a5f7a;
+        color: #1a5276;
         margin-bottom: 12px;
         font-size: 16px;
     }
@@ -265,7 +266,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     }
 
     .info-item i {
-        color: #FF6B35;
+        color: #1a5276;
         margin-top: 2px;
     }
 
@@ -273,7 +274,7 @@ $userRole = $_SESSION['user_role'] ?? '';
         background: #fff5f0;
         padding: 15px;
         border-radius: 10px;
-        border-left: 4px solid #FF6B35;
+        border-left: 4px solid #1a5276;
     }
 
     .price-range .label {
@@ -285,7 +286,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     .price-range .amount {
         font-size: 20px;
         font-weight: 700;
-        color: #FF6B35;
+        color: #1a5276;
     }
 
     .price-note {
@@ -317,7 +318,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     .stat-box .number {
         font-size: 42px;
         font-weight: 800;
-        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -336,7 +337,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     .section-title {
         font-size: 20px;
         font-weight: 700;
-        color: #1a5f7a;
+        color: #1a5276;
         margin-bottom: 15px;
         display: flex;
         align-items: center;
@@ -344,7 +345,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     }
 
     .section-title i {
-        color: #FF6B35;
+        color: #1a5276;
     }
 
     .about-text {
@@ -362,7 +363,7 @@ $userRole = $_SESSION['user_role'] ?? '';
     .subject-badge {
         padding: 10px 20px;
         background: #fff5f0;
-        color: #FF6B35;
+        color: #1a5276;
         border-radius: 8px;
         font-weight: 600;
         font-size: 14px;
@@ -374,13 +375,13 @@ $userRole = $_SESSION['user_role'] ?? '';
         padding: 20px;
         border-radius: 12px;
         margin-bottom: 15px;
-        border-left: 4px solid #FF6B35;
+        border-left: 4px solid #1a5276;
     }
 
     .education-title {
         font-size: 18px;
         font-weight: 700;
-        color: #1a5f7a;
+        color: #1a5276;
         margin-bottom: 5px;
     }
 
@@ -412,7 +413,7 @@ $userRole = $_SESSION['user_role'] ?? '';
         content: "•";
         position: absolute;
         left: 10px;
-        color: #FF6B35;
+        color: #1a5276;
         font-size: 20px;
         font-weight: 700;
     }
@@ -432,7 +433,13 @@ $userRole = $_SESSION['user_role'] ?? '';
 <div class="detail-container">
     <!-- Sidebar -->
     <div class="tutor-sidebar">
-        <div class="tutor-avatar"><?php echo $initial; ?></div>
+        <?php if (!empty($tutorData['foto_profil'])): ?>
+            <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(26,82,118,0.2);">
+                <img src="<?php echo $assetPath . 'img/' . htmlspecialchars($tutorData['foto_profil']); ?>" alt="Foto Profil" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        <?php else: ?>
+            <div class="tutor-avatar"><?php echo $initial; ?></div>
+        <?php endif; ?>
         
         <div class="tutor-name">
             <?php echo htmlspecialchars($tutorData['nama_lengkap'] ?? 'Tutor'); ?>
@@ -521,7 +528,7 @@ $userRole = $_SESSION['user_role'] ?? '';
         <div class="stats-header">
             <div class="stat-box">
                 <div class="number">150+</div>
-                <div class="label">Siswa Diajar</div>
+                <div class="label">Mahasiswa Diajar</div>
             </div>
             <div class="stat-box">
                 <div class="number">95%</div>
@@ -540,10 +547,10 @@ $userRole = $_SESSION['user_role'] ?? '';
             </div>
             <p class="about-text">
                 <?php 
-                $about = $tutorData['bio'] ?? "Saya adalah lulusan {$institusi} dengan pengalaman mengajar lebih dari 3 tahun. Saya berspesialisasi dalam mengajar {$tutorData['keahlian']} untuk tingkat SMA dengan fokus pada pemahaman konsep yang mendalam dan penerapan praktis. Metode pengajaran saya disesuaikan dengan kebutuhan dan gaya belajar setiap siswa.";
+                $about = $tutorData['bio'] ?? "Saya adalah lulusan {$institusi} dengan pengalaman mengajar lebih dari 3 tahun. Saya berspesialisasi dalam mengajar {$tutorData['keahlian']} untuk tingkat SMA dengan fokus pada pemahaman konsep yang mendalam dan penerapan praktis. Metode pengajaran saya disesuaikan dengan kebutuhan dan gaya belajar setiap mahasiswa.";
                 
                 if (strlen($about) < 100) {
-                    $about .= "\n\nSaya telah membantu lebih dari 150 siswa meningkatkan nilai mereka dan berhasil masuk ke universitas impian. Tingkat keberhasilan siswa saya masuk PTN 95%. Spesialisasi saya meliputi persiapan UTBK dan ujian sekolah.";
+                    $about .= "\n\nSaya telah membantu lebih dari 150 mahasiswa meningkatkan nilai mereka dan berhasil masuk ke universitas impian. Tingkat keberhasilan mahasiswa saya masuk PTN 95%. Spesialisasi saya meliputi persiapan UTBK dan ujian sekolah.";
                 }
                 
                 echo nl2br(htmlspecialchars($about));
@@ -551,10 +558,10 @@ $userRole = $_SESSION['user_role'] ?? '';
             </p>
         </div>
 
-        <!-- Mata Pelajaran -->
+        <!-- Mata Kuliah -->
         <div class="content-section">
             <div class="section-title">
-                <i class="bi bi-journal-text"></i> Mata Pelajaran
+                <i class="bi bi-journal-text"></i> Mata Kuliah
             </div>
             <div class="subject-badges">
                 <?php 
@@ -572,23 +579,22 @@ $userRole = $_SESSION['user_role'] ?? '';
             </div>
         </div>
 
-        <!-- Pendidikan -->
+        <!-- Identitas Akademik -->
         <div class="content-section">
             <div class="section-title">
-                <i class="bi bi-mortarboard-fill"></i> Pendidikan
+                <i class="bi bi-mortarboard-fill"></i> Identitas Akademik
             </div>
             <div class="education-card">
-                <div class="education-title">S1 Fisika</div>
-                <div class="education-details"><?php echo htmlspecialchars($institusi); ?></div>
-                <div class="education-details"><?php echo htmlspecialchars($jurusan); ?></div>
-                <div class="education-year"><?php echo htmlspecialchars($tahunPendidikan); ?> | IPK: <?php echo $ipk; ?></div>
+                <div class="education-title"><?php echo htmlspecialchars($institusi); ?></div>
+                <div class="education-details"><strong>Fakultas:</strong> <?php echo htmlspecialchars($tutorData['fakultas'] ?? 'FMIPA'); ?></div>
+                <div class="education-details"><strong>Program Studi:</strong> <?php echo htmlspecialchars($jurusan); ?></div>
+                <div class="education-year"><strong>NPM:</strong> <?php echo htmlspecialchars($tutorData['npm'] ?? '-'); ?> | <strong>Angkatan:</strong> <?php echo htmlspecialchars($tutorData['angkatan'] ?? '-'); ?></div>
             </div>
             
-            <?php if (stripos($tutorData['pendidikan'] ?? '', 'SMA') !== false): ?>
+            <?php if (!empty($tutorData['pendidikan']) && stripos($tutorData['pendidikan'], 'SMA') !== false): ?>
             <div class="education-card">
-                <div class="education-title">SMA Negeri 1 Bandar Lampung</div>
-                <div class="education-details">Jurusan IPA</div>
-                <div class="education-year">Lulus tahun 2018</div>
+                <div class="education-title">Pendidikan Menengah</div>
+                <div class="education-details"><?php echo htmlspecialchars($tutorData['pendidikan']); ?></div>
             </div>
             <?php endif; ?>
         </div>
@@ -599,12 +605,12 @@ $userRole = $_SESSION['user_role'] ?? '';
                 <i class="bi bi-briefcase-fill"></i> Pengalaman
             </div>
             <div class="education-card">
-                <div class="education-title">Tutor Privat Fisika & Matematika</div>
-                <div class="education-details">PeerLearn | 2022 - Sekarang</div>
+                <div class="education-title">Tutor Sebaya</div>
+                <div class="education-details">RuangAjar Unila | <?php echo htmlspecialchars($tutorData['angkatan'] ?? '2022'); ?> - Sekarang</div>
                 <ul class="experience-list">
-                    <li>Mengajar lebih dari 150 siswa tingkat SMA</li>
-                    <li>Tingkat keberhasilan siswa masuk PTN 95%</li>
-                    <li>Spesialisasi persiapan UTBK dan ujian sekolah</li>
+                    <li>Berpengalaman membimbing mahasiswa program studi yang relevan</li>
+                    <li>Membantu adaptasi akademik bagi mahasiswa baru</li>
+                    <li>Meningkatkan pemahaman konsep dan kemampuan analitis praktis</li>
                 </ul>
             </div>
         </div>
@@ -612,3 +618,6 @@ $userRole = $_SESSION['user_role'] ?? '';
 </div>
 
 <?php include '../../layouts/footer.php'; ?>
+
+
+

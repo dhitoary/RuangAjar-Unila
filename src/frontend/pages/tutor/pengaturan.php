@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -22,7 +22,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengaturan - PeerLearn</title>
+    <title>Pengaturan - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
@@ -49,7 +49,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
             gap: 12px;
             font-size: 24px;
             font-weight: 700;
-            color: #cc5500;
+            color: #1a5276;
         }
 
         .sb-brand .logo {
@@ -73,14 +73,14 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
         }
 
         .sb-menu li a:hover, .sb-menu li a.active {
-            color: #cc5500;
+            color: #1a5276;
         }
 
         .sb-daftar {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: linear-gradient(135deg, #cc5500, #ff9329);
+            background: linear-gradient(135deg, #1a5276, #2e86c1);
             color: white;
             padding: 10px 25px;
             border-radius: 25px;
@@ -134,11 +134,11 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 
         .form-control:focus {
             outline: none;
-            border-color: #cc5500;
+            border-color: #1a5276;
         }
 
         .btn-save {
-            background: linear-gradient(135deg, #cc5500, #ff9329);
+            background: linear-gradient(135deg, #1a5276, #2e86c1);
             color: white;
             padding: 12px 30px;
             border: none;
@@ -218,7 +218,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
         }
 
         input:checked + .slider {
-            background-color: #cc5500;
+            background-color: #1a5276;
         }
 
         input:checked + .slider:before {
@@ -232,20 +232,20 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <ul class="sb-menu">
             <li><a href="dashboard_tutor.php">Beranda</a></li>
             <li><a href="jadwal_saya.php">Jadwal Saya</a></li>
-            <li><a href="siswa_saya.php">Siswa Saya</a></li>
-            <li><a href="mata_pelajaran.php">Mata Pelajaran</a></li>
+            <li><a href="mahasiswa_saya.php">Mahasiswa Saya</a></li>
+            <li><a href="mata_pelajaran.php">Mata Kuliah</a></li>
         </ul>
 
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #cc5500, #ff9329);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276, #2e86c1);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($tutor_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -431,3 +431,8 @@ function confirmDelete() {
 
 </body>
 </html>
+
+
+
+
+

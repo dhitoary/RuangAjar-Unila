@@ -5,58 +5,38 @@ include '../../layouts/header.php';
 // Koneksi database
 require_once '../../../config/database.php';
 
-// Fetch all subjects with tutor count based on keahlian
-$query = "SELECT t.keahlian, COUNT(DISTINCT t.id) as tutor_count,
+// Fetch all subjects with tutor count based on keahlian and fakultas
+$query = "SELECT t.keahlian as subject_name, t.fakultas, COUNT(DISTINCT t.id) as tutor_count,
           GROUP_CONCAT(DISTINCT tm.jenjang ORDER BY tm.jenjang SEPARATOR ', ') as jenjang_list
           FROM tutor t
           LEFT JOIN tutor_mapel tm ON t.id = tm.tutor_id
           WHERE t.status = 'Aktif'
-          GROUP BY t.keahlian
+          GROUP BY t.keahlian, t.fakultas
           ORDER BY tutor_count DESC, t.keahlian ASC";
 
 $result = mysqli_query($conn, $query);
 $allSubjects = [];
+$categorizedSubjects = [];
+$categoriesList = [];
+
 if ($result && mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $jenjangList = $row['jenjang_list'] ? explode(', ', $row['jenjang_list']) : ['Semua Jenjang'];
+        $jenjangList = $row['jenjang_list'] ? explode(', ', $row['jenjang_list']) : ['Umum'];
         
-        $allSubjects[] = [
-            'subject_name' => $row['keahlian'],
+        $subject = [
+            'subject_name' => $row['subject_name'],
+            'fakultas' => $row['fakultas'] ?: 'Lainnya',
             'tutor_count' => $row['tutor_count'],
-            'jenjang_list' => !empty($jenjangList) ? implode(', ', array_unique($jenjangList)) : 'Semua Jenjang'
+            'jenjang_list' => !empty($jenjangList) ? implode(', ', array_unique($jenjangList)) : 'Umum'
         ];
-    }
-}
-
-// Kategorisasi mata pelajaran
-$categories = [
-    'Eksak' => ['Matematika', 'Fisika', 'Kimia'],
-    'Ilmu Alam' => ['Biologi', 'Geografi'],
-    'Bahasa' => ['Bahasa Indonesia', 'Bahasa Inggris', 'Bahasa Jawa', 'Bahasa Arab'],
-    'Sosial' => ['Ekonomi', 'Sosiologi', 'Sejarah', 'PKN', 'PPKN'],
-    'Teknologi' => ['Pemrograman', 'TIK', 'Informatika'],
-    'Seni & Lainnya' => []
-];
-
-// Assign subjects to categories
-$categorizedSubjects = [];
-foreach ($categories as $catName => $keywords) {
-    $categorizedSubjects[$catName] = [];
-}
-
-foreach ($allSubjects as $subject) {
-    $assigned = false;
-    foreach ($categories as $catName => $keywords) {
-        foreach ($keywords as $keyword) {
-            if (stripos($subject['subject_name'], $keyword) !== false) {
-                $categorizedSubjects[$catName][] = $subject;
-                $assigned = true;
-                break 2;
-            }
+        
+        $allSubjects[] = $subject;
+        
+        $fakultas = $subject['fakultas'];
+        if (!in_array($fakultas, $categoriesList)) {
+            $categoriesList[] = $fakultas;
         }
-    }
-    if (!$assigned) {
-        $categorizedSubjects['Seni & Lainnya'][] = $subject;
+        $categorizedSubjects[$fakultas][] = $subject;
     }
 }
 
@@ -81,12 +61,15 @@ $iconMap = [
 
 // Color schemes for categories
 $colorSchemes = [
-    'Eksak' => ['start' => '#667eea', 'end' => '#764ba2'],
-    'Ilmu Alam' => ['start' => '#43e97b', 'end' => '#38f9d7'],
-    'Bahasa' => ['start' => '#fa709a', 'end' => '#fee140'],
-    'Sosial' => ['start' => '#ff9a9e', 'end' => '#fecfef'],
-    'Teknologi' => ['start' => '#30cfd0', 'end' => '#330867'],
-    'Seni & Lainnya' => ['start' => '#a8edea', 'end' => '#fed6e3']
+    'FMIPA' => ['start' => '#667eea', 'end' => '#764ba2'],
+    'Teknik' => ['start' => '#43e97b', 'end' => '#38f9d7'],
+    'Kedokteran' => ['start' => '#fa709a', 'end' => '#fee140'],
+    'FEB' => ['start' => '#ff9a9e', 'end' => '#fecfef'],
+    'Hukum' => ['start' => '#30cfd0', 'end' => '#330867'],
+    'FISIP' => ['start' => '#a8edea', 'end' => '#fed6e3'],
+    'FKIP' => ['start' => '#ff758c', 'end' => '#ff7eb3'],
+    'Pertanian' => ['start' => '#a18cd1', 'end' => '#fbc2eb'],
+    'Lainnya' => ['start' => '#f5576c', 'end' => '#f093fb']
 ];
 ?>
 <style>
@@ -101,10 +84,10 @@ $colorSchemes = [
         .category-title {
             font-size: 32px;
             font-weight: 700;
-            color: #1a5f7a;
+            color: #1a5276;
             margin-bottom: 30px;
             padding-bottom: 15px;
-            border-bottom: 3px solid #FF6B35;
+            border-bottom: 3px solid #1a5276;
             display: inline-block;
         }
 
@@ -167,7 +150,7 @@ $colorSchemes = [
         .subject-name {
             font-size: 20px;
             font-weight: 700;
-            color: #1a5f7a;
+            color: #1a5276;
             margin-bottom: 10px;
         }
 
@@ -187,12 +170,12 @@ $colorSchemes = [
         }
 
         .info-item i {
-            color: #FF6B35;
+            color: #1a5276;
         }
 
         .tutor-count {
             font-size: 15px;
-            color: #FF6B35;
+            color: #1a5276;
             font-weight: 600;
         }
 
@@ -235,7 +218,7 @@ $colorSchemes = [
         .stat-number {
             font-size: 48px;
             font-weight: 800;
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -274,9 +257,9 @@ $colorSchemes = [
         }
 
         .filter-btn:hover, .filter-btn.active {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
-            border-color: #FF6B35;
+            border-color: #1a5276;
         }
 
         @media (max-width: 768px) {
@@ -293,11 +276,11 @@ $colorSchemes = [
 <!-- CONTAINER -->
 <div class="container">
     <!-- Search Box -->
-    <div class="search-box" role="search" aria-label="Pencarian mata pelajaran" style="max-width: 700px; margin: 40px auto; position: relative;">
-        <input type="text" id="searchInput" placeholder="Cari mata pelajaran..." onkeyup="searchSubjects()" 
+    <div class="search-box" role="search" aria-label="Pencarian mata kuliah" style="max-width: 700px; margin: 40px auto; position: relative;">
+        <input type="text" id="searchInput" placeholder="Cari mata kuliah..." onkeyup="searchSubjects()" 
                style="width: 100%; padding: 18px 60px 18px 25px; border: 2px solid #e0e0e0; border-radius: 50px; font-size: 16px;">
         <button onclick="searchSubjects()" 
-                style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); border: none; padding: 12px 25px; border-radius: 50px; color: white; font-weight: 600; cursor: pointer;">
+                style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); border: none; padding: 12px 25px; border-radius: 50px; color: white; font-weight: 600; cursor: pointer;">
             <i class="bi bi-search"></i> Cari
         </button>
     </div>
@@ -307,11 +290,11 @@ $colorSchemes = [
         <div class="stats-section" style="background: white; padding: 40px; border-radius: 20px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
             <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center;">
                 <div class="stat-item" style="padding: 20px;">
-                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><?php echo count($allSubjects); ?>+</div>
-                    <div class="stat-label" style="font-size: 16px; color: #666; margin-top: 10px;">Mata Pelajaran</div>
+                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><?php echo count($allSubjects); ?>+</div>
+                    <div class="stat-label" style="font-size: 16px; color: #666; margin-top: 10px;">Mata Kuliah</div>
                 </div>
                 <div class="stat-item" style="padding: 20px;">
-                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
                         <?php 
                         $totalTutors = 0;
                         foreach ($allSubjects as $s) {
@@ -323,11 +306,11 @@ $colorSchemes = [
                     <div class="stat-label" style="font-size: 16px; color: #666; margin-top: 10px;">Tutor Berpengalaman</div>
                 </div>
                 <div class="stat-item" style="padding: 20px;">
-                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">3</div>
+                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">3</div>
                     <div class="stat-label" style="font-size: 16px; color: #666; margin-top: 10px;">Jenjang Pendidikan</div>
                 </div>
                 <div class="stat-item" style="padding: 20px;">
-                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">24/7</div>
+                    <div class="stat-number" style="font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">24/7</div>
                     <div class="stat-label" style="font-size: 16px; color: #666; margin-top: 10px;">Layanan Tersedia</div>
                 </div>
             </div>
@@ -336,13 +319,10 @@ $colorSchemes = [
         <!-- Filter Section -->
         <div class="filter-section" style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
             <div class="filter-buttons" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-                <button class="filter-btn active" onclick="filterCategory('all')" style="padding: 10px 25px; border: 2px solid #ddd; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); color: white; border-color: #FF6B35; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600;">Semua</button>
-                <button class="filter-btn" onclick="filterCategory('Eksak')" style="padding: 10px 25px; border: 2px solid #ddd; background: white; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600; color: #666;">Eksak</button>
-                <button class="filter-btn" onclick="filterCategory('Ilmu Alam')" style="padding: 10px 25px; border: 2px solid #ddd; background: white; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600; color: #666;">Ilmu Alam</button>
-                <button class="filter-btn" onclick="filterCategory('Bahasa')" style="padding: 10px 25px; border: 2px solid #ddd; background: white; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600; color: #666;">Bahasa</button>
-                <button class="filter-btn" onclick="filterCategory('Sosial')" style="padding: 10px 25px; border: 2px solid #ddd; background: white; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600; color: #666;">Sosial</button>
-                <button class="filter-btn" onclick="filterCategory('Teknologi')" style="padding: 10px 25px; border: 2px solid #ddd; background: white; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600; color: #666;">Teknologi</button>
-                <button class="filter-btn" onclick="filterCategory('Seni & Lainnya')" style="padding: 10px 25px; border: 2px solid #ddd; background: white; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600; color: #666;">Lainnya</button>
+                <button class="filter-btn active" onclick="filterCategory('all')" style="padding: 10px 25px; border: 2px solid #ddd; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); color: white; border-color: #1a5276; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600;">Semua</button>
+                <?php foreach ($categoriesList as $cat): ?>
+                    <button class="filter-btn" onclick="filterCategory('<?php echo htmlspecialchars($cat); ?>')" style="padding: 10px 25px; border: 2px solid #ddd; background: white; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 600; color: #666;"><?php echo htmlspecialchars($cat); ?></button>
+                <?php endforeach; ?>
             </div>
         </div>
 
@@ -369,8 +349,8 @@ $colorSchemes = [
                             }
                             
                             // Get color scheme for category
-                            $colorStart = $colorSchemes[$catName]['start'];
-                            $colorEnd = $colorSchemes[$catName]['end'];
+                            $colorStart = isset($colorSchemes[$catName]) ? $colorSchemes[$catName]['start'] : '#a8edea';
+                            $colorEnd = isset($colorSchemes[$catName]) ? $colorSchemes[$catName]['end'] : '#fed6e3';
                             ?>
                             <div class="subject-card" 
                                  style="--gradient-start: <?php echo $colorStart; ?>; --gradient-end: <?php echo $colorEnd; ?>;"
@@ -459,9 +439,9 @@ $colorSchemes = [
                 btn.style.color = '#666';
                 btn.style.borderColor = '#ddd';
             });
-            event.target.style.background = 'linear-gradient(135deg, #FF6B35 0%, #F7931E 100%)';
+            event.target.style.background = 'linear-gradient(135deg, #1a5276 0%, #2e86c1 100%)';
             event.target.style.color = 'white';
-            event.target.style.borderColor = '#FF6B35';
+            event.target.style.borderColor = '#1a5276';
             
             // Filter sections
             const sections = document.querySelectorAll('.category-section');
@@ -480,3 +460,5 @@ $colorSchemes = [
             });
         }
     </script>
+
+

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -25,7 +25,7 @@ $students_query = "SELECT DISTINCT
     SUM(CASE WHEN b.status = 'completed' THEN 1 ELSE 0 END) as completed_sessions,
     MAX(b.booking_date) as last_booking_date
 FROM bookings b
-INNER JOIN siswa s ON b.learner_id = s.id
+INNER JOIN mahasiswa s ON b.learner_id = s.id
 WHERE b.tutor_id = '$tutor_id'
 GROUP BY s.id
 ORDER BY last_booking_date DESC";
@@ -38,7 +38,7 @@ $students_result = mysqli_query($conn, $students_query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siswa Saya - PeerLearn</title>
+    <title>Mahasiswa Saya - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
@@ -66,7 +66,7 @@ $students_result = mysqli_query($conn, $students_query);
         .student-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: #cc5500;
+            border-color: #1a5276;
         }
 
         .student-header {
@@ -81,7 +81,7 @@ $students_result = mysqli_query($conn, $students_query);
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            background: linear-gradient(135deg, #1a5276, #2e86c1);
             color: white;
             display: flex;
             align-items: center;
@@ -121,7 +121,7 @@ $students_result = mysqli_query($conn, $students_query);
         .stat-value {
             font-size: 24px;
             font-weight: 800;
-            color: #cc5500;
+            color: #1a5276;
             display: block;
         }
 
@@ -199,7 +199,7 @@ $students_result = mysqli_query($conn, $students_query);
         }
 
         .icon-orange {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
         }
 
@@ -215,20 +215,20 @@ $students_result = mysqli_query($conn, $students_query);
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <ul class="sb-menu">
             <li><a href="dashboard_tutor.php">Beranda</a></li>
             <li><a href="jadwal_saya.php">Jadwal Saya</a></li>
-            <li><a href="siswa_saya.php" class="active">Siswa Saya</a></li>
-            <li><a href="mata_pelajaran.php">Mata Pelajaran</a></li>
+            <li><a href="mahasiswa_saya.php" class="active">Mahasiswa Saya</a></li>
+            <li><a href="mata_pelajaran.php">Mata Kuliah</a></li>
         </ul>
 
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #cc5500, #ff9329);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276, #2e86c1);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($tutor_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -270,7 +270,7 @@ window.onclick = function(event) {
 <!-- MAIN CONTENT -->
 <div class="students-container">
     <h1 style="font-size: 28px; font-weight: 700; color: #1a202c; margin-bottom: 30px;">
-        <i class="bi bi-people"></i> Siswa Saya
+        <i class="bi bi-people"></i> Mahasiswa Saya
     </h1>
 
     <!-- Summary Stats -->
@@ -293,7 +293,7 @@ window.onclick = function(event) {
                 <i class="bi bi-people"></i>
             </div>
             <div class="stat-value"><?php echo $total_students; ?></div>
-            <div class="stat-label">Total Siswa</div>
+            <div class="stat-label">Total Mahasiswa</div>
         </div>
 
         <div class="summary-item">
@@ -351,11 +351,16 @@ window.onclick = function(event) {
     <?php else: ?>
         <div style="text-align: center; padding: 80px 20px; color: #999; background: white; border-radius: 15px;">
             <i class="bi bi-people" style="font-size: 80px; display: block; margin-bottom: 20px;"></i>
-            <h3 style="color: #666; font-weight: 600;">Belum Ada Siswa</h3>
-            <p>Siswa yang melakukan booking akan muncul di sini</p>
+            <h3 style="color: #666; font-weight: 600;">Belum Ada Mahasiswa</h3>
+            <p>Mahasiswa yang melakukan booking akan muncul di sini</p>
         </div>
     <?php endif; ?>
 </div>
 
 </body>
 </html>
+
+
+
+
+

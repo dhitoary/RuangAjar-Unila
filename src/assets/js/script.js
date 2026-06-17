@@ -1,5 +1,5 @@
-/* ============================================================
-   PEERLEARN — SCRIPT.JS FINAL
+﻿/* ============================================================
+   PEERLEARN â€” SCRIPT.JS FINAL
    Render Tutor + Search + Animation
    ============================================================ */
 
@@ -15,7 +15,7 @@ const tutorsData = [
   { nama: "Maya Sari", mapel: "Sejarah", harga: 260000, rating: 4.4 },
 ];
 
-// Format angka → Rp
+// Format angka â†’ Rp
 function rupiah(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
@@ -40,7 +40,7 @@ function renderRekomendasi() {
       <div class="tutor-sub">${t.mapel}</div>
 
       <div class="tutor-meta">
-        <div class="rating">★ ${t.rating}</div>
+        <div class="rating">â˜… ${t.rating}</div>
         <div class="tutor-price">Rp ${rupiah(t.harga)}</div>
       </div>
 
@@ -87,3 +87,4 @@ function reveal() {
 
 window.addEventListener("scroll", reveal);
 window.addEventListener("load", reveal);
+

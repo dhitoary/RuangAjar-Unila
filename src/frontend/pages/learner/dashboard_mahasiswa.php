@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -10,13 +10,13 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'learner') {
 $user_id = $_SESSION['user_id'];
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : $_SESSION['email'];
 
-$siswa_query = "SELECT * FROM siswa WHERE email = '$user_email' LIMIT 1";
+$siswa_query = "SELECT * FROM mahasiswa WHERE email = '$user_email' LIMIT 1";
 $siswa_result = mysqli_query($conn, $siswa_query);
 $siswa_data = mysqli_fetch_assoc($siswa_result);
 
 if (!$siswa_data) {
     echo "<!DOCTYPE html><html><head><title>Error</title></head><body>";
-    echo "<h2>Data siswa tidak ditemukan</h2>";
+    echo "<h2>Data mahasiswa tidak ditemukan</h2>";
     echo "<p>Email: " . htmlspecialchars($user_email) . "</p>";
     echo "<p>User ID: " . htmlspecialchars($user_id) . "</p>";
     echo "<p><a href='../auth/login.php'>Kembali ke Login</a></p>";
@@ -79,7 +79,7 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Siswa - PeerLearn</title>
+    <title>Dashboard Mahasiswa - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
@@ -90,13 +90,13 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
     <div class="sb-nav-container">
         <!-- Logo/Brand -->
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <!-- Menu -->
         <ul class="sb-menu">
-            <li><a href="dashboard_siswa.php" class="active">Beranda</a></li>
+            <li><a href="dashboard_mahasiswa.php" class="active">Beranda</a></li>
             <li><a href="../public/search_result.php">Cari Tutor</a></li>
             <li><a href="sesi_saya.php">Sesi Saya</a></li>
             <li><a href="riwayat.php">Riwayat Booking</a></li>
@@ -105,7 +105,7 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
         <!-- User Profile -->
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -168,7 +168,7 @@ window.onclick = function(event) {
     gap: 10px;
     font-size: 24px;
     font-weight: 700;
-    color: #cc5500;
+    color: #1a5276;
 }
 
 .sb-brand .logo {
@@ -195,8 +195,8 @@ window.onclick = function(event) {
 
 .sb-menu a:hover,
 .sb-menu a.active {
-    color: #FF6B35;
-    border-bottom-color: #FF6B35;
+    color: #1a5276;
+    border-bottom-color: #1a5276;
 }
 
 .sb-daftar {
@@ -235,7 +235,7 @@ window.onclick = function(event) {
 }
 
 .welcome-badge {
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
     color: white;
     padding: 12px 24px;
     border-radius: 50px;
@@ -363,7 +363,7 @@ window.onclick = function(event) {
 
 .btn-action {
     padding: 18px 30px;
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
     color: white;
     border: none;
     border-radius: 12px;
@@ -460,7 +460,7 @@ window.onclick = function(event) {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -748,7 +748,7 @@ window.onclick = function(event) {
 }
 
 .tips-list li::before {
-    content: '💡';
+    content: 'ðŸ’¡';
     font-size: 16px;
     flex-shrink: 0;
 }
@@ -788,11 +788,11 @@ window.onclick = function(event) {
     <div class="container">
         <div class="dashboard-header">
             <div class="dashboard-header-content">
-                <h1>Dashboard Siswa</h1>
-                <p>Selamat datang kembali, <strong><?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?></strong>! 👋</p>
+                <h1>Dashboard Mahasiswa</h1>
+                <p>Selamat datang kembali, <strong><?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?></strong>! ðŸ‘‹</p>
             </div>
             <div class="welcome-badge">
-                🎓 <?php echo $siswa_data['jenjang']; ?> - <?php echo $siswa_data['kelas']; ?>
+                ðŸŽ“ <?php echo $siswa_data['jenjang']; ?> - <?php echo $siswa_data['kelas']; ?>
             </div>
         </div>
 
@@ -803,7 +803,7 @@ window.onclick = function(event) {
                         <h3>Total Booking</h3>
                         <div class="stat-value"><?php echo $stats['total_booking'] ?? 0; ?></div>
                     </div>
-                    <div class="stat-icon">📚</div>
+                    <div class="stat-icon">ðŸ“š</div>
                 </div>
             </div>
             <div class="stat-card stat-success">
@@ -812,7 +812,7 @@ window.onclick = function(event) {
                         <h3>Booking Aktif</h3>
                         <div class="stat-value"><?php echo $stats['active_booking'] ?? 0; ?></div>
                     </div>
-                    <div class="stat-icon">✅</div>
+                    <div class="stat-icon">âœ…</div>
                 </div>
             </div>
             <div class="stat-card stat-warning">
@@ -821,18 +821,18 @@ window.onclick = function(event) {
                         <h3>Review Diberikan</h3>
                         <div class="stat-value"><?php echo $stats['total_reviews'] ?? 0; ?></div>
                     </div>
-                    <div class="stat-icon">⭐</div>
+                    <div class="stat-icon">â­</div>
                 </div>
             </div>
         </div>
 
         <div class="quick-actions">
             <a href="../public/search_result.php" class="btn-action">
-                <span>🔍</span>
+                <span>ðŸ”</span>
                 <span>Cari Tutor</span>
             </a>
             <a href="../learner/riwayat.php" class="btn-action secondary">
-                <span>📋</span>
+                <span>ðŸ“‹</span>
                 <span>Riwayat Booking</span>
             </a>
         </div>
@@ -848,7 +848,7 @@ window.onclick = function(event) {
         ?>
             <div class="upcoming-booking-card">
                 <div class="upcoming-header">
-                    <div class="upcoming-icon">⏰</div>
+                    <div class="upcoming-icon">â°</div>
                     <div>
                         <h3>Sesi Berikutnya</h3>
                         <p class="upcoming-subtitle">Jangan lupa jadwal belajar Anda!</p>
@@ -861,20 +861,20 @@ window.onclick = function(event) {
                         </div>
                         <div>
                             <h4><?php echo htmlspecialchars($upcoming_booking['tutor_name']); ?></h4>
-                            <p><?php echo htmlspecialchars($upcoming_booking['subject_name'] ?? 'Mata Pelajaran'); ?></p>
+                            <p><?php echo htmlspecialchars($upcoming_booking['subject_name'] ?? 'Mata Kuliah'); ?></p>
                         </div>
                     </div>
                     <div class="upcoming-datetime">
                         <div class="datetime-item">
-                            <span class="datetime-label">📅 Tanggal</span>
+                            <span class="datetime-label">ðŸ“… Tanggal</span>
                             <span class="datetime-value"><?php echo $upcoming_date->format('d M Y'); ?></span>
                         </div>
                         <div class="datetime-item">
-                            <span class="datetime-label">🕐 Waktu</span>
+                            <span class="datetime-label">ðŸ• Waktu</span>
                             <span class="datetime-value"><?php echo $upcoming_time; ?> WIB</span>
                         </div>
                         <div class="datetime-item">
-                            <span class="datetime-label">⏳ Waktu Tersisa</span>
+                            <span class="datetime-label">â³ Waktu Tersisa</span>
                             <span class="datetime-value highlight">
                                 <?php 
                                 if ($days_left > 0) {
@@ -898,9 +898,9 @@ window.onclick = function(event) {
         <?php endif; ?>
 
         <div style="background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); margin-bottom: 30px;">
-            <h3 style="margin: 0 0 20px 0; color: #cc5500; display: flex; align-items: center; gap: 10px;">
-                <span>📝</span>
-                <span>Profil Siswa</span>
+            <h3 style="margin: 0 0 20px 0; color: #1a5276; display: flex; align-items: center; gap: 10px;">
+                <span>ðŸ“</span>
+                <span>Profil Mahasiswa</span>
             </h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                 <div style="padding: 15px; background: #f8f9fa; border-radius: 8px;">
@@ -924,7 +924,7 @@ window.onclick = function(event) {
 
         <div class="quick-tips">
             <h3>
-                <span>💡</span>
+                <span>ðŸ’¡</span>
                 <span>Tips Belajar Efektif</span>
             </h3>
             <ul class="tips-list">
@@ -937,7 +937,7 @@ window.onclick = function(event) {
         <div class="recent-bookings">
             <div class="recent-bookings-header">
                 <h2>Booking Terbaru</h2>
-                <a href="sesi_saya.php" class="view-all-link">Lihat Semua →</a>
+                <a href="sesi_saya.php" class="view-all-link">Lihat Semua â†’</a>
             </div>
             <?php if ($recent_bookings_result && mysqli_num_rows($recent_bookings_result) > 0): ?>
                 <?php while ($booking = mysqli_fetch_assoc($recent_bookings_result)): 
@@ -952,13 +952,13 @@ window.onclick = function(event) {
                             <div class="tutor-avatar"><?php echo $tutor_initial; ?></div>
                             <div class="booking-details">
                                 <h4><?php echo htmlspecialchars($booking['tutor_name']); ?></h4>
-                                <p><?php echo htmlspecialchars($booking['subject_name'] ?? 'Mata Pelajaran'); ?></p>
+                                <p><?php echo htmlspecialchars($booking['subject_name'] ?? 'Mata Kuliah'); ?></p>
                                 <p>
-                                    <span>📅 <?php echo $date_formatted; ?></span>
-                                    <span style="margin: 0 8px;">•</span>
-                                    <span>🕐 <?php echo $time_formatted; ?> WIB</span>
-                                    <span style="margin: 0 8px;">•</span>
-                                    <span>⏱️ <?php echo $booking['duration']; ?> menit</span>
+                                    <span>ðŸ“… <?php echo $date_formatted; ?></span>
+                                    <span style="margin: 0 8px;">â€¢</span>
+                                    <span>ðŸ• <?php echo $time_formatted; ?> WIB</span>
+                                    <span style="margin: 0 8px;">â€¢</span>
+                                    <span>â±ï¸ <?php echo $booking['duration']; ?> menit</span>
                                 </p>
                                 <p class="booking-price"><?php echo $price_formatted; ?></p>
                             </div>
@@ -980,11 +980,11 @@ window.onclick = function(event) {
                 <?php endwhile; ?>
             <?php else: ?>
                 <div class="empty-state">
-                    <div class="empty-state-icon">📝</div>
+                    <div class="empty-state-icon">ðŸ“</div>
                     <h3>Belum ada booking</h3>
                     <p>Mulai perjalanan belajar Anda dengan mencari tutor yang tepat!</p>
                     <p style="margin-top: 15px;">
-                        <a href="../public/search_result.php">Cari tutor sekarang →</a>
+                        <a href="../public/search_result.php">Cari tutor sekarang â†’</a>
                     </p>
                 </div>
             <?php endif; ?>
@@ -993,4 +993,10 @@ window.onclick = function(event) {
 </div>
 
 <?php require_once '../../layouts/footer.php'; ?>
+
+
+
+
+
+
 

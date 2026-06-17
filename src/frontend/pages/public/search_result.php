@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 require_once '../../../config/database.php';
 
 $assetPath = "../../assets/";
-$logoPath = "/src/assets/img/logo.png";
+$logoPath = "https://upload.wikimedia.org/wikipedia/commons/1/15/Logo_Unila_Universitas_Lampung.png";
 
 $isLoggedIn = isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'];
 $userRole = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : '';
@@ -16,7 +16,7 @@ $userEmail = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : (isset($
 
 $siswa_data = null;
 if ($isLoggedIn && $userRole == 'learner') {
-    $siswa_query = "SELECT * FROM siswa WHERE email = '$userEmail' LIMIT 1";
+    $siswa_query = "SELECT * FROM mahasiswa WHERE email = '$userEmail' LIMIT 1";
     $siswa_result = mysqli_query($conn, $siswa_query);
     $siswa_data = mysqli_fetch_assoc($siswa_result);
 }
@@ -42,29 +42,20 @@ $result = mysqli_query($conn, $query);
 $tutorsData = [];
 if ($result && mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
-        // Ambil semua jenjang dari tutor_mapel
-        $mapelQuery = "SELECT DISTINCT jenjang FROM tutor_mapel WHERE tutor_id = {$row['id']}";
-        $mapelResult = mysqli_query($conn, $mapelQuery);
+        // Ambil semua fakultas (Untuk saat ini kita beri fakultas acak berdasarkan ID atau 'Umum' karena db mungkin belum ada)
+        // Jika tabel sudah diupdate, kita bisa pakai: SELECT DISTINCT fakultas FROM tutor_mapel...
+        $fakultasList = [];
+        if ($row['id'] % 3 == 0) $fakultasList[] = 'FMIPA';
+        else if ($row['id'] % 2 == 0) $fakultasList[] = 'FT';
+        else $fakultasList[] = 'FEB';
         
-        $jenjangList = [];
-        if ($mapelResult && mysqli_num_rows($mapelResult) > 0) {
-            while ($mapelRow = mysqli_fetch_assoc($mapelResult)) {
-                $jenjangList[] = $mapelRow['jenjang'];
-            }
-        }
-        
-        // Jika tidak ada data di tutor_mapel, set default
-        if (empty($jenjangList)) {
-            $jenjangList = ['SD', 'SMP', 'SMA', 'Umum'];
-        }
-        
-        // Simpan tutor sekali saja dengan array jenjang
+        // Simpan tutor sekali saja dengan array fakultas
         $tutorsData[] = [
             'id' => (int)$row['id'],
             'nama' => $row['nama'],
             'mapel' => $row['keahlian'],
-            'jenjang_list' => $jenjangList, // Array of all jenjang
-            'jenjang' => implode(', ', $jenjangList), // String for display
+            'fakultas_list' => $fakultasList, // Array of all fakultas
+            'fakultas' => implode(', ', $fakultasList), // String for display
             'harga' => (int)($row['harga_per_sesi'] ?? 100000),
             'rating' => (float)($row['rating'] ?? 4.5)
         ];
@@ -74,14 +65,14 @@ if ($result && mysqli_num_rows($result) > 0) {
 // Jika database kosong, gunakan data dummy
 if (empty($tutorsData)) {
     $tutorsData = [
-        ['id' => 1, 'nama' => 'Rizky Ramadhan', 'mapel' => 'Matematika', 'jenjang' => 'SMA', 'harga' => 350000, 'rating' => 4.9],
-        ['id' => 2, 'nama' => 'Aulia Putri', 'mapel' => 'Bahasa Inggris', 'jenjang' => 'SMP', 'harga' => 420000, 'rating' => 5.0],
-        ['id' => 3, 'nama' => 'Dimas Wahyu', 'mapel' => 'Fisika', 'jenjang' => 'SMA', 'harga' => 300000, 'rating' => 4.7],
-        ['id' => 4, 'nama' => 'Nadia Fitri', 'mapel' => 'Kimia', 'jenjang' => 'SMA', 'harga' => 400000, 'rating' => 4.8],
-        ['id' => 5, 'nama' => 'Farhan Akbar', 'mapel' => 'Biologi', 'jenjang' => 'SMP', 'harga' => 320000, 'rating' => 4.6],
-        ['id' => 6, 'nama' => 'Sinta Maharani', 'mapel' => 'Bahasa Indonesia', 'jenjang' => 'SD', 'harga' => 280000, 'rating' => 4.5],
-        ['id' => 7, 'nama' => 'Adi Pratama', 'mapel' => 'Ekonomi', 'jenjang' => 'SMA', 'harga' => 330000, 'rating' => 4.7],
-        ['id' => 8, 'nama' => 'Maya Sari', 'mapel' => 'Sejarah', 'jenjang' => 'Kuliah', 'harga' => 260000, 'rating' => 4.4]
+        ['id' => 1, 'nama' => 'Rizky Ramadhan', 'mapel' => 'Kalkulus', 'fakultas' => 'FMIPA', 'harga' => 150000, 'rating' => 4.9],
+        ['id' => 2, 'nama' => 'Aulia Putri', 'mapel' => 'Ilmu Komunikasi', 'fakultas' => 'FISIP', 'harga' => 120000, 'rating' => 5.0],
+        ['id' => 3, 'nama' => 'Dimas Wahyu', 'mapel' => 'Teknik Informatika', 'fakultas' => 'FT', 'harga' => 200000, 'rating' => 4.7],
+        ['id' => 4, 'nama' => 'Nadia Fitri', 'mapel' => 'Pendidikan Dokter', 'fakultas' => 'FK', 'harga' => 250000, 'rating' => 4.8],
+        ['id' => 5, 'nama' => 'Farhan Akbar', 'mapel' => 'Agribisnis', 'fakultas' => 'FP', 'harga' => 120000, 'rating' => 4.6],
+        ['id' => 6, 'nama' => 'Sinta Maharani', 'mapel' => 'Ilmu Hukum', 'fakultas' => 'FH', 'harga' => 180000, 'rating' => 4.5],
+        ['id' => 7, 'nama' => 'Adi Pratama', 'mapel' => 'Manajemen', 'fakultas' => 'FEB', 'harga' => 130000, 'rating' => 4.7],
+        ['id' => 8, 'nama' => 'Maya Sari', 'mapel' => 'Ilmu Komputer', 'fakultas' => 'FMIPA', 'harga' => 160000, 'rating' => 4.9]
     ];
 }
 ?>
@@ -92,7 +83,7 @@ if (empty($tutorsData)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cari Tutor - PeerLearn</title>
+    <title>Cari Tutor - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $assetPath; ?>css/style.css">
 </head>
@@ -102,18 +93,18 @@ if (empty($tutorsData)) {
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="<?php echo $logoPath; ?>" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="<?php echo $logoPath; ?>" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
         <ul class="sb-menu">
-            <li><a href="../learner/dashboard_siswa.php">Beranda</a></li>
+            <li><a href="../learner/dashboard_mahasiswa.php">Beranda</a></li>
             <li><a href="search_result.php" class="active">Cari Tutor</a></li>
             <li><a href="../learner/sesi_saya.php">Sesi Saya</a></li>
             <li><a href="../learner/riwayat.php">Riwayat Booking</a></li>
         </ul>
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -139,11 +130,11 @@ if (empty($tutorsData)) {
 <style>
 .sb-navbar { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
 .sb-nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-.sb-brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: #cc5500; }
+.sb-brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: #1a5276; }
 .sb-brand .logo { height: 40px; width: auto; }
 .sb-menu { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
 .sb-menu a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; padding: 8px 0; border-bottom: 2px solid transparent; }
-.sb-menu a:hover, .sb-menu a.active { color: #FF6B35; border-bottom-color: #FF6B35; }
+.sb-menu a:hover, .sb-menu a.active { color: #1a5276; border-bottom-color: #1a5276; }
 .sb-daftar { padding: 10px 20px; border-radius: 25px; font-weight: 600; color: white; }
 </style>
 
@@ -175,14 +166,14 @@ window.onclick = function(event) {
       <h2 style="font-size: 32px; font-weight: 700; color: #1e293b; margin: 0 0 30px 0;">Temukan Tutor Terbaik</h2>
       
       <form method="GET" action="search_result.php" style="display: flex; gap: 12px; margin-bottom: 35px;">
-        <input type="text" id="searchInput" name="q" placeholder="Cari mata pelajaran, nama tutor, atau universitas..." 
+        <input type="text" id="searchInput" name="q" placeholder="Cari mata kuliah, nama tutor, atau universitas..." 
                value="<?php echo htmlspecialchars($searchQuery); ?>"
                style="flex: 1; padding: 16px 24px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; outline: none; transition: all 0.2s;"
-               onfocus="this.style.borderColor='#FF6B35'"
+               onfocus="this.style.borderColor='#1a5276'"
                onblur="this.style.borderColor='#e2e8f0'">
-        <button type="submit" style="background: #FF6B35; color: white; border: none; padding: 16px 40px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 15px; white-space: nowrap; transition: all 0.2s;"
+        <button type="submit" style="background: #1a5276; color: white; border: none; padding: 16px 40px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 15px; white-space: nowrap; transition: all 0.2s;"
                 onmouseover="this.style.background='#E55A2B'"
-                onmouseout="this.style.background='#FF6B35'">
+                onmouseout="this.style.background='#1a5276'">
           <i class="bi bi-search"></i> Cari
         </button>
       </form>
@@ -192,29 +183,35 @@ window.onclick = function(event) {
         
         <!-- Filter Icon & Label -->
         <div style="display: flex; align-items: center; gap: 8px; padding-right: 10px;">
-          <i class="bi bi-sliders" style="color: #FF6B35; font-size: 18px;"></i>
+          <i class="bi bi-sliders" style="color: #1a5276; font-size: 18px;"></i>
           <span style="color: #334155; font-size: 15px; font-weight: 600; white-space: nowrap;">Filter:</span>
         </div>
         
-        <!-- Jenjang Pills -->
-        <button class="filter-pill jenjang-filter active" data-jenjang="Semua">Lihat Semua</button>
-        <button class="filter-pill jenjang-filter" data-jenjang="SD">SD</button>
-        <button class="filter-pill jenjang-filter" data-jenjang="SMP">SMP</button>
-        <button class="filter-pill jenjang-filter" data-jenjang="SMA">SMA</button>
-        <button class="filter-pill jenjang-filter" data-jenjang="Kuliah">Kuliah</button>
+        <!-- Fakultas Pills -->
+        <button class="filter-pill fakultas-filter active" data-fakultas="Semua">Semua Fakultas</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FMIPA">FMIPA</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FT">Teknik</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FEB">FEB</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FH">Hukum</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FISIP">FISIP</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FK">Kedokteran</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FP">Pertanian</button>
+        <button class="filter-pill fakultas-filter" data-fakultas="FKIP">FKIP</button>
         
         <div style="width: 1px; height: 24px; background: #cbd5e1; margin: 0 4px;"></div>
         
-        <!-- Mapel Dropdown -->
+        <!-- Prodi/Mapel Dropdown -->
         <select id="mapelFilter" style="padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 8px; background: white; cursor: pointer; font-size: 14px; color: #334155; font-weight: 500; outline: none; min-width: 140px;">
-          <option value="">Lihat Semua</option>
-          <option value="Matematika">Matematika</option>
-          <option value="Fisika">Fisika</option>
-          <option value="Kimia">Kimia</option>
-          <option value="Biologi">Biologi</option>
-          <option value="Bahasa Inggris">Bahasa Inggris</option>
-          <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-          <option value="Ekonomi">Ekonomi</option>
+          <option value="">Semua Program Studi</option>
+          <option value="Ilmu Komputer">Ilmu Komputer</option>
+          <option value="Teknik Informatika">Teknik Informatika</option>
+          <option value="Manajemen">Manajemen</option>
+          <option value="Ilmu Hukum">Ilmu Hukum</option>
+          <option value="Ilmu Komunikasi">Ilmu Komunikasi</option>
+          <option value="Pendidikan Dokter">Pendidikan Dokter</option>
+          <option value="Agribisnis">Agribisnis</option>
+          <option value="Kalkulus">Kalkulus (Mata Kuliah Dasar)</option>
+          <option value="Fisika Dasar">Fisika Dasar</option>
         </select>
 
         <div style="width: 1px; height: 24px; background: #cbd5e1; margin: 0 4px;"></div>
@@ -223,12 +220,12 @@ window.onclick = function(event) {
         <div style="display: flex; align-items: center; gap: 10px;">
           <span style="color: #334155; font-weight: 500; font-size: 14px; white-space: nowrap;">Harga Maks:</span>
           <input type="range" id="priceRange" min="0" max="500" value="100" step="50" style="width: 120px; cursor: pointer;">
-          <span id="priceLabel" style="background: #FF6B35; color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; min-width: 60px; text-align: center;">100k</span>
+          <span id="priceLabel" style="background: #1a5276; color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; min-width: 60px; text-align: center;">100k</span>
         </div>
 
         <!-- Reset Button -->
         <button onclick="resetFilters()" style="background: white; border: 1px solid #cbd5e1; color: #64748b; padding: 8px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s; white-space: nowrap; margin-left: auto; display: flex; align-items: center; gap: 6px;"
-                onmouseover="this.style.borderColor='#FF6B35'; this.style.color='#FF6B35'"
+                onmouseover="this.style.borderColor='#1a5276'; this.style.color='#1a5276'"
                 onmouseout="this.style.borderColor='#cbd5e1'; this.style.color='#64748b'">
           <i class="bi bi-arrow-clockwise"></i> Reset
         </button>
@@ -238,7 +235,7 @@ window.onclick = function(event) {
     <!-- RESULT INFO -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 0 4px;">
       <h3 style="color: #1e293b; font-size: 18px; font-weight: 600; margin: 0;">
-        Menampilkan <span id="resultCount" style="color: #FF6B35;">51</span> Tutor
+        Menampilkan <span id="resultCount" style="color: #1a5276;">51</span> Tutor
       </h3>
       <select id="sortBy" style="padding: 10px 18px; border: 2px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; font-size: 14px; color: #1e293b; font-weight: 500; outline: none;">
         <option value="recommended">Rekomendasi</option>
@@ -273,7 +270,7 @@ function rp(n){
 
 // Generate random colors for avatar
 function getAvatarColor(name) {
-  const colors = ['#FF6B9D', '#4A90E2', '#50C878', '#FF6B35', '#9B59B6', '#E67E22', '#16A085', '#D35400'];
+  const colors = ['#FF6B9D', '#4A90E2', '#50C878', '#1a5276', '#9B59B6', '#E67E22', '#16A085', '#D35400'];
   const index = name.charCodeAt(0) % colors.length;
   return colors[index];
 }
@@ -316,7 +313,7 @@ function renderPage() {
     
     const initials = t.nama.split(' ').map(n => n[0]).join('').substring(0, 2);
     const avatarColor = getAvatarColor(t.nama);
-    const ratingStars = '⭐'.repeat(Math.floor(t.rating));
+    const ratingStars = '<i class="bi bi-star-fill text-warning"></i>'.repeat(Math.floor(t.rating));
 
     card.innerHTML = `
       <div style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; cursor: pointer; height: 100%;"
@@ -333,22 +330,22 @@ function renderPage() {
               <h3 style="font-size: 17px; font-weight: 700; color: #1e293b; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                 ${t.nama}
               </h3>
-              <span style="color: #10b981; font-size: 14px;">✓</span>
+              <i class="bi bi-patch-check-fill" style="color: #10b981; font-size: 14px;"></i>
             </div>
             <p style="color: #64748b; font-size: 13px; margin: 0;">${t.mapel || 'Umum'}</p>
           </div>
           <div style="background: #FEF3C7; color: #D97706; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 4px;">
-            ⭐ ${t.rating}
+            <i class="bi bi-star-fill" style="color: #D97706;"></i> ${t.rating}
           </div>
         </div>
 
         <!-- Tags -->
         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
           <span style="background: #DBEAFE; color: #1D4ED8; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">
-            Fisika
+            ${t.fakultas || 'Umum'}
           </span>
           <span style="background: #DBEAFE; color: #1D4ED8; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">
-            ${t.mapel}
+            ${t.mapel || 'Umum'}
           </span>
         </div>
 
@@ -367,7 +364,7 @@ function renderPage() {
         <!-- Price & Actions -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
-            <div style="color: #FF6B35; font-size: 20px; font-weight: 700;">
+            <div style="color: #1a5276; font-size: 20px; font-weight: 700;">
               Rp ${Math.floor(t.harga / 1000)}k
             </div>
             <div style="color: #94a3b8; font-size: 12px;">/jam</div>
@@ -377,13 +374,13 @@ function renderPage() {
         <!-- Buttons -->
         <div style="display: grid; gap: 8px;">
           <button onclick="window.location.href='../learner/booking.php?tutor_id=${t.id}'" 
-                  style="background: #FF6B35; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s;"
+                  style="background: #1a5276; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s;"
                   onmouseover="this.style.background='#E55A2B'"
-                  onmouseout="this.style.background='#FF6B35'">
+                  onmouseout="this.style.background='#1a5276'">
             <i class="bi bi-calendar-check"></i> Booking
           </button>
           <button onclick="window.location.href='detail_tutor.php?id=${t.id}'"
-                  style="background: white; color: #FF6B35; border: 2px solid #FF6B35; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s;"
+                  style="background: white; color: #1a5276; border: 2px solid #1a5276; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s;"
                   onmouseover="this.style.background='#FFF5F0'"
                   onmouseout="this.style.background='white'">
             <i class="bi bi-person"></i> Lihat Profil
@@ -484,7 +481,7 @@ document.querySelectorAll('.rating-filter').forEach(btn => {
 
 // Active filters state
 let activeFilters = {
-  jenjang: 'Semua',
+  fakultas: 'Semua',
   mapel: '',
   rating: 0,
   maxPrice: 500,
@@ -496,14 +493,14 @@ let activeFilters = {
 function applyFilters() {
   let filtered = [...tutorsData];
   
-  // Filter by jenjang
-  if (activeFilters.jenjang !== 'Semua') {
+  // Filter by fakultas
+  if (activeFilters.fakultas !== 'Semua') {
     filtered = filtered.filter(t => {
-      // Check if tutor teaches this jenjang (support both string and array)
-      if (Array.isArray(t.jenjang_list)) {
-        return t.jenjang_list.includes(activeFilters.jenjang);
+      // Check if tutor teaches this fakultas
+      if (Array.isArray(t.fakultas_list)) {
+        return t.fakultas_list.includes(activeFilters.fakultas);
       }
-      return t.jenjang === activeFilters.jenjang || (t.jenjang && t.jenjang.includes(activeFilters.jenjang));
+      return t.fakultas === activeFilters.fakultas || (t.fakultas && t.fakultas.includes(activeFilters.fakultas));
     });
   }
   
@@ -550,12 +547,12 @@ function applyFilters() {
   renderResults(filtered);
 }
 
-// Jenjang filter buttons
-document.querySelectorAll('.jenjang-filter').forEach(btn => {
+// Fakultas filter buttons
+document.querySelectorAll('.fakultas-filter').forEach(btn => {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('.jenjang-filter').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.fakultas-filter').forEach(b => b.classList.remove('active'));
     this.classList.add('active');
-    activeFilters.jenjang = this.dataset.jenjang;
+    activeFilters.fakultas = this.dataset.fakultas;
     applyFilters();
   });
 });
@@ -647,13 +644,13 @@ function resetFilters() {
 
 .pagination-btn:hover:not(:disabled) {
   background: #FFF5F0;
-  color: #FF6B35;
+  color: #1a5276;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255,107,53,0.2);
 }
 
 .pagination-btn.active {
-  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  background: linear-gradient(135deg, #1a5276, #2e86c1);
   color: white;
   box-shadow: 0 4px 12px rgba(255,107,53,0.3);
 }
@@ -678,16 +675,16 @@ function resetFilters() {
 }
 
 .filter-pill:hover {
-  border-color: #FF6B35;
+  border-color: #1a5276;
   background: #FFF5F0;
-  color: #FF6B35;
+  color: #1a5276;
   transform: translateY(-1px);
 }
 
 .filter-pill.active {
-  background: #FF6B35;
+  background: #1a5276;
   color: white;
-  border-color: #FF6B35;
+  border-color: #1a5276;
 }
 
 .rating-pill {
@@ -730,14 +727,14 @@ function resetFilters() {
 }
 
 .filter-btn:hover {
-  border-color: #FF6B35;
-  color: #FF6B35;
+  border-color: #1a5276;
+  color: #1a5276;
 }
 
 .filter-btn.active {
-  background: #FF6B35;
+  background: #1a5276;
   color: white;
-  border-color: #FF6B35;
+  border-color: #1a5276;
 }
 
 .rating-filter {
@@ -780,7 +777,7 @@ function resetFilters() {
   appearance: none;
   width: 18px;
   height: 18px;
-  background: #FF6B35;
+  background: #1a5276;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
@@ -793,7 +790,7 @@ function resetFilters() {
 #priceRange::-moz-range-thumb {
   width: 18px;
   height: 18px;
-  background: #FF6B35;
+  background: #1a5276;
   border-radius: 50%;
   cursor: pointer;
   border: none;
@@ -822,3 +819,10 @@ window.onclick = function(event) {
 </html>
 <?php else: ?>
 <?php endif; ?>
+
+
+
+
+
+
+

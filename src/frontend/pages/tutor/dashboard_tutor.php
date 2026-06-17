@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -35,7 +35,7 @@ WHERE tutor_id = '$tutor_id'";
 $stats_result = mysqli_query($conn, $stats_query);
 $stats = $stats_result ? mysqli_fetch_assoc($stats_result) : ['total_booking' => 0, 'active_booking' => 0, 'completed_booking' => 0];
 
-// Total siswa unik yang pernah booking
+// Total mahasiswa unik yang pernah booking
 $students_query = "SELECT COUNT(DISTINCT learner_id) as total FROM bookings WHERE tutor_id = '$tutor_id'";
 $students_result = mysqli_query($conn, $students_query);
 $total_students = mysqli_fetch_assoc($students_result)['total'];
@@ -48,7 +48,7 @@ $recent_bookings_query = "SELECT
     s.kelas,
     sub.subject_name
 FROM bookings b
-INNER JOIN siswa s ON b.learner_id = s.id
+INNER JOIN mahasiswa s ON b.learner_id = s.id
 INNER JOIN subjects sub ON b.subject_id = sub.id
 WHERE b.tutor_id = '$tutor_id'
 ORDER BY b.created_at DESC
@@ -63,7 +63,7 @@ $upcoming_query = "SELECT
     s.jenjang,
     sub.subject_name
 FROM bookings b
-INNER JOIN siswa s ON b.learner_id = s.id
+INNER JOIN mahasiswa s ON b.learner_id = s.id
 INNER JOIN subjects sub ON b.subject_id = sub.id
 WHERE b.tutor_id = '$tutor_id' 
     AND b.status IN ('pending', 'confirmed')
@@ -84,7 +84,7 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Tutor - PeerLearn</title>
+    <title>Dashboard Tutor - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
@@ -111,7 +111,7 @@ $subjects_result = mysqli_query($conn, $subjects_query);
     gap: 12px;
     font-size: 24px;
     font-weight: 700;
-    color: #cc5500;
+    color: #1a5276;
 }
 
 .sb-brand .logo {
@@ -135,14 +135,14 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 }
 
 .sb-menu li a:hover, .sb-menu li a.active {
-    color: #cc5500;
+    color: #1a5276;
 }
 
 .sb-daftar {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #cc5500, #ff9329);
+    background: linear-gradient(135deg, #1a5276, #2e86c1);
     color: white;
     padding: 10px 25px;
     border-radius: 25px;
@@ -159,7 +159,7 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 }
 
 .welcome-section {
-    background: linear-gradient(135deg, #cc5500 0%, #ff9329 100%);
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
     border-radius: 20px;
     padding: 40px;
     color: white;
@@ -209,7 +209,7 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 }
 
 .stat-icon.orange {
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
     color: white;
 }
 
@@ -264,7 +264,7 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 }
 
 .booking-item:hover {
-    border-color: #cc5500;
+    border-color: #1a5276;
     background: #f8f9fa;
 }
 
@@ -317,11 +317,11 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 }
 
 .booking-details i {
-    color: #cc5500;
+    color: #1a5276;
 }
 
 .upcoming-card {
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
     border-radius: 15px;
     padding: 25px;
     color: white;
@@ -343,7 +343,7 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 }
 
 .subject-price {
-    color: #FF6B35;
+    color: #1a5276;
     font-weight: 700;
 }
 
@@ -360,20 +360,20 @@ $subjects_result = mysqli_query($conn, $subjects_query);
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <ul class="sb-menu">
             <li><a href="dashboard_tutor.php" class="active">Beranda</a></li>
             <li><a href="jadwal_saya.php">Jadwal Saya</a></li>
-            <li><a href="siswa_saya.php">Siswa Saya</a></li>
-            <li><a href="mata_pelajaran.php">Mata Pelajaran</a></li>
+            <li><a href="mahasiswa_saya.php">Mahasiswa Saya</a></li>
+            <li><a href="mata_pelajaran.php">Mata Kuliah</a></li>
         </ul>
 
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #cc5500, #ff9329);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276, #2e86c1);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($tutor_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -455,7 +455,7 @@ window.onclick = function(event) {
                 <i class="bi bi-people"></i>
             </div>
             <div class="stat-value"><?php echo $total_students; ?></div>
-            <div class="stat-label">Total Siswa</div>
+            <div class="stat-label">Total Mahasiswa</div>
         </div>
     </div>
 
@@ -490,7 +490,7 @@ window.onclick = function(event) {
                             </span>
                         </div>
                         
-                        <div style="font-weight: 600; color: #cc5500; margin: 8px 0;">
+                        <div style="font-weight: 600; color: #1a5276; margin: 8px 0;">
                             <?php echo htmlspecialchars($booking['subject_name']); ?>
                         </div>
 
@@ -532,10 +532,10 @@ window.onclick = function(event) {
                 </div>
             <?php endif; ?>
 
-            <!-- Mata Pelajaran -->
+            <!-- Mata Kuliah -->
             <div class="section-card">
                 <div class="section-title">
-                    <i class="bi bi-book"></i> Mata Pelajaran Saya
+                    <i class="bi bi-book"></i> Mata Kuliah Saya
                 </div>
 
                 <?php if ($subjects_result && mysqli_num_rows($subjects_result) > 0): ?>
@@ -556,12 +556,12 @@ window.onclick = function(event) {
                     <?php endwhile; ?>
                 <?php else: ?>
                     <p style="text-align: center; color: #999; padding: 20px 0;">
-                        Belum ada mata pelajaran
+                        Belum ada mata kuliah
                     </p>
                 <?php endif; ?>
 
-                <a href="mata_pelajaran.php" style="display: block; text-align: center; margin-top: 15px; color: #cc5500; font-weight: 600; text-decoration: none;">
-                    <i class="bi bi-plus-circle"></i> Kelola Mata Pelajaran
+                <a href="mata_pelajaran.php" style="display: block; text-align: center; margin-top: 15px; color: #1a5276; font-weight: 600; text-decoration: none;">
+                    <i class="bi bi-plus-circle"></i> Kelola Mata Kuliah
                 </a>
             </div>
         </div>
@@ -570,3 +570,8 @@ window.onclick = function(event) {
 
 </body>
 </html>
+
+
+
+
+

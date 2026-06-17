@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -22,18 +22,18 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Iklan Tutor - PeerLearn</title>
+    <title>Buat Iklan Tutor - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
     :root {
-        --primary-color: #FF6B35;
+        --primary-color: #1a5276;
         --primary-dark: #E55A2B;
         --secondary-color: #1B4965;
         --accent-color: #9FD3C7;
         --success-color: #48bb78;
-        --warning-color: #FF6B35;
+        --warning-color: #1a5276;
         --danger-color: #f56565;
         --dark-color: #0A1628;
         --light-bg: #f5f5f5;
@@ -131,7 +131,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
         gap: 12px;
         font-size: 24px;
         font-weight: 700;
-        color: #cc5500;
+        color: #1a5276;
         text-decoration: none;
     }
 
@@ -152,7 +152,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
     }
 
     .btn-back:hover {
-        background: #cc5500;
+        background: #1a5276;
         color: white;
     }
 </style>
@@ -165,8 +165,8 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <a href="dashboard_tutor.php" class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </a>
 
         <a href="dashboard_tutor.php" class="btn-back">
@@ -207,7 +207,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label>Mata Pelajaran</label>
+                    <label>Mata Kuliah</label>
                     <select name="subject" class="form-select" required>
                         <option value="">-- pilih --</option>
                         <option value="Matematika">Matematika</option>
@@ -288,3 +288,6 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+

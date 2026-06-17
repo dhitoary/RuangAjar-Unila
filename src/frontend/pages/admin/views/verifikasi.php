@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 global $conn;
 
 // Query untuk tutor yang belum diverifikasi (status Non-Aktif dan baru dibuat)
@@ -30,7 +30,7 @@ $historyResult = mysqli_query($conn, $historyQuery);
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h2 class="mb-1 fw-bold" style="color: #cc5500;"><i class="fas fa-shield-alt me-2"></i>Verifikasi Akun Tutor</h2>
+        <h2 class="mb-1 fw-bold" style="color: #1a5276;"><i class="fas fa-shield-alt me-2"></i>Verifikasi Akun Tutor</h2>
         <p class="text-muted mb-0">Kelola persetujuan akun tutor yang mendaftar</p>
     </div>
 </div>
@@ -38,13 +38,13 @@ $historyResult = mysqli_query($conn, $historyQuery);
 <ul class="nav nav-tabs border-0 mb-4" id="verifTabs" role="tablist" style="gap: 10px;">
   <li class="nav-item">
     <button class="nav-link active fw-bold border-0 rounded-pill shadow-sm" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending-content" type="button" 
-            style="background: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%); color: white;">
+            style="background: linear-gradient(135deg, #1a5276 0%, #FF8C61 100%); color: white;">
         <i class="fas fa-clock me-2"></i>Menunggu Review <span class="badge bg-white text-danger ms-2" id="count-pending"><?= $totalPending ?></span>
     </button>
   </li>
   <li class="nav-item">
     <button class="nav-link border-0 rounded-pill" id="history-tab" data-bs-toggle="tab" data-bs-target="#history-content" type="button" 
-            style="background: #f8f9fa; color: #cc5500;">
+            style="background: #f8f9fa; color: #1a5276;">
         <i class="fas fa-history me-2"></i>Riwayat Keputusan
     </button>
   </li>
@@ -52,8 +52,8 @@ $historyResult = mysqli_query($conn, $historyQuery);
 
 <style>
     .nav-tabs .nav-link:not(.active):hover {
-        background: linear-gradient(135deg, #ff9329 0%, #ffd4c1 100%) !important;
-        color: #cc5500 !important;
+        background: linear-gradient(135deg, #2e86c1 0%, #ffd4c1 100%) !important;
+        color: #1a5276 !important;
     }
 </style>
 
@@ -156,9 +156,9 @@ $historyResult = mysqli_query($conn, $historyQuery);
     
     <!-- Riwayat Tab -->
     <div class="tab-pane fade" id="history-content">
-        <div class="card border-0 shadow-sm" style="border-left: 4px solid #ff9329 !important; border-radius: 12px;">
+        <div class="card border-0 shadow-sm" style="border-left: 4px solid #2e86c1 !important; border-radius: 12px;">
             <div class="card-header py-3" style="background: linear-gradient(135deg, rgba(255, 147, 41, 0.15) 0%, rgba(255, 184, 102, 0.15) 100%);">
-                <h5 class="mb-0 fw-bold" style="color: #cc5500;">
+                <h5 class="mb-0 fw-bold" style="color: #1a5276;">
                     <i class="fas fa-history me-2"></i>Riwayat Verifikasi
                 </h5>
             </div>

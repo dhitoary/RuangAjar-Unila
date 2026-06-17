@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'learner') {
 
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : (isset($_SESSION['email']) ? $_SESSION['email'] : '');
 
-$siswa_query = "SELECT * FROM siswa WHERE email = '$user_email' LIMIT 1";
+$siswa_query = "SELECT * FROM mahasiswa WHERE email = '$user_email' LIMIT 1";
 $siswa_result = mysqli_query($conn, $siswa_query);
 $siswa_data = mysqli_fetch_assoc($siswa_result);
 
@@ -45,7 +45,7 @@ $count_cancelled = $count_cancelled_result ? mysqli_fetch_assoc($count_cancelled
 
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : (isset($_SESSION['email']) ? $_SESSION['email'] : '');
 
-$siswa_query = "SELECT * FROM siswa WHERE email = '$user_email' LIMIT 1";
+$siswa_query = "SELECT * FROM mahasiswa WHERE email = '$user_email' LIMIT 1";
 $siswa_result = mysqli_query($conn, $siswa_query);
 $siswa_data = mysqli_fetch_assoc($siswa_result);
 
@@ -88,7 +88,7 @@ $logoPath = "../../../assets/img/logo.png";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Booking - PeerLearn</title>
+    <title>Riwayat Booking - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
@@ -98,18 +98,18 @@ $logoPath = "../../../assets/img/logo.png";
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="<?php echo $logoPath; ?>" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="<?php echo $logoPath; ?>" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
         <ul class="sb-menu">
-            <li><a href="dashboard_siswa.php">Beranda</a></li>
+            <li><a href="dashboard_mahasiswa.php">Beranda</a></li>
             <li><a href="../public/search_result.php">Cari Tutor</a></li>
             <li><a href="sesi_saya.php">Sesi Saya</a></li>
             <li><a href="riwayat.php" class="active">Riwayat Booking</a></li>
         </ul>
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -135,11 +135,11 @@ $logoPath = "../../../assets/img/logo.png";
 <style>
 .sb-navbar { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
 .sb-nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-.sb-brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: #cc5500; }
+.sb-brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: #1a5276; }
 .sb-brand .logo { height: 40px; width: auto; }
 .sb-menu { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
 .sb-menu a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; padding: 8px 0; border-bottom: 2px solid transparent; }
-.sb-menu a:hover, .sb-menu a.active { color: #FF6B35; border-bottom-color: #FF6B35; }
+.sb-menu a:hover, .sb-menu a.active { color: #1a5276; border-bottom-color: #1a5276; }
 .sb-daftar { padding: 10px 20px; border-radius: 25px; font-weight: 600; color: white; }
 </style>
 
@@ -402,11 +402,11 @@ window.onclick = function(event) {
 <div class="riwayat-container">
     <div class="container">
         <div class="riwayat-header">
-            <h1>📚 Riwayat Booking</h1>
+            <h1>ðŸ“š Riwayat Booking</h1>
             <p>Lihat semua sesi belajar yang telah selesai atau dibatalkan</p>
             <div style="margin-top: 15px; display: flex; gap: 20px;">
-                <span style="color: #10b981; font-weight: 600;">✅ Selesai: <?php echo $count_completed; ?></span>
-                <span style="color: #ef4444; font-weight: 600;">❌ Dibatalkan: <?php echo $count_cancelled; ?></span>
+                <span style="color: #10b981; font-weight: 600;">âœ… Selesai: <?php echo $count_completed; ?></span>
+                <span style="color: #ef4444; font-weight: 600;">âŒ Dibatalkan: <?php echo $count_cancelled; ?></span>
             </div>
         </div>
 
@@ -454,7 +454,7 @@ window.onclick = function(event) {
                         <div class="booking-tutor-info">
                             <div class="tutor-avatar-small"><?php echo $tutor_initial; ?></div>
                             <div>
-                                <h3 style="margin: 0; color: #cc5500;"><?php echo htmlspecialchars($booking['tutor_name']); ?></h3>
+                                <h3 style="margin: 0; color: #1a5276;"><?php echo htmlspecialchars($booking['tutor_name']); ?></h3>
                                 <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;"><?php echo htmlspecialchars($booking['subject_name']); ?></p>
                             </div>
                         </div>
@@ -464,34 +464,34 @@ window.onclick = function(event) {
                     </div>
                     <div class="booking-details" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">📅 Tanggal</p>
+                            <p style="margin: 0; color: #666; font-size: 13px;">ðŸ“… Tanggal</p>
                             <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $date_formatted; ?></p>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">🕐 Waktu</p>
+                            <p style="margin: 0; color: #666; font-size: 13px;">ðŸ• Waktu</p>
                             <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $time_formatted; ?> WIB</p>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">⏱️ Durasi</p>
+                            <p style="margin: 0; color: #666; font-size: 13px;">â±ï¸ Durasi</p>
                             <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $booking['duration']; ?> menit</p>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">💰 Harga</p>
-                            <p style="margin: 5px 0 0 0; font-weight: 600; color: #FF6B35;"><?php echo $price_formatted; ?></p>
+                            <p style="margin: 0; color: #666; font-size: 13px;">ðŸ’° Harga</p>
+                            <p style="margin: 5px 0 0 0; font-weight: 600; color: #1a5276;"><?php echo $price_formatted; ?></p>
                         </div>
                     </div>
                     <?php if ($booking['notes']): ?>
                     <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                        <p style="margin: 0; color: #666; font-size: 13px; margin-bottom: 5px;">📝 Catatan:</p>
+                        <p style="margin: 0; color: #666; font-size: 13px; margin-bottom: 5px;">ðŸ“ Catatan:</p>
                         <p style="margin: 0; color: #333;"><?php echo htmlspecialchars($booking['notes']); ?></p>
                     </div>
                     <?php endif; ?>
                     <?php if ($booking['status'] == 'completed'): ?>
                     <div style="margin-top: 15px; display: flex; gap: 10px;">
                         <button class="btn-review" onclick="openReviewModal(<?php echo $booking['id']; ?>)">
-                            ⭐ Beri Review
+                            â­ Beri Review
                         </button>
-                        <a href="sesi_saya.php" style="padding: 10px 20px; background: #cc5500; color: white; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">
+                        <a href="sesi_saya.php" style="padding: 10px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">
                             Booking Lagi
                         </a>
                     </div>
@@ -500,12 +500,12 @@ window.onclick = function(event) {
                 <?php endwhile; ?>
             <?php else: ?>
                 <div class="empty-state">
-                    <div style="font-size: 64px; margin-bottom: 20px;">📚</div>
+                    <div style="font-size: 64px; margin-bottom: 20px;">ðŸ“š</div>
                     <h3>Belum ada riwayat booking</h3>
                     <p>Riwayat booking yang sudah selesai atau dibatalkan akan muncul di sini</p>
                     <p style="margin-top: 20px;">
-                        <a href="../public/search_result.php" style="color: #FF6B35; font-weight: 600; text-decoration: none;">
-                            Cari Tutor Sekarang →
+                        <a href="../public/search_result.php" style="color: #1a5276; font-weight: 600; text-decoration: none;">
+                            Cari Tutor Sekarang â†’
                         </a>
                     </p>
                 </div>
@@ -519,7 +519,7 @@ window.onclick = function(event) {
     <div class="review-modal-content" style="background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative;">
         <button onclick="closeReviewModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 30px; cursor: pointer; color: #999;">&times;</button>
         <div style="margin-bottom: 30px;">
-            <h2 style="color: #cc5500; margin: 0 0 10px 0;">Beri Rating & Review</h2>
+            <h2 style="color: #1a5276; margin: 0 0 10px 0;">Beri Rating & Review</h2>
             <p style="color: #666; margin: 0;">Bagikan pengalaman belajar Anda</p>
         </div>
         <form id="reviewForm" action="../../../backend/learner/submit_review.php" method="POST">
@@ -528,15 +528,15 @@ window.onclick = function(event) {
             <div style="margin-bottom: 25px; text-align: center;">
                 <div class="rating-input" style="display: flex; flex-direction: row-reverse; justify-content: center; gap: 10px;">
                     <input type="radio" name="rating" value="5" id="rating5" required style="display: none;">
-                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(5)">⭐</label>
+                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(5)">â­</label>
                     <input type="radio" name="rating" value="4" id="rating4" style="display: none;">
-                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(4)">⭐</label>
+                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(4)">â­</label>
                     <input type="radio" name="rating" value="3" id="rating3" style="display: none;">
-                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(3)">⭐</label>
+                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(3)">â­</label>
                     <input type="radio" name="rating" value="2" id="rating2" style="display: none;">
-                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(2)">⭐</label>
+                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(2)">â­</label>
                     <input type="radio" name="rating" value="1" id="rating1" style="display: none;">
-                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(1)">⭐</label>
+                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(1)">â­</label>
                 </div>
             </div>
             
@@ -548,7 +548,7 @@ window.onclick = function(event) {
             
             <div style="display: flex; gap: 15px; justify-content: flex-end;">
                 <button type="button" onclick="closeReviewModal()" style="padding: 12px 30px; background: #f0f0f0; color: #333; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Batal</button>
-                <button type="submit" style="padding: 12px 30px; background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Kirim Review</button>
+                <button type="submit" style="padding: 12px 30px; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Kirim Review</button>
             </div>
         </form>
     </div>
@@ -615,4 +615,9 @@ document.getElementById('reviewModal').addEventListener('click', function(e) {
 </script>
 
 <?php require_once '../../layouts/footer.php'; ?>
+
+
+
+
+
 

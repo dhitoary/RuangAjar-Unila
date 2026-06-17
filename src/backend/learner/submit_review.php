@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../config/database.php';
 
@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'learner') {
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : $_SESSION['email'];
 
 // Get siswa_id from email using prepared statement
-$siswa_query = "SELECT id FROM siswa WHERE email = ? LIMIT 1";
+$siswa_query = "SELECT id FROM mahasiswa WHERE email = ? LIMIT 1";
 $stmt = mysqli_prepare($conn, $siswa_query);
 mysqli_stmt_bind_param($stmt, "s", $user_email);
 mysqli_stmt_execute($stmt);
@@ -93,4 +93,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?>
+
 

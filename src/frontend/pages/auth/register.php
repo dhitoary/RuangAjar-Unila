@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar - PeerLearn</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <title>Daftar - RuangAjar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=2.0">
 </head>
 <body>
     <div class="auth-container">
@@ -16,8 +17,8 @@
                 </svg>
             </div>
 
-            <h1 class="auth-title">PeerLearn</h1>
-            <p class="auth-subtitle">Platform Bimbingan Belajar Terpercaya</p>
+            <h1 class="auth-title">RuangAjar</h1>
+            <p class="auth-subtitle">Tutor Sebaya Universitas Lampung</p>
 
             <!-- Tabs -->
             <div class="auth-tabs">
@@ -68,7 +69,7 @@
                                         <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
                                     </svg>
                                 </div>
-                                <span class="role-name">Siswa</span>
+                                <span class="role-name">Mahasiswa</span>
                             </label>
                         </div>
                         <div class="role-option">
@@ -100,30 +101,31 @@
                     <label class="form-label">Password</label>
                     <div class="password-toggle">
                         <input type="password" name="password" id="password" class="form-input" placeholder="Minimal 8 karakter" required minlength="8">
-                        <span class="toggle-icon" onclick="togglePassword()">👁️</span>
+                        <span class="toggle-icon" onclick="togglePassword()"><i class="bi bi-eye"></i></span>
                     </div>
                 </div>
 
-                <!-- Fields for Siswa Only -->
+                <!-- Fields for Mahasiswa Only -->
                 <div id="siswaFields" style="display: none;">
                     <div class="form-group">
-                        <label class="form-label">Jenjang Pendidikan</label>
+                        <label class="form-label">Jenjang Pendidikan (Tidak Relevan untuk Mahasiswa - Opsional)</label>
                         <select name="jenjang" class="form-input">
-                            <option value="">Pilih Jenjang</option>
-                            <option value="SD">SD</option>
-                            <option value="SMP">SMP</option>
-                            <option value="SMA">SMA</option>
+                            <option value="">Pilih Angkatan/Semester (Opsional)</option>
+                            <option value="Tahun 1">Semester 1-2</option>
+                            <option value="Tahun 2">Semester 3-4</option>
+                            <option value="Tahun 3">Semester 5-6</option>
+                            <option value="Tahun 4">Semester 7-8</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Nama Sekolah</label>
-                        <input type="text" name="sekolah" class="form-input" placeholder="Contoh: SMAN 1 Bandar Lampung">
+                        <label class="form-label">Nama Fakultas/Jurusan</label>
+                        <input type="text" name="sekolah" class="form-input" placeholder="Contoh: FMIPA - Ilmu Komputer">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Kelas</label>
-                        <input type="text" name="kelas" class="form-input" placeholder="Contoh: 12 IPA 1">
+                        <label class="form-label">Angkatan</label>
+                        <input type="text" name="kelas" class="form-input" placeholder="Contoh: 2023">
                     </div>
 
                     <div class="form-group">
@@ -140,7 +142,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Keahlian/Mata Pelajaran</label>
+                        <label class="form-label">Keahlian/Mata Kuliah</label>
                         <input type="text" name="keahlian" class="form-input" placeholder="Contoh: Matematika, Fisika, Bahasa Inggris">
                     </div>
 
@@ -195,25 +197,25 @@
             const roleTutor = document.getElementById('role-tutor');
 
             if (roleLearner.checked) {
-                // Show siswa fields, hide tutor fields
+                // Show mahasiswa fields, hide tutor fields
                 siswaFields.style.display = 'block';
                 tutorFields.style.display = 'none';
                 
-                // Make siswa fields required
+                // Make mahasiswa fields required
                 siswaFields.querySelectorAll('select[name="jenjang"]').forEach(el => el.required = true);
                 
                 // Make tutor fields not required
                 tutorFields.querySelectorAll('input, textarea').forEach(el => el.required = false);
                 
             } else if (roleTutor.checked) {
-                // Show tutor fields, hide siswa fields
+                // Show tutor fields, hide mahasiswa fields
                 siswaFields.style.display = 'none';
                 tutorFields.style.display = 'block';
                 
                 // Make tutor fields required
                 tutorFields.querySelectorAll('input[name="telepon"], input[name="keahlian"], input[name="pendidikan"]').forEach(el => el.required = true);
                 
-                // Make siswa fields not required
+                // Make mahasiswa fields not required
                 siswaFields.querySelectorAll('select, input, textarea').forEach(el => el.required = false);
             }
         }
@@ -226,7 +228,7 @@
             // Pastikan role dipilih
             if (!roleLearner.checked && !roleTutor.checked) {
                 e.preventDefault();
-                alert('Silakan pilih role: Siswa atau Tutor');
+                alert('Silakan pilih role: Mahasiswa atau Tutor');
                 return false;
             }
 
@@ -243,7 +245,7 @@
                 }
             }
 
-            // Validasi field siswa jika role siswa
+            // Validasi field mahasiswa jika role mahasiswa
             if (roleLearner.checked) {
                 const jenjang = document.querySelector('select[name="jenjang"]').value;
                 
@@ -259,3 +261,6 @@
     </script>
 </body>
 </html>
+
+
+

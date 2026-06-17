@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../config/database.php';
 
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } elseif ($row['role'] == 'tutor') {
                 header("Location: ../../frontend/pages/tutor/dashboard_tutor.php");
             } elseif ($row['role'] == 'learner') {
-                header("Location: ../../frontend/pages/learner/dashboard_siswa.php");
+                header("Location: ../../frontend/pages/learner/dashboard_mahasiswa.php");
             } else {
                 header("Location: ../../frontend/pages/public/landing_page.php");
             }
@@ -47,3 +47,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?>
+

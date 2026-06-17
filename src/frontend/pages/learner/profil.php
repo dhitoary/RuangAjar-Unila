@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'learner') {
 $user_id = $_SESSION['user_id'];
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : $_SESSION['email'];
 
-$siswa_query = "SELECT * FROM siswa WHERE email = ? LIMIT 1";
+$siswa_query = "SELECT * FROM mahasiswa WHERE email = ? LIMIT 1";
 $stmt = mysqli_prepare($conn, $siswa_query);
 mysqli_stmt_bind_param($stmt, "s", $user_email);
 mysqli_stmt_execute($stmt);
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $confirm_password = $_POST['confirm_password'];
         
         // Verify current password
-        $check_query = "SELECT password FROM siswa WHERE email = ?";
+        $check_query = "SELECT password FROM mahasiswa WHERE email = ?";
         $stmt = mysqli_prepare($conn, $check_query);
         mysqli_stmt_bind_param($stmt, "s", $user_email);
         mysqli_stmt_execute($stmt);
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($new_password === $confirm_password) {
                 if (strlen($new_password) >= 6) {
                     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-                    $update_pwd_query = "UPDATE siswa SET password = ? WHERE email = ?";
+                    $update_pwd_query = "UPDATE mahasiswa SET password = ? WHERE email = ?";
                     $stmt = mysqli_prepare($conn, $update_pwd_query);
                     mysqli_stmt_bind_param($stmt, "ss", $hashed_password, $user_email);
                     
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
         if (empty($error_message)) {
-            $update_query = "UPDATE siswa SET 
+            $update_query = "UPDATE mahasiswa SET 
                 nama_lengkap = ?,
                 nim = ?,
                 jenjang = ?,
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (mysqli_stmt_execute($stmt)) {
                 $success_message = 'Profil berhasil diperbarui!';
                 // Refresh data
-                $stmt2 = mysqli_prepare($conn, "SELECT * FROM siswa WHERE email = ? LIMIT 1");
+                $stmt2 = mysqli_prepare($conn, "SELECT * FROM mahasiswa WHERE email = ? LIMIT 1");
                 mysqli_stmt_bind_param($stmt2, "s", $user_email);
                 mysqli_stmt_execute($stmt2);
                 $siswa_result = mysqli_stmt_get_result($stmt2);
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Saya - PeerLearn</title>
+    <title>Profil Saya - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             gap: 12px;
             font-size: 24px;
             font-weight: 700;
-            color: #cc5500;
+            color: #1a5276;
         }
 
         .sb-brand .logo {
@@ -199,12 +199,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .sb-menu a:hover, .sb-menu a.active {
-            color: #FF6B35;
-            border-bottom-color: #FF6B35;
+            color: #1a5276;
+            border-bottom-color: #1a5276;
         }
 
         .sb-daftar {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
             padding: 10px 25px;
             border-radius: 25px;
@@ -227,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .profile-header {
-            background: linear-gradient(135deg, #cc5500 0%, #ff9329 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
             padding: 40px;
             border-radius: 20px;
@@ -239,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 120px;
             height: 120px;
             background: white;
-            color: #cc5500;
+            color: #1a5276;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -261,11 +261,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-section h3 {
-            color: #cc5500;
+            color: #1a5276;
             font-size: 20px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #ff9329;
+            border-bottom: 2px solid #2e86c1;
         }
 
         .form-grid {
@@ -300,7 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .form-input:focus {
             outline: none;
-            border-color: #ff9329;
+            border-color: #2e86c1;
             box-shadow: 0 0 0 3px rgba(154, 212, 214, 0.1);
         }
 
@@ -327,7 +327,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
         }
 
@@ -387,12 +387,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <ul class="sb-menu">
-            <li><a href="dashboard_siswa.php">Beranda</a></li>
+            <li><a href="dashboard_mahasiswa.php">Beranda</a></li>
             <li><a href="../public/search_result.php">Cari Tutor</a></li>
             <li><a href="sesi_saya.php">Sesi Saya</a></li>
             <li><a href="riwayat.php">Riwayat Booking</a></li>
@@ -457,7 +457,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-group full-width">
                     <label class="form-label">Foto Profil</label>
                     <div style="display: flex; align-items: center; gap: 20px;">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 3px solid #ff9329; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 3px solid #2e86c1; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
                             <?php if (!empty($siswa_data['foto_profil']) && file_exists('../../../' . $siswa_data['foto_profil'])): ?>
                                 <img id="preview-image" src="../../../<?php echo htmlspecialchars($siswa_data['foto_profil']); ?>" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
                             <?php else: ?>
@@ -627,3 +627,8 @@ document.getElementById('passwordForm').addEventListener('submit', function(e) {
 </script>
 
 <?php require_once '../../layouts/footer.php'; ?>
+
+
+
+
+

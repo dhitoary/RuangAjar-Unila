@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../config/database.php';
 
@@ -50,9 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $user_id = mysqli_insert_id($conn);
 
-        // Insert ke tabel siswa atau tutor sesuai role
+        // Insert ke tabel mahasiswa atau tutor sesuai role
         if ($role == 'learner') {
-            // Ambil data siswa dari form
+            // Ambil data mahasiswa dari form
             $jenjang = isset($_POST['jenjang']) && !empty($_POST['jenjang']) ? $_POST['jenjang'] : 'SMA';
             $sekolah = isset($_POST['sekolah']) && !empty($_POST['sekolah']) ? htmlspecialchars(trim($_POST['sekolah'])) : 'Belum Diisi';
             $kelas = isset($_POST['kelas']) && !empty($_POST['kelas']) ? htmlspecialchars(trim($_POST['kelas'])) : '-';
@@ -61,16 +61,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Generate NIM
             $nim = 'SIS' . date('Y') . str_pad($user_id, 4, '0', STR_PAD_LEFT);
             
-            // Insert ke tabel siswa
-            $siswa_query = "INSERT INTO siswa (nim, nama_lengkap, email, jenjang, sekolah, kelas, minat, status) 
+            // Insert ke tabel mahasiswa
+            $siswa_query = "INSERT INTO mahasiswa (nim, nama_lengkap, email, jenjang, sekolah, kelas, minat, status) 
                            VALUES (?, ?, ?, ?, ?, ?, ?, 'Aktif')";
             $stmt2 = mysqli_prepare($conn, $siswa_query);
             mysqli_stmt_bind_param($stmt2, "sssssss", $nim, $name, $email, $jenjang, $sekolah, $kelas, $minat);
             
             if (!mysqli_stmt_execute($stmt2)) {
                 $error_msg = mysqli_stmt_error($stmt2);
-                error_log("Siswa insert error: " . $error_msg);
-                throw new Exception("Gagal insert ke tabel siswa: " . $error_msg);
+                error_log("Mahasiswa insert error: " . $error_msg);
+                throw new Exception("Gagal insert ke tabel mahasiswa: " . $error_msg);
             }
             
         } else if ($role == 'tutor') {

@@ -14,7 +14,7 @@ if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
     if ($_SESSION['user_role'] === 'admin') {
         header("Location: ../admin/dashboard.php");
     } else if ($_SESSION['user_role'] === 'learner') {
-        header("Location: ../learner/dashboard_siswa.php");
+        header("Location: ../learner/dashboard_mahasiswa.php");
     } else if ($_SESSION['user_role'] === 'tutor') {
         header("Location: ../public/landing_page.php");
     }
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
-    if ($email === 'admin@peerlearn.com' && $password === 'admin123') {
+    if ($email === 'admin@ruangajar.com' && $password === 'admin123') {
         $_SESSION['is_logged_in'] = true;
         $_SESSION['user_role'] = 'admin'; 
         $_SESSION['user_name'] = 'Administrator';
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($user['role'] === 'admin') {
                         header("Location: ../admin/dashboard.php");
                     } else if ($user['role'] === 'learner') {
-                        header("Location: ../learner/dashboard_siswa.php");
+                        header("Location: ../learner/dashboard_mahasiswa.php");
                     } else {
                         header("Location: ../public/landing_page.php");
                     }
@@ -110,8 +110,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - PeerLearn</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <title>Masuk - RuangAjar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=2.0">
 </head>
 <body>
     <div class="auth-container">
@@ -123,8 +124,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </svg>
             </div>
 
-            <h1 class="auth-title">PeerLearn</h1>
-            <p class="auth-subtitle">Platform Bimbingan Belajar Terpercaya</p>
+            <h1 class="auth-title">RuangAjar</h1>
+            <p class="auth-subtitle">Tutor Sebaya Universitas Lampung</p>
 
             <!-- Tabs -->
             <div class="auth-tabs">
@@ -163,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="password" class="form-label">Password</label>
                     <div class="password-toggle">
                         <input type="password" class="form-input" id="password" name="password" placeholder="Masukkan password" required>
-                        <span class="toggle-icon" onclick="togglePassword()">👁️</span>
+                        <span class="toggle-icon" onclick="togglePassword()"><i class="bi bi-eye"></i></span>
                     </div>
                 </div>
                 
@@ -185,3 +186,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
 </body>
 </html>
+
+
+

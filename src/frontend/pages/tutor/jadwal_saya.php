@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -26,7 +26,7 @@ $bookings_query = "SELECT
     s.email as student_email,
     sub.subject_name
 FROM bookings b
-INNER JOIN siswa s ON b.learner_id = s.id
+INNER JOIN mahasiswa s ON b.learner_id = s.id
 INNER JOIN subjects sub ON b.subject_id = sub.id
 WHERE b.tutor_id = '$tutor_id'";
 
@@ -48,7 +48,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Saya - PeerLearn</title>
+    <title>Jadwal Saya - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
@@ -90,7 +90,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
         }
 
         .btn-filter {
-            background: linear-gradient(135deg, #cc5500, #ff9329);
+            background: linear-gradient(135deg, #1a5276, #2e86c1);
             color: white;
             padding: 10px 25px;
             border: none;
@@ -120,7 +120,7 @@ $bookings_result = mysqli_query($conn, $bookings_query);
         }
 
         .booking-row:hover {
-            border-color: #cc5500;
+            border-color: #1a5276;
             background: #f8f9fa;
         }
 
@@ -207,20 +207,20 @@ $bookings_result = mysqli_query($conn, $bookings_query);
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <ul class="sb-menu">
             <li><a href="dashboard_tutor.php">Beranda</a></li>
             <li><a href="jadwal_saya.php" class="active">Jadwal Saya</a></li>
-            <li><a href="siswa_saya.php">Siswa Saya</a></li>
-            <li><a href="mata_pelajaran.php">Mata Pelajaran</a></li>
+            <li><a href="mahasiswa_saya.php">Mahasiswa Saya</a></li>
+            <li><a href="mata_pelajaran.php">Mata Kuliah</a></li>
         </ul>
 
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #cc5500, #ff9329);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276, #2e86c1);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($tutor_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -370,3 +370,8 @@ function updateBookingStatus(bookingId, status) {
 
 </body>
 </html>
+
+
+
+
+

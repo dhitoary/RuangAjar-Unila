@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 global $conn;
 if (!$conn) { echo "<div class='alert alert-danger'>Koneksi database gagal!</div>"; exit; }
 
@@ -11,7 +11,7 @@ $total_tutor = mysqli_num_rows($result);
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-4">
     <div>
-        <h2 class="mb-1 fw-bold" style="color: #cc5500;"><i class="fas fa-chalkboard-teacher me-2"></i>Data Tutor (Pengajar)</h2>
+        <h2 class="mb-1 fw-bold" style="color: #1a5276;"><i class="fas fa-chalkboard-teacher me-2"></i>Data Tutor (Pengajar)</h2>
         <p class="text-muted mb-0">Kelola data tutor yang terdaftar (Total: <?= $total_tutor ?>)</p>
     </div>
     <div>
@@ -20,7 +20,7 @@ $total_tutor = mysqli_num_rows($result);
             <i class="fas fa-plus me-1"></i>Tambah Tutor
         </button>
         <button class="btn btn-sm rounded-pill shadow-sm" onclick="window.print()" 
-                style="background: linear-gradient(135deg, #ff9329 0%, #ffd4c1 100%); color: #cc5500; border: none; font-weight: 600;">
+                style="background: linear-gradient(135deg, #2e86c1 0%, #ffd4c1 100%); color: #1a5276; border: none; font-weight: 600;">
             <i class="fas fa-download me-1"></i>Export Data
         </button>
     </div>
@@ -59,11 +59,11 @@ $total_tutor = mysqli_num_rows($result);
     </div>
 </div>
 
-<div class="card border-0 shadow" style="border-left: 5px solid #ff9329 !important; border-radius: 12px;">
+<div class="card border-0 shadow" style="border-left: 5px solid #2e86c1 !important; border-radius: 12px;">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" id="tutorTable">
-                <thead style="background: linear-gradient(135deg, #cc5500 0%, #0A5A70 100%); color: white;">
+                <thead style="background: linear-gradient(135deg, #1a5276 0%, #0A5A70 100%); color: white;">
                     <tr>
                         <th class="ps-4">Tutor</th>
                         <th>Keahlian</th>
@@ -134,7 +134,7 @@ $total_tutor = mysqli_num_rows($result);
 <div class="modal fade" id="modalTutor" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #ff9329 0%, #ffd4c1 100%); color: #cc5500;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #2e86c1 0%, #ffd4c1 100%); color: #1a5276;">
                 <h5 class="modal-title fw-bold" id="modalTitle"><i class="fas fa-user-plus me-2"></i>Tambah Tutor Baru</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>

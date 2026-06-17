@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -42,7 +42,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mata Pelajaran - PeerLearn</title>
+    <title>Mata Kuliah - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
@@ -53,7 +53,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
         }
 
         .add-subject-card {
-            background: linear-gradient(135deg, #cc5500, #ff9329);
+            background: linear-gradient(135deg, #1a5276, #2e86c1);
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
@@ -65,7 +65,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 
         .btn-add {
             background: white;
-            color: #cc5500;
+            color: #1a5276;
             padding: 12px 30px;
             border: none;
             border-radius: 8px;
@@ -101,7 +101,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
         .subject-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: #cc5500;
+            border-color: #1a5276;
         }
 
         .subject-header {
@@ -121,7 +121,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
         }
 
         .subject-price {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            background: linear-gradient(135deg, #1a5276, #2e86c1);
             color: white;
             padding: 6px 15px;
             border-radius: 20px;
@@ -154,7 +154,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
         .stat-value {
             font-size: 20px;
             font-weight: 800;
-            color: #cc5500;
+            color: #1a5276;
         }
 
         .stat-label {
@@ -241,11 +241,11 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 
         .form-control:focus {
             outline: none;
-            border-color: #cc5500;
+            border-color: #1a5276;
         }
 
         .btn-save {
-            background: linear-gradient(135deg, #cc5500, #ff9329);
+            background: linear-gradient(135deg, #1a5276, #2e86c1);
             color: white;
             padding: 12px 30px;
             border: none;
@@ -279,20 +279,20 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <ul class="sb-menu">
             <li><a href="dashboard_tutor.php">Beranda</a></li>
             <li><a href="jadwal_saya.php">Jadwal Saya</a></li>
-            <li><a href="siswa_saya.php">Siswa Saya</a></li>
-            <li><a href="mata_pelajaran.php" class="active">Mata Pelajaran</a></li>
+            <li><a href="mahasiswa_saya.php">Mahasiswa Saya</a></li>
+            <li><a href="mata_pelajaran.php" class="active">Mata Kuliah</a></li>
         </ul>
 
         <div style="display: flex; gap: 10px; align-items: center;">
             <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #cc5500, #ff9329);">
+                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276, #2e86c1);">
                     <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($tutor_data['nama_lengkap']); ?>
                 </button>
                 <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
@@ -339,7 +339,7 @@ function closeAddModal() {
 }
 
 function deleteSubject(id, name) {
-    if (confirm('Apakah Anda yakin ingin menghapus mata pelajaran "' + name + '"?')) {
+    if (confirm('Apakah Anda yakin ingin menghapus mata kuliah "' + name + '"?')) {
         window.location.href = '../../../backend/tutor/delete_subject.php?id=' + id;
     }
 }
@@ -348,7 +348,7 @@ function deleteSubject(id, name) {
 <!-- MAIN CONTENT -->
 <div class="subjects-container">
     <h1 style="font-size: 28px; font-weight: 700; color: #1a202c; margin-bottom: 30px;">
-        <i class="bi bi-book"></i> Mata Pelajaran Saya
+        <i class="bi bi-book"></i> Mata Kuliah Saya
     </h1>
 
     <?php if ($success == 'added'): ?>
@@ -368,11 +368,11 @@ function deleteSubject(id, name) {
     <!-- Add Subject Card -->
     <div class="add-subject-card">
         <div>
-            <h2 style="margin: 0 0 10px 0; font-size: 24px;">Tambah Mata Pelajaran Baru</h2>
-            <p style="margin: 0; opacity: 0.9;">Kelola mata pelajaran yang Anda ajarkan</p>
+            <h2 style="margin: 0 0 10px 0; font-size: 24px;">Tambah Mata Kuliah Baru</h2>
+            <p style="margin: 0; opacity: 0.9;">Kelola mata kuliah yang Anda ajarkan</p>
         </div>
         <button onclick="openAddModal()" class="btn-add">
-            <i class="bi bi-plus-circle"></i> Tambah Mata Pelajaran
+            <i class="bi bi-plus-circle"></i> Tambah Mata Kuliah
         </button>
     </div>
 
@@ -417,8 +417,8 @@ function deleteSubject(id, name) {
     <?php else: ?>
         <div style="text-align: center; padding: 80px 20px; color: #999; background: white; border-radius: 15px;">
             <i class="bi bi-book" style="font-size: 80px; display: block; margin-bottom: 20px;"></i>
-            <h3 style="color: #666; font-weight: 600;">Belum Ada Mata Pelajaran</h3>
-            <p>Tambahkan mata pelajaran yang Anda ajarkan</p>
+            <h3 style="color: #666; font-weight: 600;">Belum Ada Mata Kuliah</h3>
+            <p>Tambahkan mata kuliah yang Anda ajarkan</p>
         </div>
     <?php endif; ?>
 </div>
@@ -427,19 +427,19 @@ function deleteSubject(id, name) {
 <div id="addModal" class="modal">
     <div class="modal-content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-            <h2 style="margin: 0; color: #1a202c;">Tambah Mata Pelajaran</h2>
-            <button onclick="closeAddModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+            <h2 style="margin: 0; color: #1a202c;">Tambah Mata Kuliah</h2>
+            <button onclick="closeAddModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">Ã—</button>
         </div>
 
         <form action="../../../backend/tutor/add_subject.php" method="POST">
             <div class="form-group">
-                <label class="form-label">Nama Mata Pelajaran</label>
+                <label class="form-label">Nama Mata Kuliah</label>
                 <input type="text" name="subject_name" class="form-control" placeholder="Contoh: Matematika" required>
             </div>
 
             <div class="form-group">
                 <label class="form-label">Deskripsi</label>
-                <textarea name="description" class="form-control" rows="4" placeholder="Jelaskan tentang mata pelajaran ini..."></textarea>
+                <textarea name="description" class="form-control" rows="4" placeholder="Jelaskan tentang mata kuliah ini..."></textarea>
             </div>
 
             <div class="form-group">
@@ -461,3 +461,8 @@ function deleteSubject(id, name) {
 
 </body>
 </html>
+
+
+
+
+

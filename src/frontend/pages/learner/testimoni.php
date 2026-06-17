@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -10,8 +10,8 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'learner') {
 $user_id = $_SESSION['user_id'];
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : $_SESSION['email'];
 
-// Get siswa data
-$siswa_query = "SELECT * FROM siswa WHERE email = ? LIMIT 1";
+// Get mahasiswa data
+$siswa_query = "SELECT * FROM mahasiswa WHERE email = ? LIMIT 1";
 $stmt = mysqli_prepare($conn, $siswa_query);
 mysqli_stmt_bind_param($stmt, "s", $user_email);
 mysqli_stmt_execute($stmt);
@@ -81,7 +81,7 @@ if (isset($_GET['error'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testimoni - PeerLearn</title>
+    <title>Testimoni - RuangAjar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
@@ -108,7 +108,7 @@ if (isset($_GET['error'])) {
             gap: 12px;
             font-size: 24px;
             font-weight: 700;
-            color: #cc5500;
+            color: #1a5276;
         }
 
         .sb-brand .logo {
@@ -134,12 +134,12 @@ if (isset($_GET['error'])) {
         }
 
         .sb-menu a:hover, .sb-menu a.active {
-            color: #FF6B35;
-            border-bottom-color: #FF6B35;
+            color: #1a5276;
+            border-bottom-color: #1a5276;
         }
 
         .sb-daftar {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
             padding: 10px 25px;
             border-radius: 25px;
@@ -162,7 +162,7 @@ if (isset($_GET['error'])) {
         }
 
         .page-header {
-            background: linear-gradient(135deg, #cc5500 0%, #ff9329 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
             padding: 40px;
             border-radius: 20px;
@@ -210,7 +210,7 @@ if (isset($_GET['error'])) {
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
         }
 
@@ -254,7 +254,7 @@ if (isset($_GET['error'])) {
         .tutor-avatar {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -279,7 +279,7 @@ if (isset($_GET['error'])) {
 
         .star.active,
         .star:hover {
-            color: #ffd700;
+            color: #f39c12;
         }
 
         .form-group {
@@ -304,7 +304,7 @@ if (isset($_GET['error'])) {
 
         .form-input:focus {
             outline: none;
-            border-color: #ff9329;
+            border-color: #2e86c1;
         }
 
         .btn {
@@ -317,7 +317,7 @@ if (isset($_GET['error'])) {
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
             color: white;
         }
 
@@ -342,7 +342,7 @@ if (isset($_GET['error'])) {
         }
 
         .review-rating {
-            color: #ffd700;
+            color: #f39c12;
             font-size: 18px;
         }
 
@@ -370,12 +370,12 @@ if (isset($_GET['error'])) {
 <nav class="sb-navbar">
     <div class="sb-nav-container">
         <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="PeerLearn Logo" class="logo">
-            <span>PeerLearn</span>
+            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
+            <span>RuangAjar</span>
         </div>
 
         <ul class="sb-menu">
-            <li><a href="dashboard_siswa.php">Beranda</a></li>
+            <li><a href="dashboard_mahasiswa.php">Beranda</a></li>
             <li><a href="../public/search_result.php">Cari Tutor</a></li>
             <li><a href="sesi_saya.php">Sesi Saya</a></li>
             <li><a href="riwayat.php">Riwayat Booking</a></li>
@@ -449,7 +449,7 @@ if (isset($_GET['error'])) {
                             <div>
                                 <h3 style="margin: 0; color: #333;"><?php echo htmlspecialchars($booking['tutor_nama']); ?></h3>
                                 <p style="margin: 5px 0 0 0; color: #666;">
-                                    <?php echo htmlspecialchars($booking['subject_name']); ?> • 
+                                    <?php echo htmlspecialchars($booking['subject_name']); ?> â€¢ 
                                     <?php echo date('d M Y', strtotime($booking['booking_date'])); ?>
                                 </p>
                             </div>
@@ -465,11 +465,11 @@ if (isset($_GET['error'])) {
                         <div class="form-group">
                             <label class="form-label">Rating</label>
                             <div class="rating-stars" data-rating="0">
-                                <span class="star" data-value="1">★</span>
-                                <span class="star" data-value="2">★</span>
-                                <span class="star" data-value="3">★</span>
-                                <span class="star" data-value="4">★</span>
-                                <span class="star" data-value="5">★</span>
+                                <span class="star" data-value="1">â˜…</span>
+                                <span class="star" data-value="2">â˜…</span>
+                                <span class="star" data-value="3">â˜…</span>
+                                <span class="star" data-value="4">â˜…</span>
+                                <span class="star" data-value="5">â˜…</span>
                             </div>
                             <input type="hidden" name="rating" value="0" required>
                         </div>
@@ -508,7 +508,7 @@ if (isset($_GET['error'])) {
                             <?php echo htmlspecialchars($review['tutor_nama']); ?>
                         </h4>
                         <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;">
-                            <?php echo htmlspecialchars($review['subject_name']); ?> • 
+                            <?php echo htmlspecialchars($review['subject_name']); ?> â€¢ 
                             <?php echo date('d M Y', strtotime($review['booking_date'])); ?>
                         </p>
                     </div>
@@ -635,3 +635,8 @@ function validateReview(form) {
 </script>
 
 <?php require_once '../../layouts/footer.php'; ?>
+
+
+
+
+

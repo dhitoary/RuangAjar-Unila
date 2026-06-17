@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 global $conn; 
 
 if (!$conn) {
@@ -6,22 +6,22 @@ if (!$conn) {
     exit;
 }
 
-$query = "SELECT * FROM siswa ORDER BY id DESC";
+$query = "SELECT * FROM mahasiswa ORDER BY id DESC";
 $result = mysqli_query($conn, $query);
 ?>
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-4">
     <div>
-        <h2 class="mb-1 fw-bold" style="color: #cc5500;"><i class="fas fa-user-graduate me-2"></i>Data Siswa (Murid)</h2>
-        <p class="text-muted mb-0">Kelola data siswa yang terdaftar</p>
+        <h2 class="mb-1 fw-bold" style="color: #1a5276;"><i class="fas fa-user-graduate me-2"></i>Data Mahasiswa (Murid)</h2>
+        <p class="text-muted mb-0">Kelola data mahasiswa yang terdaftar</p>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <button type="button" class="btn btn-sm rounded-pill shadow-sm me-2" onclick="openAddSiswaModal()" 
                 style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none;">
-            <i class="fas fa-plus me-1"></i>Tambah Siswa
+            <i class="fas fa-plus me-1"></i>Tambah Mahasiswa
         </button>
         <button type="button" class="btn btn-sm rounded-pill shadow-sm" onclick="window.print()" 
-                style="background: linear-gradient(135deg, #cc5500 0%, #0A5A70 100%); color: white; border: none;">
+                style="background: linear-gradient(135deg, #1a5276 0%, #0A5A70 100%); color: white; border: none;">
             <i class="fas fa-download me-1"></i>Export Data
         </button>
     </div>
@@ -31,28 +31,28 @@ $result = mysqli_query($conn, $query);
     <div class="col-md-3">
         <select id="filterJenjang" class="form-select border-0 shadow-sm" onchange="filterSiswa()" 
                 style="background: linear-gradient(135deg, rgba(255, 147, 41, 0.15) 0%, rgba(255, 184, 102, 0.15) 100%);">
-            <option value="">🎓 Semua Jenjang</option>
-            <option value="SD">📚 SD</option>
-            <option value="SMP">📖 SMP</option>
-            <option value="SMA">🎯 SMA</option>
+            <option value="">ðŸŽ“ Semua Jenjang</option>
+            <option value="SD">ðŸ“š SD</option>
+            <option value="SMP">ðŸ“– SMP</option>
+            <option value="SMA">ðŸŽ¯ SMA</option>
         </select>
     </div>
     <div class="col-md-6">
         <div class="input-group">
-            <span class="input-group-text border-0 shadow-sm" style="background: linear-gradient(135deg, #cc5500 0%, #0A5A70 100%); color: white;">
+            <span class="input-group-text border-0 shadow-sm" style="background: linear-gradient(135deg, #1a5276 0%, #0A5A70 100%); color: white;">
                 <i class="fas fa-search"></i>
             </span>
-            <input type="text" id="searchSiswa" class="form-control border-0 shadow-sm" placeholder="Cari nama atau email siswa..." onkeyup="filterSiswa()">
+            <input type="text" id="searchSiswa" class="form-control border-0 shadow-sm" placeholder="Cari nama atau email mahasiswa..." onkeyup="filterSiswa()">
         </div>
     </div>
 </div>
 
-<div class="card shadow border-0" style="border-left: 5px solid #cc5500 !important; border-radius: 12px;">
+<div class="card shadow border-0" style="border-left: 5px solid #1a5276 !important; border-radius: 12px;">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0" id="tableSiswa">
-            <thead style="background: linear-gradient(135deg, #ff9329 0%, #ffd4c1 100%); color: #cc5500;">
+            <thead style="background: linear-gradient(135deg, #2e86c1 0%, #ffd4c1 100%); color: #1a5276;">
                 <tr>
-                    <th class="ps-4">Nama Siswa</th>
+                    <th class="ps-4">Nama Mahasiswa</th>
                     <th>Jenjang</th>
                     <th>Sekolah</th>
                     <th>Kelas</th>
@@ -115,7 +115,7 @@ $result = mysqli_query($conn, $query);
                 <?php 
                     } 
                 } else {
-                    echo "<tr><td colspan='6' class='text-center py-4'>Belum ada data siswa di database.</td></tr>";
+                    echo "<tr><td colspan='6' class='text-center py-4'>Belum ada data mahasiswa di database.</td></tr>";
                 }
                 ?>
 
@@ -124,12 +124,12 @@ $result = mysqli_query($conn, $query);
     </div>
 </div>
 
-<!-- Modal Tambah/Edit Siswa -->
+<!-- Modal Tambah/Edit Mahasiswa -->
 <div class="modal fade" id="modalFormSiswa" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #cc5500 0%, #0A5A70 100%); color: white;">
-                <h5 class="modal-title" id="modalFormTitle"><i class="fas fa-user-plus me-2"></i>Tambah Siswa Baru</h5>
+            <div class="modal-header" style="background: linear-gradient(135deg, #1a5276 0%, #0A5A70 100%); color: white;">
+                <h5 class="modal-title" id="modalFormTitle"><i class="fas fa-user-plus me-2"></i>Tambah Mahasiswa Baru</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form id="formSiswa">
@@ -192,7 +192,7 @@ $result = mysqli_query($conn, $query);
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Info Siswa</h5>
+                <h5 class="modal-title">Info Mahasiswa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -215,23 +215,23 @@ $result = mysqli_query($conn, $query);
 </div>
 
 <script>
-    // Fungsi membuka modal tambah siswa
+    // Fungsi membuka modal tambah mahasiswa
     function openAddSiswaModal() {
-        document.getElementById('modalFormTitle').innerHTML = '<i class="fas fa-user-plus me-2"></i>Tambah Siswa Baru';
+        document.getElementById('modalFormTitle').innerHTML = '<i class="fas fa-user-plus me-2"></i>Tambah Mahasiswa Baru';
         document.getElementById('formSiswa').reset();
         document.getElementById('siswa_id').value = '';
         document.getElementById('form_action').value = 'create';
         new bootstrap.Modal(document.getElementById('modalFormSiswa')).show();
     }
 
-    // Fungsi edit siswa
+    // Fungsi edit mahasiswa
     function editSiswa(id) {
-        fetch(`../../../backend/admin/crud_siswa.php?action=read&id=${id}`)
+        fetch(`../../../backend/admin/crud_mahasiswa.php?action=read&id=${id}`)
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
                     const data = result.data;
-                    document.getElementById('modalFormTitle').innerHTML = '<i class="fas fa-edit me-2"></i>Edit Data Siswa';
+                    document.getElementById('modalFormTitle').innerHTML = '<i class="fas fa-edit me-2"></i>Edit Data Mahasiswa';
                     document.getElementById('siswa_id').value = data.id;
                     document.getElementById('siswa_nama').value = data.nama_lengkap;
                     document.getElementById('siswa_email').value = data.email;
@@ -252,11 +252,11 @@ $result = mysqli_query($conn, $query);
             });
     }
 
-    // Fungsi hapus siswa
+    // Fungsi hapus mahasiswa
     function deleteSiswa(id) {
         Swal.fire({
-            title: 'Hapus Siswa?',
-            text: "Data siswa akan dihapus permanen!",
+            title: 'Hapus Mahasiswa?',
+            text: "Data mahasiswa akan dihapus permanen!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -269,7 +269,7 @@ $result = mysqli_query($conn, $query);
                 formData.append('action', 'delete');
                 formData.append('id', id);
 
-                fetch('../../../backend/admin/crud_siswa.php', {
+                fetch('../../../backend/admin/crud_mahasiswa.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -290,13 +290,13 @@ $result = mysqli_query($conn, $query);
         });
     }
 
-    // Submit form siswa
+    // Submit form mahasiswa
     document.getElementById('formSiswa').addEventListener('submit', function(e) {
         e.preventDefault();
         
         const formData = new FormData(this);
         
-        fetch('../../../backend/admin/crud_siswa.php', {
+        fetch('../../../backend/admin/crud_mahasiswa.php', {
             method: 'POST',
             body: formData
         })
@@ -350,3 +350,7 @@ $result = mysqli_query($conn, $query);
         }
     }
 </script>
+
+
+
+

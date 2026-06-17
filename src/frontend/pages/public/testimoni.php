@@ -6,10 +6,10 @@ include '../../layouts/header.php';
 require_once '../../../config/database.php';
 
 // Get testimoni dari database dengan prepared statement
-$query = "SELECT r.*, s.nama_lengkap as siswa_nama, s.jenjang, s.kelas, 
+$query = "SELECT r.*, s.nama_lengkap as siswa_nama, s.fakultas, s.angkatan, 
           t.nama_lengkap as tutor_nama, sub.subject_name
           FROM reviews r
-          JOIN siswa s ON r.learner_id = s.id
+          JOIN mahasiswa s ON r.learner_id = s.id
           JOIN tutor t ON r.tutor_id = t.id
           JOIN bookings b ON r.booking_id = b.id
           JOIN subjects sub ON b.subject_id = sub.id
@@ -40,15 +40,16 @@ while($row = mysqli_fetch_assoc($result)) {
         $inisial = strtoupper(substr($namaParts[0], 0, 1) . substr($namaParts[1], 0, 1));
     }
     
-    $jenjangInfo = $row['jenjang'];
-    if ($row['kelas']) {
-        $jenjangInfo .= ' Kelas ' . $row['kelas'];
+    $jenjangInfo = $row['fakultas'] ? 'Fakultas ' . $row['fakultas'] : 'Mahasiswa Unila';
+    if ($row['angkatan']) {
+        $jenjangInfo .= ' (' . $row['angkatan'] . ')';
     }
     
     $testimoniData[] = [
         'nama' => $row['siswa_nama'],
         'inisial' => $inisial,
         'jenjang' => $jenjangInfo,
+        'fakultas' => $row['fakultas'] ?? 'Lainnya',
         'mapel' => $row['subject_name'],
         'rating' => $row['rating'],
         'testimoni' => $row['review_text'],
@@ -65,28 +66,31 @@ if (empty($testimoniData)) {
         [
             'nama' => 'Alya Natasya',
             'inisial' => 'AN',
-            'jenjang' => 'Siswa SMA Kelas 12',
-            'mapel' => 'Matematika',
+            'jenjang' => 'Fakultas Kedokteran (2023)',
+            'fakultas' => 'Kedokteran',
+            'mapel' => 'Biologi Sel dan Molekuler',
             'rating' => 5,
-            'testimoni' => 'Tutor Matematika yang mengajar saya sangat sabar dan detail dalam menjelaskan. Nilai saya meningkat drastis dari 70 menjadi 95! Terima kasih PeerLearn.',
+            'testimoni' => 'Tutor dari RuangAjar Unila sangat sabar dan detail dalam menjelaskan materi praktikum. Nilai saya meningkat drastis! Terima kasih RuangAjar.',
             'gradient' => 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
         ],
         [
             'nama' => 'Rizki Pratama',
             'inisial' => 'RP',
-            'jenjang' => 'Alumni SMA - Mahasiswa ITB',
-            'mapel' => 'Persiapan UTBK',
+            'jenjang' => 'Fakultas Teknik (2021)',
+            'fakultas' => 'Teknik',
+            'mapel' => 'Mekanika Teknik',
             'rating' => 5,
-            'testimoni' => 'Persiapan UTBK jadi lebih terarah dengan tutor dari PeerLearn. Metode belajarnya efektif dan jadwal fleksibel. Akhirnya lolos PTN impian!',
+            'testimoni' => 'Persiapan UTS/UAS jadi lebih terarah dengan tutor sesama mahasiswa Unila. Metode belajarnya efektif dan jadwal fleksibel. Akhirnya lulus mata kuliah impian!',
             'gradient' => 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
         ],
         [
             'nama' => 'Dinda Maharani',
             'inisial' => 'DM',
-            'jenjang' => 'Siswa SMP Kelas 9',
-            'mapel' => 'Bahasa Inggris SMP',
+            'jenjang' => 'FMIPA (2024)',
+            'fakultas' => 'FMIPA',
+            'mapel' => 'Fisika Dasar',
             'rating' => 4.5,
-            'testimoni' => 'Belajar Bahasa Inggris jadi lebih fun dan nggak membosankan. Tutor bisa bikin suasana nyaman dan materi mudah dipahami. Rekomendasi banget!',
+            'testimoni' => 'Belajar Fisika Dasar jadi lebih fun dan nggak membosankan. Kating tutor bisa bikin suasana nyaman dan materi mudah dipahami. Rekomendasi banget!',
             'gradient' => 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
         ]
     ];
@@ -99,7 +103,7 @@ $avgRating = $totalTestimoni > 0 ? number_format($totalRating / $totalTestimoni,
 $satisfactionRate = 98; // Persentase kepuasan
 
 // Kategori untuk filter
-$categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
+$categories = ['Semua', 'FMIPA', 'Teknik', 'FEB', 'Hukum', 'FISIP', 'FKIP', 'Kedokteran', 'Pertanian'];
 ?>
 
 <style>
@@ -127,7 +131,7 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
     .stat-number {
         font-size: 36px;
         font-weight: 800;
-        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -160,9 +164,9 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
     }
 
     .filter-btn:hover, .filter-btn.active {
-        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
         color: white;
-        border-color: #FF6B35;
+        border-color: #1a5276;
         transform: translateY(-2px);
     }
 
@@ -193,7 +197,7 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
         left: 30px;
         width: 50px;
         height: 50px;
-        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -213,7 +217,7 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
     }
 
     .rating-stars i {
-        color: #FFD700;
+        color: #f39c12;
         font-size: 20px;
     }
 
@@ -247,7 +251,7 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
 
     .user-name {
         font-weight: 700;
-        color: #1a5f7a;
+        color: #1a5276;
         font-size: 18px;
         margin-bottom: 5px;
     }
@@ -258,7 +262,7 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
     }
 
     .user-mapel {
-        color: #FF6B35;
+        color: #1a5276;
         font-size: 13px;
         margin-top: 8px;
         font-weight: 600;
@@ -293,7 +297,7 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
         </div>
         <div class="stat-item">
             <div class="stat-number">500+</div>
-            <div class="stat-label">Siswa Aktif</div>
+            <div class="stat-label">Mahasiswa Aktif</div>
         </div>
     </div>
 
@@ -311,11 +315,7 @@ $categories = ['Semua', 'SD', 'SMP', 'SMA', 'UTBK'];
     <div class="testimoni-grid">
         <?php foreach ($testimoniData as $testi): ?>
             <div class="testimoni-card" data-jenjang="<?php 
-                if (stripos($testi['jenjang'], 'SD') !== false) echo 'SD';
-                elseif (stripos($testi['jenjang'], 'SMP') !== false) echo 'SMP';
-                elseif (stripos($testi['jenjang'], 'SMA') !== false) echo 'SMA';
-                elseif (stripos($testi['jenjang'], 'UTBK') !== false) echo 'UTBK';
-                else echo 'SMA';
+                echo htmlspecialchars($testi['fakultas']);
             ?>">
                 <div class="quote-icon">
                     <i class="bi bi-quote"></i>
@@ -374,3 +374,6 @@ function filterTestimoni(category, button) {
     });
 }
 </script>
+
+
+
