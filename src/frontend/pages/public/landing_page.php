@@ -1,13 +1,19 @@
 <?php 
-$assetPath = "../../assets/";
-include '../../layouts/header.php'; 
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] && isset($_SESSION['user_role'])) {
     if ($_SESSION['user_role'] === 'tutor') {
         header("Location: ../tutor/dashboard_tutor.php");
         exit();
+    } elseif ($_SESSION['user_role'] === 'learner') {
+        header("Location: ../learner/dashboard_mahasiswa.php");
+        exit();
     }
 }
+
+$assetPath = "../../assets/";
+include '../../layouts/header.php'; 
 
 require_once '../../../config/database.php';
 

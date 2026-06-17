@@ -28,7 +28,7 @@ $userRole = $_SESSION['user_role'] ?? '';
   <div class="sb-nav-container">
 
     <a href="../public/landing_page.php" class="sb-brand">
-      <img src="<?php echo $assetPath ?>img/logo_unila_resmi.png" alt="Unila Logo" style="height: 38px; width: auto; object-fit: contain;">
+      <img src="<?php echo $assetPath ?>img/logo_unila_resmi.png" alt="Unila Logo" style="height: 44px; width: auto; object-fit: contain;">
       <div class="sb-brand-text">
         <span class="sb-brand-name">RuangAjar</span>
         <span class="sb-brand-sub">Universitas Lampung</span>
@@ -44,8 +44,9 @@ $userRole = $_SESSION['user_role'] ?? '';
         <li><a href="../learner/riwayat.php" class="<?php echo $currentPage == 'riwayat.php' ? 'active' : ''; ?>">Riwayat</a></li>
       <?php elseif ($isLoggedIn && $userRole === 'tutor'): ?>
         <li><a href="../tutor/dashboard_tutor.php" class="<?php echo $currentPage == 'dashboard_tutor.php' ? 'active' : ''; ?>">Beranda</a></li>
-        <li><a href="../public/search_result.php" class="<?php echo $currentPage == 'search_result.php' ? 'active' : ''; ?>">Cari Tutor</a></li>
+        <li><a href="../tutor/jadwal_saya.php" class="<?php echo $currentPage == 'jadwal_saya.php' ? 'active' : ''; ?>">Jadwal Saya</a></li>
         <li><a href="../tutor/mahasiswa_saya.php" class="<?php echo $currentPage == 'mahasiswa_saya.php' ? 'active' : ''; ?>">Mahasiswa Saya</a></li>
+        <li><a href="../tutor/mata_pelajaran.php" class="<?php echo $currentPage == 'mata_pelajaran.php' ? 'active' : ''; ?>">Mata Kuliah</a></li>
       <?php else: ?>
         <li><a href="../public/landing_page.php" class="<?php echo $currentPage == 'landing_page.php' ? 'active' : ''; ?>">Beranda</a></li>
         <li><a href="../public/search_result.php" class="<?php echo $currentPage == 'search_result.php' ? 'active' : ''; ?>">Cari Tutor</a></li>

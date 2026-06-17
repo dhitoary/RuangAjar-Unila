@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -161,133 +161,11 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 
 <body>
 
-<!-- NAVBAR -->
-<nav class="sb-navbar">
-    <div class="sb-nav-container">
-        <a href="dashboard_tutor.php" class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
-            <span>RuangAjar</span>
-        </a>
-
-        <a href="dashboard_tutor.php" class="btn-back">
-            <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
-        </a>
-    </div>
-</nav>
-
-<div class="container py-5">
-    
-    <h2 class="page-title mb-4">Buat Iklan Tutor</h2>
-
-    <?php if ($success == 'created'): ?>
-        <div class="alert alert-success">
-            <i class="bi bi-check-circle"></i> Iklan tutor berhasil dibuat!
-        </div>
-    <?php endif; ?>
-
-    <?php if ($error): ?>
-        <div class="alert alert-danger">
-            <i class="bi bi-exclamation-circle"></i> <?php echo htmlspecialchars($error); ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="card-custom">
-
-        <form action="../../../backend/tutor/create_iklan.php" method="POST" enctype="multipart/form-data">
-
-            <div class="mb-3">
-                <label>Judul Iklan</label>
-                <input type="text" name="judul" class="form-control" placeholder="Contoh: Tutor Matematika Berpengalaman" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Deskripsi</label>
-                <textarea name="deskripsi" class="form-control" rows="5" placeholder="Tuliskan deskripsi lengkap tentang diri Anda..." required></textarea>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label>Mata Kuliah</label>
-                    <select name="subject" class="form-select" required>
-                        <option value="">-- pilih --</option>
-                        <option value="Matematika">Matematika</option>
-                        <option value="Bahasa Inggris">Bahasa Inggris</option>
-                        <option value="IPA">IPA</option>
-                        <option value="IPS">IPS</option>
-                        <option value="Fisika">Fisika</option>
-                        <option value="Kimia">Kimia</option>
-                        <option value="Biologi">Biologi</option>
-                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                        <option value="Programming">Programming</option>
-                        <option value="Web Development">Web Development</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label>Jenjang</label>
-                    <select name="jenjang" class="form-select" required>
-                        <option value="">-- pilih --</option>
-                        <option value="SD">SD</option>
-                        <option value="SMP">SMP</option>
-                        <option value="SMA">SMA</option>
-                        <option value="Umum">Umum/Kuliah</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label>Harga Per Sesi (Rp)</label>
-                    <input type="number" name="harga" class="form-control" placeholder="50000" min="0" step="1000" required>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label>Status</label>
-                    <select name="status" class="form-select" required>
-                        <option value="available">Tersedia</option>
-                        <option value="busy">Sibuk</option>
-                        <option value="limited">Terbatas</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label>Lokasi / Kota</label>
-                <input type="text" name="kota" class="form-control" placeholder="Contoh: Jakarta Selatan" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Pengalaman (Tahun)</label>
-                <input type="number" name="pengalaman" class="form-control" placeholder="contoh: 2" min="0" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Foto Profil Tutor (Opsional)</label>
-                <input type="file" name="foto" class="form-control" accept="image/*">
-                <small class="text-muted">Format: JPG, PNG, GIF. Maksimal 5MB</small>
-            </div>
-
-            <div class="mb-3">
-                <label>Link Video Pengenalan (Opsional)</label>
-                <input type="url" name="video_url" class="form-control" placeholder="https://youtube.com/watch?v=...">
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary px-4 py-2">
-                    <i class="bi bi-save"></i> Buat Iklan
-                </button>
-                <a href="dashboard_tutor.php" class="btn btn-secondary px-4 py-2">
-                    Batal
-                </a>
-            </div>
-
-        </form>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- NAVBAR TUTOR -->
+<?php include '../../layouts/header_tutor.php'; ?>
 </body>
 </html>
+
 
 
 

@@ -85,126 +85,28 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
 </head>
 <body>
 
-<!-- NAVBAR KHUSUS LEARNER -->
-<nav class="sb-navbar">
-    <div class="sb-nav-container">
-        <!-- Logo/Brand -->
-        <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
-            <span>RuangAjar</span>
-        </div>
-
-        <!-- Menu -->
-        <ul class="sb-menu">
-            <li><a href="dashboard_mahasiswa.php" class="active">Beranda</a></li>
-            <li><a href="../public/search_result.php">Cari Tutor</a></li>
-            <li><a href="sesi_saya.php">Sesi Saya</a></li>
-            <li><a href="riwayat.php">Riwayat Booking</a></li>
-        </ul>
-
-        <!-- User Profile -->
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);">
-                    <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?>
-                </button>
-                <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
-                    <div style="padding: 12px 16px; border-bottom: 1px solid #eee;">
-                        <p style="margin: 0; font-weight: 600; color: #333;"><?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?></p>
-                        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;"><?php echo $siswa_data['jenjang'] . ' - ' . $siswa_data['kelas']; ?></p>
-                    </div>
-                    <a href="profil.php" style="display: block; padding: 12px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">
-                        <i class="bi bi-person"></i> Profil Saya
-                    </a>
-                    <a href="sesi_saya.php" style="display: block; padding: 12px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">
-                        <i class="bi bi-calendar-check"></i> Sesi Belajar
-                    </a>
-                    <a href="../../../backend/auth/logout.php" style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<script>
-function toggleDropdown() {
-    const dropdown = document.getElementById('userDropdown');
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-}
-
-window.onclick = function(event) {
-    if (!event.target.matches('.sb-daftar') && !event.target.closest('.sb-daftar')) {
-        const dropdown = document.getElementById('userDropdown');
-        if (dropdown && dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-        }
-    }
-}
-</script>
+<!-- NAVBAR LEARNER -->
+<?php include '../../layouts/header_learner.php'; ?>
 
 <style>
-.sb-navbar {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
 
-.sb-nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.sb-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a5276;
-}
+
+
+
 
 .sb-brand .logo {
     height: 40px;
     width: auto;
 }
 
-.sb-menu {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
-}
 
-.sb-menu a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s;
-    padding: 8px 0;
-    border-bottom: 2px solid transparent;
-}
 
-.sb-menu a:hover,
-.sb-menu a.active {
-    color: #1a5276;
-    border-bottom-color: #1a5276;
-}
 
-.sb-daftar {
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-weight: 600;
-    color: white;
-}
+
+
+
+
 </style>
 
 <style>

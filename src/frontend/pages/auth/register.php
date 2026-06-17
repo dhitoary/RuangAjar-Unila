@@ -65,7 +65,7 @@
                             <input type="radio" name="role" id="role-learner" value="learner" required onchange="toggleFormFields()">
                             <label for="role-learner" class="role-label">
                                 <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
                                         <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
                                     </svg>
                                 </div>
@@ -76,7 +76,7 @@
                             <input type="radio" name="role" id="role-tutor" value="tutor" required onchange="toggleFormFields()">
                             <label for="role-tutor" class="role-label">
                                 <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
                                         <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
                                     </svg>
                                 </div>
@@ -108,29 +108,33 @@
                 <!-- Fields for Mahasiswa Only -->
                 <div id="siswaFields" style="display: none;">
                     <div class="form-group">
-                        <label class="form-label">Jenjang Pendidikan (Tidak Relevan untuk Mahasiswa - Opsional)</label>
-                        <select name="jenjang" class="form-input">
-                            <option value="">Pilih Angkatan/Semester (Opsional)</option>
-                            <option value="Tahun 1">Semester 1-2</option>
-                            <option value="Tahun 2">Semester 3-4</option>
-                            <option value="Tahun 3">Semester 5-6</option>
-                            <option value="Tahun 4">Semester 7-8</option>
+                        <label class="form-label">Fakultas</label>
+                        <select name="fakultas" class="form-input">
+                            <option value="">Pilih Fakultas</option>
+                            <option value="FMIPA">FMIPA</option>
+                            <option value="Teknik">Teknik</option>
+                            <option value="Kedokteran">Kedokteran</option>
+                            <option value="FEB">FEB</option>
+                            <option value="Hukum">Hukum</option>
+                            <option value="FISIP">FISIP</option>
+                            <option value="FKIP">FKIP</option>
+                            <option value="Pertanian">Pertanian</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Nama Fakultas/Jurusan</label>
-                        <input type="text" name="sekolah" class="form-input" placeholder="Contoh: FMIPA - Ilmu Komputer">
+                        <label class="form-label">Program Studi</label>
+                        <input type="text" name="sekolah" class="form-input" placeholder="Contoh: Ilmu Komputer">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Angkatan</label>
-                        <input type="text" name="kelas" class="form-input" placeholder="Contoh: 2023">
+                        <input type="number" name="angkatan" class="form-input" placeholder="Contoh: 2023" min="2015" max="2025">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Minat Belajar (Opsional)</label>
-                        <textarea name="minat" class="form-input" rows="3" placeholder="Contoh: Matematika, Fisika, Kimia"></textarea>
+                        <textarea name="minat" class="form-input" rows="3" placeholder="Contoh: Matematika Dasar, Fisika"></textarea>
                     </div>
                 </div>
 

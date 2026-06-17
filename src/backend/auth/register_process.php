@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../config/database.php';
 
@@ -53,19 +53,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert ke tabel mahasiswa atau tutor sesuai role
         if ($role == 'learner') {
             // Ambil data mahasiswa dari form
-            $jenjang = isset($_POST['jenjang']) && !empty($_POST['jenjang']) ? $_POST['jenjang'] : 'SMA';
+            $fakultas = isset($_POST['fakultas']) && !empty($_POST['fakultas']) ? $_POST['fakultas'] : 'Lainnya';
             $sekolah = isset($_POST['sekolah']) && !empty($_POST['sekolah']) ? htmlspecialchars(trim($_POST['sekolah'])) : 'Belum Diisi';
-            $kelas = isset($_POST['kelas']) && !empty($_POST['kelas']) ? htmlspecialchars(trim($_POST['kelas'])) : '-';
+            $angkatan = isset($_POST['angkatan']) && !empty($_POST['angkatan']) ? (int)$_POST['angkatan'] : 2024;
             $minat = isset($_POST['minat']) && !empty($_POST['minat']) ? htmlspecialchars(trim($_POST['minat'])) : 'Belum Diisi';
             
             // Generate NIM
             $nim = 'SIS' . date('Y') . str_pad($user_id, 4, '0', STR_PAD_LEFT);
             
             // Insert ke tabel mahasiswa
-            $siswa_query = "INSERT INTO mahasiswa (nim, nama_lengkap, email, jenjang, sekolah, kelas, minat, status) 
+            $siswa_query = "INSERT INTO mahasiswa (nim, nama_lengkap, email, fakultas, sekolah, angkatan, minat, status) 
                            VALUES (?, ?, ?, ?, ?, ?, ?, 'Aktif')";
             $stmt2 = mysqli_prepare($conn, $siswa_query);
-            mysqli_stmt_bind_param($stmt2, "sssssss", $nim, $name, $email, $jenjang, $sekolah, $kelas, $minat);
+            mysqli_stmt_bind_param($stmt2, "sssssis", $nim, $name, $email, $fakultas, $sekolah, $angkatan, $minat);
             
             if (!mysqli_stmt_execute($stmt2)) {
                 $error_msg = mysqli_stmt_error($stmt2);

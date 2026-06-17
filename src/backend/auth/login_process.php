@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../config/database.php';
 
@@ -17,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($row = mysqli_fetch_assoc($result)) {
         if (password_verify($password, $row['password'])) {
             $_SESSION['user_id'] = $row['id'];
-            $_SESSION['user_name'] = $row['name'];
-            $_SESSION['name'] = $row['name'];
+            $_SESSION['user_name'] = $row['nama_lengkap'];
+            $_SESSION['name'] = $row['nama_lengkap'];
             $_SESSION['user_role'] = $row['role'];
             $_SESSION['role'] = $row['role'];
             $_SESSION['email'] = $row['email'];

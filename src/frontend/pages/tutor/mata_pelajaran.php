@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -275,75 +275,8 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="sb-navbar">
-    <div class="sb-nav-container">
-        <div class="sb-brand">
-            <img src="../../../assets/img/logo.png" alt="RuangAjar Logo" class="logo">
-            <span>RuangAjar</span>
-        </div>
-
-        <ul class="sb-menu">
-            <li><a href="dashboard_tutor.php">Beranda</a></li>
-            <li><a href="jadwal_saya.php">Jadwal Saya</a></li>
-            <li><a href="mahasiswa_saya.php">Mahasiswa Saya</a></li>
-            <li><a href="mata_pelajaran.php" class="active">Mata Kuliah</a></li>
-        </ul>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <div style="position: relative;">
-                <button onclick="toggleDropdown()" class="sb-daftar" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, #1a5276, #2e86c1);">
-                    <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($tutor_data['nama_lengkap']); ?>
-                </button>
-                <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
-                    <div style="padding: 12px 16px; border-bottom: 1px solid #eee;">
-                        <p style="margin: 0; font-weight: 600; color: #333;"><?php echo htmlspecialchars($tutor_data['nama_lengkap']); ?></p>
-                        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;"><?php echo htmlspecialchars($tutor_data['keahlian']); ?></p>
-                    </div>
-                    <a href="profil.php" style="display: block; padding: 12px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">
-                        <i class="bi bi-person"></i> Profil Saya
-                    </a>
-                    <a href="pengaturan.php" style="display: block; padding: 12px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">
-                        <i class="bi bi-gear"></i> Pengaturan
-                    </a>
-                    <a href="../../../backend/auth/logout.php" style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<script>
-function toggleDropdown() {
-    const dropdown = document.getElementById('userDropdown');
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-}
-
-window.onclick = function(event) {
-    if (!event.target.matches('.sb-daftar') && !event.target.closest('.sb-daftar')) {
-        const dropdown = document.getElementById('userDropdown');
-        if (dropdown && dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-        }
-    }
-}
-
-function openAddModal() {
-    document.getElementById('addModal').style.display = 'block';
-}
-
-function closeAddModal() {
-    document.getElementById('addModal').style.display = 'none';
-}
-
-function deleteSubject(id, name) {
-    if (confirm('Apakah Anda yakin ingin menghapus mata kuliah "' + name + '"?')) {
-        window.location.href = '../../../backend/tutor/delete_subject.php?id=' + id;
-    }
-}
-</script>
+<!-- NAVBAR TUTOR -->
+<?php include '../../layouts/header_tutor.php'; ?>
 
 <!-- MAIN CONTENT -->
 <div class="subjects-container">
@@ -428,7 +361,7 @@ function deleteSubject(id, name) {
     <div class="modal-content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
             <h2 style="margin: 0; color: #1a202c;">Tambah Mata Kuliah</h2>
-            <button onclick="closeAddModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">Ã—</button>
+            <button onclick="closeAddModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
         </div>
 
         <form action="../../../backend/tutor/add_subject.php" method="POST">
@@ -461,6 +394,7 @@ function deleteSubject(id, name) {
 
 </body>
 </html>
+
 
 
 
