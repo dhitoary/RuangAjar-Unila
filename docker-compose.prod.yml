@@ -41,17 +41,17 @@ services:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASS}
-    # Perintah optimalisasi RAM di MySQL/MariaDB
+    # Perintah optimalisasi RAM di MySQL/MariaDB (Aman & Stabil)
     command: [
-      "mariadbd",
+      "mysqld",
       "--key-buffer-size=16M",
       "--max-connections=15",
-      "--query-cache-size=0",
-      "--query-cache-type=0",
-      "--innodb-buffer-pool-size=32M",
-      "--innodb-log-buffer-size=4M",
+      "--innodb-buffer-pool-size=64M",
+      "--innodb-log-buffer-size=8M",
       "--performance-schema=OFF"
     ]
+    healthcheck:
+      start_period: 60s
     deploy:
       resources:
         limits:
