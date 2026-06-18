@@ -1,96 +1,135 @@
+# Activity Diagram Tutor
+
+## Fitur Login Tutor
 ```plantuml
 @startuml
-title Activity Diagram Tutor - RuangAjar Unila
+title Tutor - Login
 
 skinparam monochrome true
 skinparam shadowing false
-skinparam activity {
-  BackgroundColor white
-  BorderColor black
-  FontColor black
-  ArrowColor black
-}
-skinparam swimlane {
-  BorderColor black
-}
+skinparam defaultFontName Arial
 
 |Tutor|
 start
 :Membuka halaman login;
-:Mengisi email dan password tutor;
+:Mengisi email dan password;
 
 |Sistem|
-:Memvalidasi input login;
-:Mencari user pada tabel users;
-if (Credential valid?) then (Ya)
-  if (Role tutor?) then (Ya)
-    :Membuat session tutor;
-    :Menampilkan dashboard tutor;
-  else (Tidak)
-    :Menolak akses tutor;
-    stop
-  endif
+:Memvalidasi akun;
+if (Role tutor valid?) then (Ya)
+  :Membuat session tutor;
+  :Menampilkan dashboard tutor;
 else (Tidak)
-  :Menampilkan pesan login gagal;
-  stop
+  :Menampilkan pesan gagal login;
 endif
 
-|Tutor|
-:Memilih menu tutor;
+stop
+@enduml
+```
 
-switch (Menu yang dipilih?)
-case (Profil)
-  :Mengubah data profil tutor;
-  |Sistem|
-  :Memvalidasi session tutor\ndan input profil;
-  :Memastikan data milik tutor login;
-  :Memperbarui tabel tutor;
-case (Mata Pelajaran)
-  :Menambah atau menghapus\nmata pelajaran;
-  |Sistem|
-  :Memvalidasi subject, harga,\ndan kepemilikan tutor;
-  :Menyimpan perubahan pada\nsubjects atau tutor_mapel;
-case (Iklan Tutor)
-  :Mengisi atau mengubah data iklan;
-  |Sistem|
-  :Memvalidasi judul, deskripsi,\nsubject, jenjang, harga, dan foto;
-  :Menyimpan iklan pada\niklan_tutor;
-case (Ketersediaan)
-  :Memilih status ketersediaan;
-  |Sistem|
-  :Memperbarui availability_status\npada tabel tutor;
-case (Booking/Jadwal)
-  :Membuka jadwal dan booking masuk;
-  |Sistem|
-  :Menampilkan booking milik tutor;
-  |Tutor|
-  :Memilih aksi status booking;
-  |Sistem|
-  :Memvalidasi booking milik tutor;
-  :Mengubah bookings.status;
-case (Pengaturan Akun)
-  :Mengubah password\natau preferensi notifikasi;
-  |Sistem|
-  :Memvalidasi input pengaturan;
-  :Memperbarui password/notifikasi;
-case (Logout)
-  :Memilih logout;
-  |Sistem|
-  :Menghapus session;
-  :Mengarahkan ke halaman login/public;
-  stop
-endswitch
+## Fitur Mengelola Profil
+```plantuml
+@startuml
+title Tutor - Mengelola Profil
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+|Tutor|
+start
+:Memilih menu Profil;
 
 |Sistem|
-if (Operasi berhasil?) then (Ya)
-  :Menyimpan perubahan database;
-  :Menampilkan notifikasi sukses;
-else (Tidak)
-  :Menampilkan notifikasi gagal;
-endif
+:Menampilkan data profil tutor;
 
 |Tutor|
-:Kembali ke dashboard\natau menu tutor;
+:Mengubah data profil;
+
+|Sistem|
+:Memvalidasi input profil;
+:Menyimpan perubahan\nke tabel tutor;
+:Menampilkan notifikasi;
+
+stop
+@enduml
+```
+
+## Fitur Mengelola Mata Pelajaran
+```plantuml
+@startuml
+title Tutor - Mengelola Mata Pelajaran
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+|Tutor|
+start
+:Memilih menu Mata Pelajaran;
+
+|Sistem|
+:Menampilkan daftar subject tutor;
+
+|Tutor|
+:Menambah atau menghapus\nmata pelajaran;
+
+|Sistem|
+:Memvalidasi data subject;
+:Menyimpan perubahan\nsubjects/tutor_mapel;
+:Menampilkan notifikasi;
+
+stop
+@enduml
+```
+
+## Fitur Mengelola Iklan Tutor
+```plantuml
+@startuml
+title Tutor - Mengelola Iklan Tutor
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+|Tutor|
+start
+:Memilih menu Iklan Tutor;
+:Mengisi data iklan;
+
+|Sistem|
+:Memvalidasi judul,\ndeskripsi, subject,\njenjang, dan harga;
+:Menyimpan iklan tutor;
+:Menampilkan notifikasi;
+
+stop
+@enduml
+```
+
+## Fitur Mengelola Booking
+```plantuml
+@startuml
+title Tutor - Mengelola Booking
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+|Tutor|
+start
+:Memilih menu Jadwal Saya;
+
+|Sistem|
+:Menampilkan booking\nmilik tutor;
+
+|Tutor|
+:Memilih status booking;
+
+|Sistem|
+:Memvalidasi kepemilikan booking;
+:Memperbarui status booking;
+:Menampilkan notifikasi;
+
 stop
 @enduml
 ```

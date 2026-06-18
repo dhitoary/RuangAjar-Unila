@@ -5,166 +5,159 @@ title RuangAjar Unila\n(Platform Tutor Sebaya Universitas Lampung)
 left to right direction
 skinparam monochrome true
 skinparam shadowing false
-skinparam packageStyle rectangle
 skinparam actorStyle stick
-skinparam usecase {
-  BackgroundColor white
-  BorderColor black
-  FontColor black
-}
+skinparam packageStyle rectangle
+skinparam defaultFontName Arial
+skinparam linetype ortho
 skinparam rectangle {
   BackgroundColor white
   BorderColor black
-  FontColor black
 }
+skinparam package {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam usecase {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam ArrowColor black
 
 actor "Public\nVisitor" as Public
-actor "Learner\n(Mahasiswa)" as Learner
-actor "Tutor\n(Mahasiswa Unila)" as Tutor
-actor "Admin" as Admin
-actor "Midtrans\nSandbox" as Midtrans
+actor "Learner" as Learner
 
-rectangle "RuangAjar Unila" as System {
-  usecase "Melihat\nLanding Page" as UC_Landing
-  usecase "Melihat\nKategori Tutor" as UC_Category
-  usecase "Mencari Tutor" as UC_Search
-  usecase "Melihat\nDetail Tutor" as UC_Detail
-  usecase "Melihat\nTestimoni" as UC_Testimoni
+rectangle "RuangAjar Unila" {
+  package "Akses Umum" {
+    (Register) as UC_Register
+    (Login) as UC_Login
+    (Melihat Informasi\nPlatform) as UC_Info
+    (Mencari Tutor) as UC_Search
+    (Melihat Detail\nTutor) as UC_Detail
+  }
 
-  usecase "Register Akun" as UC_Register
-  usecase "Login" as UC_Login
-  usecase "Logout" as UC_Logout
-  usecase "Validasi Email\ndan Password" as UC_ValidateCredential
-  usecase "Mengarahkan User\nBerdasarkan Role" as UC_RoleRouting
+  package "Fitur Learner" {
+    (Mengelola Profil) as UC_LearnerProfile
+    (Membuat Booking) as UC_Booking
+    (Melakukan\nPembayaran) as UC_Payment
+    (Melihat Riwayat\natau Sesi) as UC_History
+    (Memberi Review) as UC_Review
+  }
 
-  usecase "Mengakses\nDashboard Learner" as UC_LearnerDashboard
-  usecase "Mengelola\nProfil Learner" as UC_LearnerProfile
-  usecase "Membuat\nBooking Tutor" as UC_Booking
-  usecase "Memilih Subject,\nTanggal, Jam,\ndan Durasi" as UC_SelectSchedule
-  usecase "Melakukan\nPembayaran" as UC_Payment
-  usecase "Melihat\nSesi Saya" as UC_MySession
-  usecase "Melihat\nRiwayat Booking" as UC_History
-  usecase "Memberikan\nReview dan Rating" as UC_Review
+  package "Fitur Tutor" {
+    (Mengelola Profil\nTutor) as UC_TutorProfile
+    (Mengelola\nMata Pelajaran) as UC_Subject
+    (Mengelola\nIklan Tutor) as UC_Ads
+    (Mengatur\nKetersediaan) as UC_Availability
+    (Mengelola\nStatus Booking) as UC_StatusBooking
+  }
 
-  usecase "Mengakses\nDashboard Tutor" as UC_TutorDashboard
-  usecase "Mengelola\nProfil Tutor" as UC_TutorProfile
-  usecase "Mengubah\nPassword" as UC_ChangePassword
-  usecase "Mengatur\nKetersediaan" as UC_Availability
-  usecase "Mengelola\nMata Pelajaran" as UC_Subject
-  usecase "Membuat dan\nMengelola Iklan" as UC_Ads
-  usecase "Melihat\nJadwal Saya" as UC_Schedule
-  usecase "Melihat\nMahasiswa Saya" as UC_Students
-  usecase "Mengubah\nStatus Booking" as UC_UpdateBooking
-  usecase "Mengatur\nNotifikasi" as UC_Notification
+  package "Fitur Admin" {
+    (Melihat Dashboard\nAdmin) as UC_AdminDashboard
+    (Mengelola\nData Tutor) as UC_ManageTutor
+    (Mengelola\nData Mahasiswa) as UC_ManageStudent
+    (Memverifikasi\nTutor) as UC_VerifyTutor
+  }
 
-  usecase "Mengakses\nDashboard Admin" as UC_AdminDashboard
-  usecase "Melihat\nRingkasan Sistem" as UC_Summary
-  usecase "Mengelola\nData Tutor" as UC_ManageTutor
-  usecase "Mengelola\nData Mahasiswa" as UC_ManageStudent
-  usecase "Memverifikasi\nTutor" as UC_VerifyTutor
-  usecase "Menghapus User" as UC_DeleteUser
-  usecase "Mengakses\nPengaturan Admin" as UC_AdminSetting
-
-  usecase "Membuat Transaksi\nMidtrans" as UC_CreateTransaction
-  usecase "Menerima\nSnap Token" as UC_SnapToken
-  usecase "Menerima Notifikasi\nPembayaran" as UC_PaymentNotification
-  usecase "Memperbarui\nPayment Status" as UC_UpdatePayment
-
-  usecase "Validasi Session\ndan Role" as UC_ValidateSession
-  usecase "Validasi Input\nBackend" as UC_ValidateInput
-  usecase "Menyimpan atau\nMemperbarui Database" as UC_SaveData
+  package "Proses Sistem" {
+    (Validasi Akun) as UC_ValidateAccount
+    (Validasi Data\nBooking) as UC_ValidateBooking
+    (Membuat Transaksi\nPembayaran) as UC_CreateTransaction
+    (Menerima Notifikasi\nPembayaran) as UC_PaymentNotification
+  }
 }
 
-Public --> UC_Landing
-Public --> UC_Category
+actor "Tutor" as Tutor
+actor "Admin" as Admin
+
+Public --> UC_Info
 Public --> UC_Search
 Public --> UC_Detail
-Public --> UC_Testimoni
-Public --> UC_Login
 Public --> UC_Register
+Public --> UC_Login
 
 Learner --> UC_Login
-Learner --> UC_Logout
-Learner --> UC_LearnerDashboard
-Learner --> UC_LearnerProfile
 Learner --> UC_Search
 Learner --> UC_Detail
+Learner --> UC_LearnerProfile
 Learner --> UC_Booking
 Learner --> UC_Payment
-Learner --> UC_MySession
 Learner --> UC_History
 Learner --> UC_Review
 
 Tutor --> UC_Login
-Tutor --> UC_Logout
-Tutor --> UC_TutorDashboard
 Tutor --> UC_TutorProfile
-Tutor --> UC_ChangePassword
-Tutor --> UC_Availability
 Tutor --> UC_Subject
 Tutor --> UC_Ads
-Tutor --> UC_Schedule
-Tutor --> UC_Students
-Tutor --> UC_UpdateBooking
-Tutor --> UC_Notification
+Tutor --> UC_Availability
+Tutor --> UC_StatusBooking
 
 Admin --> UC_Login
-Admin --> UC_Logout
 Admin --> UC_AdminDashboard
-Admin --> UC_Summary
 Admin --> UC_ManageTutor
 Admin --> UC_ManageStudent
 Admin --> UC_VerifyTutor
-Admin --> UC_DeleteUser
-Admin --> UC_AdminSetting
 
-Midtrans --> UC_SnapToken
-Midtrans --> UC_PaymentNotification
-
-UC_Login ..> UC_ValidateCredential : <<include>>
-UC_Login ..> UC_RoleRouting : <<include>>
-UC_RoleRouting ..> UC_LearnerDashboard : <<extend>>
-UC_RoleRouting ..> UC_TutorDashboard : <<extend>>
-UC_RoleRouting ..> UC_AdminDashboard : <<extend>>
-
-UC_Booking ..> UC_SelectSchedule : <<include>>
-UC_Booking ..> UC_ValidateSession : <<include>>
-UC_Booking ..> UC_ValidateInput : <<include>>
-UC_Booking ..> UC_SaveData : <<include>>
-UC_Booking ..> UC_CreateTransaction : <<extend>>
-
-UC_CreateTransaction ..> UC_SnapToken : <<include>>
-UC_PaymentNotification ..> UC_UpdatePayment : <<include>>
-UC_UpdatePayment ..> UC_SaveData : <<include>>
-
-UC_Review ..> UC_ValidateSession : <<include>>
-UC_Review ..> UC_ValidateInput : <<include>>
-UC_Review ..> UC_SaveData : <<include>>
-
-UC_Subject ..> UC_ValidateSession : <<include>>
-UC_Subject ..> UC_ValidateInput : <<include>>
-UC_Subject ..> UC_SaveData : <<include>>
-
-UC_Ads ..> UC_ValidateSession : <<include>>
-UC_Ads ..> UC_ValidateInput : <<include>>
-UC_Ads ..> UC_SaveData : <<include>>
-
-UC_UpdateBooking ..> UC_ValidateSession : <<include>>
-UC_UpdateBooking ..> UC_SaveData : <<include>>
-
-UC_ManageTutor ..> UC_ValidateSession : <<include>>
-UC_ManageTutor ..> UC_ValidateInput : <<include>>
-UC_ManageTutor ..> UC_SaveData : <<include>>
-
-UC_ManageStudent ..> UC_ValidateSession : <<include>>
-UC_ManageStudent ..> UC_ValidateInput : <<include>>
-UC_ManageStudent ..> UC_SaveData : <<include>>
-
-UC_VerifyTutor ..> UC_ValidateSession : <<include>>
-UC_VerifyTutor ..> UC_SaveData : <<include>>
-
-UC_Search ..> UC_ValidateInput : <<include>>
+UC_Login ..> UC_ValidateAccount : <<include>>
 UC_Detail ..> UC_Search : <<extend>>
+UC_Booking ..> UC_ValidateBooking : <<include>>
+UC_Payment ..> UC_CreateTransaction : <<include>>
+UC_PaymentNotification ..> UC_Payment : <<extend>>
+UC_Review ..> UC_History : <<extend>>
+UC_VerifyTutor ..> UC_ManageTutor : <<extend>>
+
+note bottom of UC_CreateTransaction
+Midtrans adalah payment gateway eksternal,
+bukan stakeholder atau aktor sistem.
+end note
 
 @enduml
 ```
+
+# Keterangan Use Case
+
+## Public Visitor
+- **Register**: Public visitor membuat akun baru agar dapat masuk sebagai learner atau tutor sesuai kebutuhan pendaftaran.
+- **Login**: Public visitor masuk ke sistem menggunakan email dan password yang sudah terdaftar.
+- **Melihat Informasi Platform**: Public visitor melihat landing page, informasi layanan, kategori tutor, dan testimoni.
+- **Mencari Tutor**: Public visitor mencari tutor berdasarkan keyword atau filter yang tersedia.
+- **Melihat Detail Tutor**: Public visitor membuka informasi detail tutor, seperti profil, mata pelajaran, harga, rating, dan review.
+
+## Learner
+- **Login**: Learner masuk ke sistem untuk mengakses fitur privat seperti booking, riwayat, dan review.
+- **Mencari Tutor**: Learner mencari tutor yang sesuai dengan kebutuhan belajar.
+- **Melihat Detail Tutor**: Learner memeriksa detail tutor sebelum melakukan booking.
+- **Mengelola Profil**: Learner memperbarui data profil mahasiswa yang digunakan di dalam sistem.
+- **Membuat Booking**: Learner memilih tutor, subject, tanggal, jam, durasi, dan catatan untuk membuat pemesanan sesi.
+- **Melakukan Pembayaran**: Learner melakukan pembayaran booking melalui proses transaksi yang terhubung dengan payment gateway.
+- **Melihat Riwayat atau Sesi**: Learner melihat daftar booking, status sesi, dan status pembayaran.
+- **Memberi Review**: Learner memberikan rating dan ulasan setelah sesi selesai.
+
+## Tutor
+- **Login**: Tutor masuk ke sistem untuk mengelola layanan tutor dan booking.
+- **Mengelola Profil Tutor**: Tutor memperbarui data profil, deskripsi, harga, keahlian, dan informasi akademik.
+- **Mengelola Mata Pelajaran**: Tutor menambah, mengubah, atau menghapus mata pelajaran/subject yang diajarkan.
+- **Mengelola Iklan Tutor**: Tutor membuat atau mengubah iklan jasa tutor yang ditampilkan ke calon learner.
+- **Mengatur Ketersediaan**: Tutor mengatur status ketersediaan seperti tersedia, sibuk, atau tidak tersedia.
+- **Mengelola Status Booking**: Tutor melihat booking masuk dan memperbarui status booking sesuai progres sesi.
+
+## Admin
+- **Login**: Admin masuk ke sistem untuk mengakses dashboard dan fitur pengelolaan data.
+- **Melihat Dashboard Admin**: Admin melihat ringkasan data sistem seperti tutor, mahasiswa, user, dan aktivitas booking.
+- **Mengelola Data Tutor**: Admin menambah, mengubah, menghapus, atau memeriksa data tutor.
+- **Mengelola Data Mahasiswa**: Admin menambah, mengubah, menghapus, atau memeriksa data mahasiswa/learner.
+- **Memverifikasi Tutor**: Admin memvalidasi data tutor dan mengubah status tutor agar dapat digunakan pada sistem.
+
+## Proses Sistem
+- **Validasi Akun**: Sistem memvalidasi email, password, dan role saat user melakukan login.
+- **Validasi Data Booking**: Sistem memeriksa learner, tutor, subject, tanggal, jam, durasi, dan kelayakan data sebelum booking disimpan.
+- **Membuat Transaksi Pembayaran**: Sistem membuat transaksi pembayaran dan menyimpan data transaksi seperti token/order ID.
+- **Menerima Notifikasi Pembayaran**: Sistem menerima notifikasi dari payment gateway dan memperbarui status pembayaran booking.
+
+## Relasi Include dan Extend
+- **Login** `<<include>>` **Validasi Akun**: Setiap proses login wajib menjalankan validasi akun.
+- **Melihat Detail Tutor** `<<extend>>` **Mencari Tutor**: Detail tutor biasanya dibuka setelah user menemukan tutor dari hasil pencarian.
+- **Membuat Booking** `<<include>>` **Validasi Data Booking**: Booking wajib divalidasi sebelum disimpan.
+- **Melakukan Pembayaran** `<<include>>` **Membuat Transaksi Pembayaran**: Pembayaran membutuhkan transaksi yang dibuat oleh sistem.
+- **Menerima Notifikasi Pembayaran** `<<extend>>` **Melakukan Pembayaran**: Notifikasi pembayaran terjadi setelah proses pembayaran berjalan.
+- **Memberi Review** `<<extend>>` **Melihat Riwayat atau Sesi**: Review diberikan dari riwayat/sesi yang sudah selesai.
+- **Memverifikasi Tutor** `<<extend>>` **Mengelola Data Tutor**: Verifikasi tutor merupakan bagian lanjutan dari pengelolaan data tutor.

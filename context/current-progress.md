@@ -1,7 +1,7 @@
 # Current Progress (Scratchpad)
 
 ## Active Task
-Memperbarui PlantUML use case dan activity diagram agar menyerupai referensi visual yang diberikan user.
+Menyusun laporan pengembangan sistem RuangAjar Unila berdasarkan struktur BAB I sampai BAB VI.
 
 ## Files Modified (Current Session)
 - `context/system-instructions.md` -> Instruksi kerja AI, coding rules, dan batas keamanan proyek.
@@ -38,6 +38,28 @@ Memperbarui PlantUML use case dan activity diagram agar menyerupai referensi vis
 - `docs/activitydiagram-learner.md` -> Diperbarui menjadi activity diagram swimlane Learner dan Sistem.
 - `context/current-progress.md` -> Mencatat pembaruan gaya diagram sesuai referensi.
 - `context/changelog.md` -> Mencatat pembaruan diagram PlantUML.
+- `docs/usecase.md` -> Disederhanakan menjadi use case inti dengan aktor Public, Learner, Tutor, Admin, dan Midtrans.
+- `docs/activitydiagram-public.md` -> Dipecah menjadi beberapa activity diagram per fitur public dalam satu file.
+- `docs/activitydiagram-admin.md` -> Dipecah menjadi beberapa activity diagram per fitur admin dalam satu file.
+- `docs/activitydiagram-tutor.md` -> Dipecah menjadi beberapa activity diagram per fitur tutor dalam satu file.
+- `docs/activitydiagram-learner.md` -> Dipecah menjadi beberapa activity diagram per fitur learner dalam satu file.
+- `context/current-progress.md` -> Mencatat penyederhanaan diagram sesuai contoh terbaru.
+- `context/changelog.md` -> Mencatat penyederhanaan diagram PlantUML.
+- `docs/usecase.md` -> Menghapus Midtrans sebagai aktor, mengelompokkan use case berdasarkan role, dan menambahkan catatan bahwa Midtrans adalah payment gateway eksternal.
+- `context/current-progress.md` -> Mencatat perbaikan use case agar lebih rapi.
+- `context/changelog.md` -> Mencatat perbaikan use case dan koreksi posisi Midtrans.
+- `docs/usecase.md` -> Dibuat ulang dengan satu boundary sistem besar, aktor di sisi luar, use case oval di dalam, serta layout helper agar lebih menyerupai `docs/contohusecase.png`.
+- `context/current-progress.md` -> Mencatat pembaruan use case berdasarkan contoh gambar.
+- `context/changelog.md` -> Mencatat pembaruan use case agar mengikuti contoh gambar.
+- `docs/usecase.md` -> Menghapus layout helper horizontal yang membuat diagram melebar, memindahkan Tutor/Admin ke sisi kanan, dan mengelompokkan use case dalam package agar lebih rapi.
+- `context/current-progress.md` -> Mencatat perbaikan layout use case.
+- `context/changelog.md` -> Mencatat perbaikan layout use case agar tidak berantakan saat dirender.
+- `docs/usecase.md` -> Menambahkan keterangan use case per role dan penjelasan relasi include/extend.
+- `context/current-progress.md` -> Mencatat penambahan keterangan teks use case.
+- `context/changelog.md` -> Mencatat penambahan keterangan teks use case.
+- `docs/laporan-ruangajar-unila.md` -> Laporan lengkap BAB I sampai BAB VI berdasarkan struktur yang diminta dan gaya referensi dokumen.
+- `context/current-progress.md` -> Mencatat penyusunan laporan RuangAjar Unila.
+- `context/changelog.md` -> Mencatat penambahan laporan proyek.
 
 ## Blockers / Bugs Found
 - `git status --short` gagal dijalankan karena error sandbox Windows `CreateProcessWithLogonW failed: 1056`; perubahan file tetap dilanjutkan karena hanya membuat dokumentasi context.
@@ -45,4 +67,4 @@ Memperbarui PlantUML use case dan activity diagram agar menyerupai referensi vis
 - Error runtime: `mysqli_sql_exception: No connection could be made because the target machine actively refused it` terjadi karena aplikasi mencoba konek ke MySQL port `3307`, sementara database lokal tersedia di port `3306`.
 
 ## Next Immediate Action
-- Render ulang file PlantUML di `docs/` dan cek layout visual terhadap referensi user.
+- Review isi `docs/laporan-ruangajar-unila.md`, lalu sesuaikan detail nama dosen, format kampus, gambar hasil render UML, dan nomor tabel/gambar jika akan dipindahkan ke Word.

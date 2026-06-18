@@ -1,78 +1,79 @@
+# Activity Diagram Public Visitor
+
+## Fitur Melihat Informasi Platform
 ```plantuml
 @startuml
-title Activity Diagram Public Visitor - RuangAjar Unila
+title Public - Melihat Informasi Platform
 
 skinparam monochrome true
 skinparam shadowing false
-skinparam activity {
-  BackgroundColor white
-  BorderColor black
-  FontColor black
-  ArrowColor black
-}
-skinparam swimlane {
-  BorderColor black
-}
+skinparam defaultFontName Arial
 
 |Public Visitor|
 start
-:Membuka URL aplikasi;
+:Membuka halaman utama;
 
 |Sistem|
-:Mengarahkan ke landing page;
-:Menampilkan landing page,\nkategori, CTA, dan testimoni;
+:Menampilkan landing page;
+:Menampilkan kategori tutor\ndan testimoni;
 
 |Public Visitor|
-if (Ingin mencari tutor?) then (Ya)
-  :Mengisi keyword/filter tutor;
-else (Tidak)
-  :Memilih menu kategori\natau melihat informasi layanan;
-endif
+:Membaca informasi platform;
+stop
+@enduml
+```
+
+## Fitur Mencari Tutor
+```plantuml
+@startuml
+title Public - Mencari Tutor
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+|Public Visitor|
+start
+:Memilih menu cari tutor;
+:Mengisi keyword/filter;
 
 |Sistem|
-:Memvalidasi parameter pencarian;
-:Mengambil data tutor,\nsubjects, tutor_mapel,\niklan_tutor, dan reviews;
-:Menampilkan daftar tutor\natau kategori yang sesuai;
+:Memvalidasi filter;
+:Mencari data tutor;
+:Menampilkan hasil pencarian;
 
 |Public Visitor|
-if (Memilih tutor?) then (Ya)
-  :Membuka detail tutor;
-else (Tidak)
-  :Kembali melihat halaman public;
-  stop
-endif
+:Melihat daftar tutor;
+stop
+@enduml
+```
+
+## Fitur Melihat Detail Tutor
+```plantuml
+@startuml
+title Public - Melihat Detail Tutor
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+|Public Visitor|
+start
+:Memilih tutor;
 
 |Sistem|
-:Memvalidasi ID tutor;
-if (Tutor ditemukan?) then (Ya)
-  :Menampilkan profil tutor,\nsubject, harga, rating,\ndan review;
-else (Tidak)
-  :Menampilkan pesan tutor\ntidak ditemukan;
-  stop
-endif
+:Mengambil detail tutor,\nsubject, harga, dan review;
+:Menampilkan detail tutor;
 
 |Public Visitor|
-if (Klik tombol booking?) then (Ya)
-  :Meminta akses booking;
+if (Ingin booking?) then (Ya)
+  :Klik tombol booking;
+  |Sistem|
+  :Mengarahkan ke login/register;
 else (Tidak)
-  if (Klik login/register?) then (Ya)
-    :Membuka halaman autentikasi;
-  else (Tidak)
-    :Selesai melihat informasi;
-    stop
-  endif
+  :Kembali melihat daftar tutor;
 endif
 
-|Sistem|
-:Memeriksa session user;
-if (Sudah login?) then (Ya)
-  :Mengarahkan user ke flow\nbooking sesuai role;
-else (Tidak)
-  :Mengarahkan ke halaman\nlogin/register;
-endif
-
-|Public Visitor|
-:Melanjutkan login/register\njika ingin booking;
 stop
 @enduml
 ```

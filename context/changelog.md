@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.1.12] - 2026-06-18 15:35 WIB
+### Added
+- Menambahkan `docs/laporan-ruangajar-unila.md` berisi laporan pengembangan sistem RuangAjar Unila dari BAB I sampai BAB VI.
+- Menyusun laporan berdasarkan struktur penomoran yang diminta, meliputi pendahuluan, landasan teori, perencanaan pre-sprint, implementasi sprint, pengujian integrasi, serta kesimpulan dan saran.
+- Menyesuaikan gaya penulisan laporan agar formal, naratif, dan mudah dipindahkan ke format Word/PDF.
+
+## [0.1.11] - 2026-06-18 14:52 WIB
+### Added
+- Menambahkan keterangan teks setiap use case pada `docs/usecase.md`.
+- Mengelompokkan keterangan berdasarkan role Public Visitor, Learner, Tutor, Admin, dan Proses Sistem.
+- Menambahkan penjelasan relasi `<<include>>` dan `<<extend>>` sesuai kode PlantUML.
+
+## [0.1.10] - 2026-06-18 14:47 WIB
+### Changed
+- Memperbaiki layout `docs/usecase.md` agar tidak melebar ekstrem saat dirender.
+- Menghapus layout helper PlantUML yang menyebabkan garis panjang dan saling silang.
+- Mengelompokkan use case dalam package Akses Umum, Fitur Learner, Fitur Tutor, Fitur Admin, dan Proses Sistem.
+
+## [0.1.9] - 2026-06-18 14:43 WIB
+### Changed
+- Membuat ulang `docs/usecase.md` agar lebih menyerupai `docs/contohusecase.png`.
+- Mempertahankan Midtrans sebagai catatan payment gateway eksternal, bukan aktor/stakeholder.
+- Menambahkan layout helper PlantUML untuk membantu posisi use case lebih rapi seperti diagram referensi.
+
+## [0.1.8] - 2026-06-18 14:20 WIB
+### Changed
+- Memperbaiki `docs/usecase.md` dengan menghapus Midtrans sebagai aktor/stakeholder.
+- Mengelompokkan use case berdasarkan role Public, Learner, Tutor, Admin, dan Proses Sistem agar output PlantUML lebih rapi.
+- Menambahkan catatan bahwa Midtrans digunakan sebagai payment gateway eksternal pada proses transaksi pembayaran.
+
+## [0.1.7] - 2026-06-18 14:03 WIB
+### Changed
+- Menyederhanakan `docs/usecase.md` agar hanya memuat use case inti sesuai gaya contoh terbaru.
+- Memecah activity diagram setiap stakeholder menjadi beberapa diagram per fitur dalam file stakeholder yang sama.
+- Menjaga format PlantUML tetap hitam-putih, memakai swimlane stakeholder dan sistem, serta mudah dirender untuk laporan.
+
 ## [0.1.6] - 2026-06-18 13:25 WIB
 ### Changed
 - Memperbarui `docs/usecase.md` agar lebih menyerupai referensi: boundary sistem besar, aktor di sisi luar, use case oval, dan relasi `<<include>>`/`<<extend>>`.
