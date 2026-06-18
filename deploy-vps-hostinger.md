@@ -257,6 +257,18 @@ docker exec -i ruangajar-db mysql -u ruangajar_user -pGantiDenganDBPassAnda ruan
 docker exec -it ruangajar-db mysql -u ruangajar_user -pGantiDenganDBPassAnda -e "SHOW TABLES IN ruangajar;"
 ```
 
+> [!WARNING]
+> **Penting Mengenai Collation MySQL 8 vs MariaDB (Error 1273):**
+> Jika di masa mendatang Anda mengekspor database dari MySQL 8 lokal (seperti Laragon/XAMPP baru), skema SQL mungkin menggunakan collation `utf8mb4_0900_ai_ci`. Collation ini **tidak didukung** oleh MariaDB dan akan menghasilkan error:
+> `ERROR 1273 (HY000) ... Unknown collation: 'utf8mb4_0900_ai_ci'`
+> 
+> **Solusi:**
+> Buka file `.sql` hasil ekspor tersebut di editor teks, lalu lakukan **Find & Replace**:
+> * **Cari**: `utf8mb4_0900_ai_ci`
+> * **Ganti dengan**: `utf8mb4_general_ci`
+> 
+> *(Catatan: File `database/ruangajar.sql` bawaan repository ini saat ini sudah diperbaiki menggunakan collation `utf8mb4_general_ci` agar langsung bisa digunakan).*
+
 ---
 
 ## 8. Konfigurasi Nginx Reverse Proxy (Host Container)
