@@ -21,6 +21,13 @@ if (!$siswa_data) {
 
 $siswa_id = $siswa_data['id'];
 
+// Handle payment success callback from redirect (fallback for localhost development)
+if (isset($_GET['status']) && $_GET['status'] == 'payment_success' && isset($_GET['booking_id'])) {
+    $pay_booking_id = intval($_GET['booking_id']);
+    $update_query = "UPDATE bookings SET payment_status = 'paid', status = 'confirmed' WHERE id = $pay_booking_id AND learner_id = '$siswa_id'";
+    mysqli_query($conn, $update_query);
+}
+
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'semua';
 
 $where_clause = "WHERE b.learner_id = '$siswa_id'";
@@ -269,6 +276,16 @@ include '../../layouts/header.php';
         <p>Kelola dan pantau seluruh sesi bimbingan belajar Anda</p>
     </div>
 
+    <?php if (isset($_GET['status']) && $_GET['status'] == 'payment_success'): ?>
+        <div style="background: #e6f4ea; color: #137333; padding: 16px; border-radius: 12px; margin-bottom: 24px; border: 1px solid #ceead6; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <i class="bi bi-check-circle-fill" style="font-size: 20px;"></i>
+            <div>
+                <strong style="display: block; margin-bottom: 2px;">Pembayaran Berhasil!</strong>
+                <span style="font-size: 14px;">Sesi bimbingan Anda telah dikonfirmasi dan status pembayaran berubah menjadi Lunas.</span>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <!-- Tab Navigation -->
     <div class="tab-navigation">
         <a href="sesi_saya.php?tab=semua" class="tab-link <?php echo $active_tab === 'semua' ? 'active' : ''; ?>">Semua</a>
@@ -405,6 +422,9 @@ function selectRating(rating) {
     }
 }
 
+// Fixed review form action to submit_review.php which actually exists
+document.getElementById('reviewForm').setAttribute('action', '../../../backend/learner/submit_review.php');
+
 function openReviewModal(bookingId) {
     document.getElementById('reviewBookingId').value = bookingId;
     document.getElementById('reviewModal').style.display = 'flex';
@@ -421,7 +441,7 @@ function payNow(bookingId, snapToken, btn) {
 
     // If we already have a snap token, trigger Snap Pay immediately
     if (snapToken && snapToken.trim() !== '') {
-        triggerSnapPay(snapToken, btn, originalText);
+        triggerSnapPay(snapToken, btn, originalText, bookingId);
     } else {
         // Otherwise, request a new snap token from the backend
         fetch('../../../backend/learner/create_transaction.php', {
@@ -432,7 +452,7 @@ function payNow(bookingId, snapToken, btn) {
         .then(res => res.json())
         .then(data => {
             if (data.snap_token) {
-                triggerSnapPay(data.snap_token, btn, originalText);
+                triggerSnapPay(data.snap_token, btn, originalText, bookingId);
             } else {
                 throw new Error(data.error || 'Gagal memproses transaksi.');
             }
@@ -445,13 +465,13 @@ function payNow(bookingId, snapToken, btn) {
     }
 }
 
-function triggerSnapPay(token, btn, originalText) {
+function triggerSnapPay(token, btn, originalText, bookingId) {
     window.snap.pay(token, {
-        onSuccess: function() {
-            window.location.href = 'sesi_saya.php?status=payment_success';
+        onSuccess: function(result) {
+            window.location.href = 'sesi_saya.php?status=payment_success&booking_id=' + bookingId;
         },
-        onPending: function() {
-            window.location.href = 'sesi_saya.php?status=payment_pending';
+        onPending: function(result) {
+            window.location.href = 'sesi_saya.php?status=payment_pending&booking_id=' + bookingId;
         },
         onError: function() {
             alert('Pembayaran gagal. Silakan coba lagi.');
