@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.18] - 2026-06-18 17:11 WIB
+### Changed
+- Menyesuaikan ulang penjelasan Use Case Diagram pada subbab 4.2.2.1 berdasarkan gambar final `docs/image.png`.
+- Meringkas uraian use case agar lebih padat dan sesuai dengan relasi pada diagram final.
+
+## [0.1.17] - 2026-06-18 17:06 WIB
+### Added
+- Menambahkan penjelasan naratif Use Case Diagram pada subbab 4.2.2.1 di `docs/laporan-ruangajar-unila.md`.
+- Menambahkan penjelasan naratif Activity Diagram pada subbab 4.2.2.2 di `docs/laporan-ruangajar-unila.md`.
+- Menyesuaikan uraian UML dengan aktor Public Visitor, Learner, Tutor, Admin, serta posisi Midtrans sebagai payment gateway eksternal.
+
 ## [0.1.16] - 2026-06-18 16:36 WIB
 ### Changed
 - Meringkas tabel Kebutuhan Nonfungsional pada `docs/laporan-ruangajar-unila.md` menjadi 6 kriteria utama.

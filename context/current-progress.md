@@ -1,7 +1,7 @@
 # Current Progress (Scratchpad)
 
 ## Active Task
-Meringkas kebutuhan nonfungsional pada laporan berdasarkan kriteria sistem ketika dideploy.
+Menyesuaikan dan meringkas penjelasan Use Case Diagram berdasarkan gambar final.
 
 ## Files Modified (Current Session)
 - `context/system-instructions.md` -> Instruksi kerja AI, coding rules, dan batas keamanan proyek.
@@ -73,6 +73,13 @@ Meringkas kebutuhan nonfungsional pada laporan berdasarkan kriteria sistem ketik
 - `docs/laporan-ruangajar-unila.md` -> Meringkas tabel kebutuhan nonfungsional menjadi 6 kriteria utama berbasis kondisi deployment.
 - `context/current-progress.md` -> Mencatat peringkasan kebutuhan nonfungsional.
 - `context/changelog.md` -> Mencatat peringkasan kebutuhan nonfungsional pada laporan.
+- `docs/laporan-ruangajar-unila.md` -> Menambahkan penjelasan naratif pada subbab 4.2.2.1 Use Case Diagram Fitur Sprint 2.
+- `docs/laporan-ruangajar-unila.md` -> Menambahkan penjelasan naratif pada subbab 4.2.2.2 Activity Diagram Fitur Sprint 2.
+- `context/current-progress.md` -> Mencatat penambahan penjelasan UML.
+- `context/changelog.md` -> Mencatat penambahan penjelasan Use Case Diagram dan Activity Diagram.
+- `docs/laporan-ruangajar-unila.md` -> Meringkas dan menyesuaikan penjelasan subbab 4.2.2.1 dengan gambar final use case.
+- `context/current-progress.md` -> Mencatat penyesuaian penjelasan use case final.
+- `context/changelog.md` -> Mencatat penyesuaian penjelasan use case final.
 
 ## Blockers / Bugs Found
 - `git status --short` gagal dijalankan karena error sandbox Windows `CreateProcessWithLogonW failed: 1056`; perubahan file tetap dilanjutkan karena hanya membuat dokumentasi context.
@@ -80,4 +87,4 @@ Meringkas kebutuhan nonfungsional pada laporan berdasarkan kriteria sistem ketik
 - Error runtime: `mysqli_sql_exception: No connection could be made because the target machine actively refused it` terjadi karena aplikasi mencoba konek ke MySQL port `3307`, sementara database lokal tersedia di port `3306`.
 
 ## Next Immediate Action
-- Review kembali tabel kebutuhan nonfungsional pada `docs/laporan-ruangajar-unila.md` untuk memastikan istilah deployment sudah sesuai rencana penyajian laporan.
+- Review kembali subbab 4.2.2.1 setelah gambar final use case dimasukkan ke dokumen Word.
