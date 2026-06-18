@@ -125,15 +125,15 @@ Pemilihan PHP native/procedural disesuaikan dengan kondisi proyek yang berfokus 
 
 ## 3.1. Pembagian Peran Tim Scrum (Scrum Roles)
 
-Pengembangan sistem RuangAjar Unila dilakukan oleh tim yang terdiri dari tiga anggota. Dalam kerangka Scrum, pembagian peran dilakukan agar proses koordinasi menjadi lebih jelas. Pembagian peran bersifat fungsional dan disesuaikan dengan kebutuhan proyek.
+Pengembangan sistem RuangAjar Unila dilakukan oleh tim yang terdiri dari tiga anggota. Dalam kerangka Scrum, pembagian peran dilakukan agar koordinasi, prioritas pekerjaan, dan evaluasi sprint menjadi lebih jelas. Namun, pada praktik implementasinya, seluruh anggota tim tetap berkontribusi sebagai pengembang full-stack. Pembagian teknis tidak dilakukan secara kaku berdasarkan lapisan frontend atau backend, melainkan berdasarkan area role pengguna agar setiap anggota dapat mengerjakan alur fitur secara utuh mulai dari tampilan, proses backend, koneksi database, sampai pengujian fitur.
 
-| Nama | NPM | Peran Scrum | Tanggung Jawab |
+| Nama | NPM | Peran Scrum | Tanggung Jawab Scrum dan Kontribusi Full-Stack |
 | --- | --- | --- | --- |
-| Dhito Aryo Trengginas | 2315061015 | Product Owner | Menentukan kebutuhan fitur, menyusun prioritas backlog, dan memastikan fitur sesuai tujuan produk. |
-| Muhammad Rayham Gumay | 2355061007 | Scrum Master | Membantu pengaturan sprint, menjaga ritme kerja tim, dan memastikan hambatan pengembangan dapat ditangani. |
-| Firman Farel Richardo | 2315061099 | Development Team | Mengembangkan fitur, menyusun dokumentasi teknis, membuat UML, dan melakukan pengujian fitur. |
+| Dhito Aryo Trengginas | 2315061015 | Product Owner & Full-Stack Developer | Menentukan kebutuhan fitur, menyusun prioritas backlog, dan memastikan fitur sesuai tujuan produk. Pada implementasi teknis, berfokus mengembangkan alur **Public Visitor** dan **Learner**, meliputi halaman public, pencarian tutor, detail tutor, dashboard learner, booking, riwayat/sesi, dan review dari sisi frontend, backend, database, serta pengujian. |
+| Muhammad Rayham Gumay | 2355061007 | Scrum Master & Full-Stack Developer | Membantu pengaturan sprint, menjaga ritme kerja tim, dan memastikan hambatan pengembangan dapat ditangani. Pada implementasi teknis, berfokus mengembangkan alur **Admin**, meliputi dashboard admin, pengelolaan data tutor, pengelolaan data mahasiswa, penghapusan user, verifikasi tutor, validasi input, integrasi database, serta pengujian fitur admin. |
+| Firman Farel Richardo | 2315061099 | Development Team & Full-Stack Developer | Mengembangkan fitur, menyusun dokumentasi teknis, membuat UML, dan melakukan pengujian fitur. Pada implementasi teknis, berfokus mengembangkan alur **Tutor**, meliputi dashboard tutor, profil tutor, mata pelajaran, iklan tutor, ketersediaan, status booking, pengaturan akun, serta menyusun dokumentasi teknis seperti use case, activity diagram, setup guide, dan laporan pengembangan. |
 
-Pembagian peran ini membantu tim dalam menjaga keteraturan proses pengembangan. Product Owner berfokus pada nilai produk, Scrum Master menjaga proses kerja, sedangkan Development Team berfokus pada implementasi dan validasi teknis.
+Pembagian peran ini membantu tim dalam menjaga keteraturan proses pengembangan tanpa membatasi kontribusi teknis setiap anggota. Product Owner berfokus pada arah dan nilai produk, Scrum Master menjaga kelancaran proses kerja, sedangkan Development Team memastikan implementasi teknis dan dokumentasi berjalan sesuai kebutuhan. Dengan pembagian berdasarkan role pengguna, setiap anggota dapat memahami alur fitur secara menyeluruh sehingga proses pengembangan menjadi lebih kolaboratif, terarah, dan mudah dievaluasi pada akhir sprint.
 
 ## 3.2. Visi Produk (Product Vision)
 
@@ -147,7 +147,60 @@ Secara lebih rinci, visi produk ini mencakup beberapa arah pengembangan berikut:
 4. Memberikan ruang bagi tutor untuk mengelola layanan pembelajaran secara mandiri.
 5. Menyediakan pengawasan data melalui dashboard admin.
 
-## 3.3. Product Backlog Item (PBI) & User Story
+## 3.3. Analisis Kebutuhan Sistem
+
+Analisis kebutuhan sistem dilakukan untuk memastikan bahwa fitur yang dikembangkan sesuai dengan permasalahan dan tujuan produk. Kebutuhan sistem dibagi menjadi dua bagian, yaitu kebutuhan fungsional dan kebutuhan nonfungsional. Kebutuhan fungsional menjelaskan layanan atau proses yang harus dapat dilakukan oleh sistem, sedangkan kebutuhan nonfungsional menjelaskan kualitas sistem dari sisi keamanan, kemudahan penggunaan, performa, dan pemeliharaan.
+
+## 3.3.1. Kebutuhan Fungsional
+
+Kebutuhan fungsional RuangAjar Unila disusun berdasarkan aktor yang terlibat dalam sistem, yaitu Public Visitor, Learner, Tutor, dan Admin. Setiap aktor memiliki hak akses dan kebutuhan fitur yang berbeda sesuai perannya.
+
+| Kode | Aktor | Kebutuhan Fungsional |
+| --- | --- | --- |
+| KF-01 | Public Visitor | Sistem dapat menampilkan landing page yang berisi informasi umum mengenai platform RuangAjar Unila. |
+| KF-02 | Public Visitor | Sistem dapat menampilkan kategori, testimoni, dan informasi tutor yang tersedia untuk dilihat sebelum login. |
+| KF-03 | Public Visitor | Sistem dapat menyediakan fitur pencarian tutor berdasarkan keyword atau filter yang tersedia. |
+| KF-04 | Public Visitor | Sistem dapat menampilkan detail tutor, termasuk profil, mata pelajaran, harga, rating, dan review. |
+| KF-05 | Public Visitor | Sistem dapat mengarahkan pengguna ke halaman login atau register ketika ingin menggunakan fitur privat. |
+| KF-06 | Semua Role | Sistem dapat menyediakan fitur register, login, dan logout berbasis role. |
+| KF-07 | Semua Role | Sistem dapat mengarahkan user ke dashboard yang sesuai setelah login berhasil. |
+| KF-08 | Learner | Sistem dapat menampilkan dashboard learner setelah proses login berhasil. |
+| KF-09 | Learner | Sistem dapat memungkinkan learner mencari tutor dan melihat detail tutor. |
+| KF-10 | Learner | Sistem dapat memungkinkan learner membuat booking dengan memilih tutor, subject, tanggal, jam, durasi, dan catatan. |
+| KF-11 | Learner | Sistem dapat menyimpan data booking dengan status awal sesuai aturan sistem. |
+| KF-12 | Learner | Sistem dapat menampilkan sesi aktif dan riwayat booking learner. |
+| KF-13 | Learner | Sistem dapat memungkinkan learner memberikan review dan rating pada tutor setelah sesi selesai. |
+| KF-14 | Learner | Sistem dapat memproses transaksi pembayaran melalui Midtrans sandbox jika credential pembayaran tersedia. |
+| KF-15 | Tutor | Sistem dapat menampilkan dashboard tutor setelah proses login berhasil. |
+| KF-16 | Tutor | Sistem dapat memungkinkan tutor mengelola profil tutor, termasuk data akademik, keahlian, deskripsi, dan harga sesi. |
+| KF-17 | Tutor | Sistem dapat memungkinkan tutor mengelola mata pelajaran atau subject yang diajarkan. |
+| KF-18 | Tutor | Sistem dapat memungkinkan tutor membuat dan mengelola iklan tutor. |
+| KF-19 | Tutor | Sistem dapat memungkinkan tutor mengatur status ketersediaan. |
+| KF-20 | Tutor | Sistem dapat menampilkan daftar booking atau jadwal yang berkaitan dengan tutor. |
+| KF-21 | Tutor | Sistem dapat memungkinkan tutor memperbarui status booking sesuai progres sesi. |
+| KF-22 | Admin | Sistem dapat menampilkan dashboard admin setelah proses login berhasil. |
+| KF-23 | Admin | Sistem dapat menampilkan ringkasan data pengguna, tutor, mahasiswa, dan aktivitas sistem. |
+| KF-24 | Admin | Sistem dapat memungkinkan admin mengelola data tutor. |
+| KF-25 | Admin | Sistem dapat memungkinkan admin mengelola data mahasiswa. |
+| KF-26 | Admin | Sistem dapat memungkinkan admin menghapus user jika diperlukan. |
+| KF-27 | Admin | Sistem dapat memungkinkan admin melakukan verifikasi tutor. |
+| KF-28 | Sistem | Sistem dapat menyimpan data pada database MySQL sesuai schema `ruangajar`. |
+| KF-29 | Sistem | Sistem dapat menerima notifikasi pembayaran dan memperbarui status pembayaran booking jika integrasi Midtrans aktif. |
+
+## 3.3.2. Kebutuhan Nonfungsional
+
+Kebutuhan nonfungsional menjelaskan standar kualitas yang perlu dipenuhi ketika sistem sudah dijalankan pada lingkungan server atau hosting. Pada proyek ini, kebutuhan nonfungsional disusun secara ringkas dan disesuaikan dengan karakter RuangAjar Unila sebagai aplikasi web berbasis PHP native/procedural, MySQL, dan integrasi payment gateway Midtrans.
+
+| ID | Kebutuhan Non-Fungsional | Deskripsi Kebutuhan |
+| --- | --- | --- |
+| KNF-01 | Usability (Kemudahan Pengguna) | Sistem harus memiliki antarmuka web yang sederhana, konsisten, dan mudah dipahami oleh Public Visitor, Learner, Tutor, dan Admin tanpa memerlukan pelatihan khusus. |
+| KNF-02 | Accessibility (Aksesibilitas) | Sistem harus dapat diakses melalui peramban web standar dari perangkat yang terhubung ke jaringan internet atau jaringan lokal server tempat aplikasi dideploy. |
+| KNF-03 | Performance (Kinerja) | Sistem harus mampu merespons akses halaman, pencarian tutor, proses login, dan penyimpanan booking secara wajar tanpa penundaan yang mengganggu penggunaan. |
+| KNF-04 | Reliability (Keandalan) | Sistem harus menjaga konsistensi data user, tutor, mahasiswa, subject, booking, pembayaran, dan review sesuai relasi database MySQL yang digunakan. |
+| KNF-05 | Security (Keamanan) | Akses fitur privat harus dilindungi dengan autentikasi, pengecekan session, validasi role, validasi input backend, serta penyimpanan password dalam bentuk hash. |
+| KNF-06 | Compatibility & Maintainability (Kompatibilitas dan Pemeliharaan) | Sistem harus dapat dijalankan pada server PHP dan MySQL yang kompatibel serta memiliki struktur folder, konfigurasi, dan dokumentasi yang mudah dipahami untuk proses deployment maupun pengembangan lanjutan. |
+
+## 3.4. Product Backlog Item (PBI) & User Story
 
 Product Backlog Item disusun berdasarkan kebutuhan utama sistem. Setiap PBI diterjemahkan ke dalam user story agar kebutuhan pengguna lebih mudah dipahami.
 

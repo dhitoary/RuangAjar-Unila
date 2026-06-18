@@ -1,7 +1,7 @@
 # Current Progress (Scratchpad)
 
 ## Active Task
-Menyusun laporan pengembangan sistem RuangAjar Unila berdasarkan struktur BAB I sampai BAB VI.
+Meringkas kebutuhan nonfungsional pada laporan berdasarkan kriteria sistem ketika dideploy.
 
 ## Files Modified (Current Session)
 - `context/system-instructions.md` -> Instruksi kerja AI, coding rules, dan batas keamanan proyek.
@@ -60,6 +60,19 @@ Menyusun laporan pengembangan sistem RuangAjar Unila berdasarkan struktur BAB I 
 - `docs/laporan-ruangajar-unila.md` -> Laporan lengkap BAB I sampai BAB VI berdasarkan struktur yang diminta dan gaya referensi dokumen.
 - `context/current-progress.md` -> Mencatat penyusunan laporan RuangAjar Unila.
 - `context/changelog.md` -> Mencatat penambahan laporan proyek.
+- `docs/laporan-ruangajar-unila.md` -> Memperbarui subbab 3.1 agar setiap anggota memiliki peran Scrum sekaligus kontribusi sebagai full-stack developer.
+- `context/current-progress.md` -> Mencatat pembaruan bagian peran tim.
+- `context/changelog.md` -> Mencatat pembaruan pembagian peran tim pada laporan.
+- `docs/laporan-ruangajar-unila.md` -> Memperjelas pembagian full-stack: Dhito untuk Public Visitor dan Learner, Rayham untuk Admin, Firman untuk Tutor dan dokumentasi teknis.
+- `context/current-progress.md` -> Mencatat pembaruan spesifik pembagian role fitur.
+- `context/changelog.md` -> Mencatat pembaruan spesifik pembagian role fitur.
+- `docs/laporan-ruangajar-unila.md` -> Menambahkan subbab 3.3 Analisis Kebutuhan Sistem, 3.3.1 Kebutuhan Fungsional, dan 3.3.2 Kebutuhan Nonfungsional.
+- `docs/laporan-ruangajar-unila.md` -> Menyesuaikan penomoran Product Backlog Item dari 3.3 menjadi 3.4.
+- `context/current-progress.md` -> Mencatat penambahan kebutuhan sistem pada laporan.
+- `context/changelog.md` -> Mencatat penambahan kebutuhan fungsional dan nonfungsional.
+- `docs/laporan-ruangajar-unila.md` -> Meringkas tabel kebutuhan nonfungsional menjadi 6 kriteria utama berbasis kondisi deployment.
+- `context/current-progress.md` -> Mencatat peringkasan kebutuhan nonfungsional.
+- `context/changelog.md` -> Mencatat peringkasan kebutuhan nonfungsional pada laporan.
 
 ## Blockers / Bugs Found
 - `git status --short` gagal dijalankan karena error sandbox Windows `CreateProcessWithLogonW failed: 1056`; perubahan file tetap dilanjutkan karena hanya membuat dokumentasi context.
@@ -67,4 +80,4 @@ Menyusun laporan pengembangan sistem RuangAjar Unila berdasarkan struktur BAB I 
 - Error runtime: `mysqli_sql_exception: No connection could be made because the target machine actively refused it` terjadi karena aplikasi mencoba konek ke MySQL port `3307`, sementara database lokal tersedia di port `3306`.
 
 ## Next Immediate Action
-- Review isi `docs/laporan-ruangajar-unila.md`, lalu sesuaikan detail nama dosen, format kampus, gambar hasil render UML, dan nomor tabel/gambar jika akan dipindahkan ke Word.
+- Review kembali tabel kebutuhan nonfungsional pada `docs/laporan-ruangajar-unila.md` untuk memastikan istilah deployment sudah sesuai rencana penyajian laporan.

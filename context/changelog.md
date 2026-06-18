@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.1.16] - 2026-06-18 16:36 WIB
+### Changed
+- Meringkas tabel Kebutuhan Nonfungsional pada `docs/laporan-ruangajar-unila.md` menjadi 6 kriteria utama.
+- Menyesuaikan deskripsi kebutuhan nonfungsional agar berfokus pada kondisi sistem ketika telah dijalankan pada server atau hosting.
+
+## [0.1.15] - 2026-06-18 16:26 WIB
+### Added
+- Menambahkan subbab 3.3 Analisis Kebutuhan Sistem pada `docs/laporan-ruangajar-unila.md`.
+- Menambahkan tabel Kebutuhan Fungsional dan Kebutuhan Nonfungsional yang disesuaikan dengan role Public Visitor, Learner, Tutor, Admin, dan proses sistem.
+
+### Changed
+- Menyesuaikan penomoran Product Backlog Item dari 3.3 menjadi 3.4.
+
+## [0.1.14] - 2026-06-18 16:14 WIB
+### Changed
+- Memperbarui subbab 3.1 pada `docs/laporan-ruangajar-unila.md` agar pembagian kontribusi full-stack dijelaskan berdasarkan role fitur.
+- Menjelaskan bahwa Dhito Aryo Trengginas berfokus pada Public Visitor dan Learner, Muhammad Rayham Gumay pada Admin, serta Firman Farel Richardo pada Tutor dan dokumentasi teknis.
+
+## [0.1.13] - 2026-06-18 16:08 WIB
+### Changed
+- Memperbarui subbab 3.1 pada `docs/laporan-ruangajar-unila.md` agar peran Scrum tetap tercatat, tetapi seluruh anggota juga dijelaskan sebagai full-stack developer.
+- Menyesuaikan narasi pembagian peran supaya mencerminkan kontribusi frontend, backend, database, integrasi, dokumentasi, dan pengujian yang dikerjakan bersama.
+
 ## [0.1.12] - 2026-06-18 15:35 WIB
 ### Added
 - Menambahkan `docs/laporan-ruangajar-unila.md` berisi laporan pengembangan sistem RuangAjar Unila dari BAB I sampai BAB VI.
