@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.4] - 2026-06-18 12:23 WIB
+### Fixed
+- Mengubah port MySQL di `src/config/database.php` dari `3307` ke `3306` untuk menyesuaikan database lokal yang sedang dipakai.
+- Mencatat penyebab error koneksi database lokal pada `current-progress.md`.
+
 ## [0.1.3] - 2026-06-18 12:16 WIB
 ### Added
 - Menambahkan `docs/setup.md` sebagai panduan setup project pertama kali dari nol menggunakan Laragon.
