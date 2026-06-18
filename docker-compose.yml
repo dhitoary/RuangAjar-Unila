@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # PHP Application (Apache + PHP 8.2)
+  ruangajar-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ruangajar-app
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=ruangajar-db
+      - DB_USER=ruangajar_user
+      - DB_PASS=ruangajar_pass
+      - DB_NAME=ruangajar
+      - DB_PORT=3306
+    depends_on:
+      ruangajar-db:
+        condition: service_healthy
+    volumes:
+      - .:/var/www/html
+      - uploads_data:/var/www/html/src/uploads
+    networks:
+      - ruangajar-network
+
+  # MariaDB Database (MySQL drop-in replacement, optimized for low memory footprint)
+  ruangajar-db:
+    image: mariadb:10.11-alpine
+    container_name: ruangajar-db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_secure_pass
+      - MYSQL_DATABASE=ruangajar
+      - MYSQL_USER=ruangajar_user
+      - MYSQL_PASSWORD=ruangajar_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ruangajar-network
+
+volumes:
+  db_data:
+  uploads_data:
+
+networks:
+  ruangajar-network:
+    driver: bridge

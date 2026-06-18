@@ -1,0 +1,60 @@
+version: '3.8'
+
+##############################################################################
+# RuangAjar Unila — Docker Compose Production Override
+#
+# File ini menimpa docker-compose.yml untuk deployment di VPS Hostinger
+# yang sudah menjalankan 16 kontainer produksi (MER System + Monitoring + WebGIS).
+#
+# RESOLUSI KONFLIK PORT:
+#   - App       : 8080 → 8090 (di-bind ke 172.20.1.1:8090)
+#   - Database  : TIDAK di-expose ke host (menghindari konflik eksternal)
+#
+# RESOURCE LIMITS & TUNING:
+#   Dibatasi seminimal mungkin agar hemat RAM/storage dan tidak mengganggu
+#   kestabilan layanan produksi lainnya di VPS.
+##############################################################################
+
+services:
+  # PHP Application (Apache + PHP 8.2)
+  ruangajar-app:
+    ports: !override
+      - "172.20.1.1:8090:80"
+    environment:
+      - DB_HOST=ruangajar-db
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=3306
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+
+  # MariaDB Database (Tuned for low memory footprint in Production)
+  ruangajar-db:
+    ports: !override []
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    # Perintah optimalisasi RAM di MySQL/MariaDB
+    command: [
+      "mariadbd",
+      "--key-buffer-size=16M",
+      "--max-connections=15",
+      "--query-cache-size=0",
+      "--query-cache-type=0",
+      "--innodb-buffer-pool-size=32M",
+      "--innodb-log-buffer-size=4M",
+      "--performance-schema=OFF"
+    ]
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
