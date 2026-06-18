@@ -83,65 +83,125 @@ $count_cancelled = $count_cancelled_result ? mysqli_fetch_assoc($count_cancelled
 $logoPath = "../../../assets/img/logo.png";
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Booking - RuangAjar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-</head>
-<body>
-
-<!-- NAVBAR LEARNER -->
-<?php include '../../layouts/header_learner.php'; ?>
+<?php
+$assetPath = "../../assets/";
+include '../../layouts/header.php';
+?>
 
 <div style="padding-top: 20px;">
 
 <style>
 .riwayat-container {
-    padding: 30px 0;
+    padding: 40px 0;
 }
 
 .riwayat-header {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .riwayat-header h1 {
-    color: var(--color-text-dark);
-    margin-bottom: 10px;
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
+.riwayat-header p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+/* Stats Summary Cards */
+.stats-summary {
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+    padding: 18px 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    flex: 1;
+    min-width: 200px;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+}
+
+.stat-item i {
+    font-size: 32px;
+}
+
+.stat-completed i {
+    color: var(--success);
+}
+
+.stat-cancelled i {
+    color: var(--danger);
+}
+
+.stat-label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.stat-count {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+/* Filter Tabs */
 .filter-tabs {
     display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: 12px;
+    margin: 35px 0 25px 0;
     flex-wrap: wrap;
 }
 
 .filter-tab {
-    padding: 10px 20px;
+    padding: 10px 24px;
     background: white;
-    border: 2px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    border-radius: 30px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s ease;
     font-weight: 600;
-    color: var(--color-text-dark);
+    color: var(--muted);
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
 
 .filter-tab:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    border-color: var(--primary-light);
+    color: var(--primary-light);
+    background: var(--primary-soft);
 }
 
 .filter-tab.active {
-    background: var(--color-primary);
+    background: var(--primary);
     color: white;
-    border-color: var(--color-primary);
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(26,82,118,0.2);
 }
 
+/* Booking Cards */
 .bookings-list {
     display: grid;
     gap: 20px;
@@ -149,74 +209,86 @@ $logoPath = "../../../assets/img/logo.png";
 
 .booking-card {
     background: white;
-    padding: 25px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    border-left: 4px solid var(--color-primary);
+    padding: 28px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    border-left: 6px solid var(--primary);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.booking-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(26,82,118,0.12);
+}
+
+.booking-card[data-status="cancelled"] {
+    border-left-color: var(--danger);
+}
+
+.booking-card[data-status="completed"] {
+    border-left-color: var(--success);
 }
 
 .booking-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    margin-bottom: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .booking-tutor-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
+}
+
+.tutor-avatar-img {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid var(--primary-soft);
+    background: var(--primary-soft);
 }
 
 .tutor-avatar-small {
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
-    background: var(--color-primary);
+    background: var(--primary-soft);
+    color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 700;
+    border: 2.5px solid var(--primary-soft);
 }
 
-.booking-details {
-    margin-bottom: 15px;
+.booking-card[data-status="cancelled"] .tutor-avatar-small {
+    background: #f8d7da;
+    color: var(--danger);
+    border-color: #f8d7da;
 }
 
-.booking-details p {
-    margin: 5px 0;
-    color: var(--color-text-light);
-    font-size: 14px;
-}
-
-.booking-details strong {
-    color: var(--color-text-dark);
-}
-
-.booking-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+.booking-card[data-status="completed"] .tutor-avatar-small {
+    background: #d4edda;
+    color: var(--success);
+    border-color: #d4edda;
 }
 
 .status-badge {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.status-pending {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.status-confirmed {
-    background: #d1ecf1;
-    color: #0c5460;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: capitalize;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .status-completed {
@@ -229,41 +301,173 @@ $logoPath = "../../../assets/img/logo.png";
     color: #721c24;
 }
 
-.btn-review {
-    padding: 8px 16px;
-    background: var(--color-secondary);
-    color: var(--color-text-dark);
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
+.booking-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.booking-details p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.booking-details strong {
+    display: block;
+    margin-top: 6px;
+    font-size: 15px;
+    color: var(--dark);
     font-weight: 600;
+}
+
+.booking-details .price-val {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.notes-container {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--bg);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--muted);
+}
+
+.notes-title {
+    margin: 0 0 6px 0;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.notes-text {
+    margin: 0;
+    color: var(--dark);
     font-size: 14px;
-    transition: all 0.3s;
+    line-height: 1.5;
+}
+
+.booking-actions {
+    margin-top: 25px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+}
+
+.btn-review {
+    padding: 10px 22px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(243,156,18,0.25);
 }
 
 .btn-review:hover {
-    background: #ffb300;
+    background: var(--accent-dark);
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(243,156,18,0.35);
 }
 
-.loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--color-text-light);
+.btn-book-again {
+    padding: 10px 22px;
+    background: var(--primary-soft);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid transparent;
 }
 
+.btn-book-again:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26,82,118,0.15);
+}
+
+/* Empty State */
 .empty-state {
     text-align: center;
-    padding: 60px 20px;
-    color: var(--color-text-light);
+    padding: 80px 20px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.empty-state-icon {
+    font-size: 72px;
+    color: var(--primary-soft);
+    margin-bottom: 24px;
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    background: var(--bg);
+    border-radius: 50%;
 }
 
 .empty-state h3 {
-    margin-bottom: 10px;
-    color: var(--color-text-dark);
+    margin: 0 0 10px 0;
+    color: var(--dark);
+    font-weight: 800;
+    font-size: 1.4rem;
 }
 
-/* Review Modal */
+.empty-state p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 400px;
+    margin: 0 auto 30px;
+}
+
+.empty-state-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: var(--primary);
+    color: white !important;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(26,82,118,0.25);
+}
+
+.empty-state-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(26,82,118,0.35);
+}
+
+/* Glassmorphic Review Modal */
 .review-modal {
     display: none;
     position: fixed;
@@ -271,8 +475,9 @@ $logoPath = "../../../assets/img/logo.png";
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    background: rgba(26, 82, 118, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
     align-items: center;
     justify-content: center;
 }
@@ -283,68 +488,43 @@ $logoPath = "../../../assets/img/logo.png";
 
 .review-modal-content {
     background: white;
-    padding: 30px;
-    border-radius: var(--border-radius);
+    padding: 40px;
+    border-radius: var(--radius);
     max-width: 500px;
     width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    border: 1px solid var(--border);
+    animation: modalSlideIn 0.3s ease;
 }
 
-.review-modal-header {
-    margin-bottom: 20px;
-}
-
-.review-modal-header h2 {
-    margin-bottom: 5px;
-}
-
-.rating-input {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    justify-content: center;
-}
-
-.rating-input input[type="radio"] {
-    display: none;
-}
-
-.rating-input label {
-    font-size: 30px;
-    cursor: pointer;
-    color: #ddd;
-    transition: color 0.2s;
-}
-
-.rating-input label:hover,
-.rating-input input[type="radio"]:checked ~ label,
-.rating-input label:hover ~ label {
-    color: #ffc107;
-}
-
-.rating-input input[type="radio"]:checked ~ label {
-    color: #ffc107;
-}
-
-.close-modal {
-    float: right;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--color-text-light);
+@keyframes modalSlideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 </style>
 
 <div class="riwayat-container">
     <div class="container">
         <div class="riwayat-header">
-            <h1>ðŸ“š Riwayat Booking</h1>
+            <h1><i class="bi bi-clock-history"></i> Riwayat Booking</h1>
             <p>Lihat semua sesi belajar yang telah selesai atau dibatalkan</p>
-            <div style="margin-top: 15px; display: flex; gap: 20px;">
-                <span style="color: #10b981; font-weight: 600;">âœ… Selesai: <?php echo $count_completed; ?></span>
-                <span style="color: #ef4444; font-weight: 600;">âŒ Dibatalkan: <?php echo $count_cancelled; ?></span>
+            
+            <div class="stats-summary">
+                <div class="stat-item stat-completed">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <div>
+                        <span class="stat-label">Selesai</span>
+                        <span class="stat-count"><?php echo $count_completed; ?> Sesi</span>
+                    </div>
+                </div>
+                <div class="stat-item stat-cancelled">
+                    <i class="bi bi-x-circle-fill"></i>
+                    <div>
+                        <span class="stat-label">Dibatalkan</span>
+                        <span class="stat-count"><?php echo $count_cancelled; ?> Sesi</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -385,52 +565,56 @@ $logoPath = "../../../assets/img/logo.png";
                     
                     $status_class = $booking['status'];
                     $status_label = $booking['status'] == 'completed' ? 'Selesai' : 'Dibatalkan';
-                    $status_color = $booking['status'] == 'completed' ? '#10b981' : '#ef4444';
                 ?>
                 <div class="booking-card" data-status="<?php echo $booking['status']; ?>">
                     <div class="booking-card-header">
                         <div class="booking-tutor-info">
-                            <div class="tutor-avatar-small"><?php echo $tutor_initial; ?></div>
+                            <?php if (!empty($booking['foto_profil'])): ?>
+                                <img class="tutor-avatar-img" src="../../../<?php echo htmlspecialchars($booking['foto_profil']); ?>" alt="<?php echo htmlspecialchars($booking['tutor_name']); ?>">
+                            <?php else: ?>
+                                <div class="tutor-avatar-small"><?php echo $tutor_initial; ?></div>
+                            <?php endif; ?>
                             <div>
-                                <h3 style="margin: 0; color: #1a5276;"><?php echo htmlspecialchars($booking['tutor_name']); ?></h3>
-                                <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;"><?php echo htmlspecialchars($booking['subject_name']); ?></p>
+                                <h3 style="margin: 0; color: var(--primary); font-weight: 700; font-size: 1.15rem;"><?php echo htmlspecialchars($booking['tutor_name']); ?></h3>
+                                <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 0.85rem;"><?php echo htmlspecialchars($booking['subject_name']); ?></p>
                             </div>
                         </div>
-                        <span style="background: <?php echo $status_color; ?>; color: white; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;">
+                        <span class="status-badge status-<?php echo $booking['status']; ?>">
+                            <i class="bi <?php echo $booking['status'] == 'completed' ? 'bi-check-circle-fill' : 'bi-x-circle-fill'; ?>"></i>
                             <?php echo $status_label; ?>
                         </span>
                     </div>
-                    <div class="booking-details" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                    <div class="booking-details">
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;"><i class="bi bi-calendar"></i> Tanggal</p>
-                            <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $date_formatted; ?></p>
+                            <p><i class="bi bi-calendar"></i> Tanggal</p>
+                            <strong><?php echo $date_formatted; ?></strong>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">ðŸ• Waktu</p>
-                            <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $time_formatted; ?> WIB</p>
+                            <p><i class="bi bi-clock"></i> Waktu</p>
+                            <strong><?php echo $time_formatted; ?> WIB</strong>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">â±ï¸ Durasi</p>
-                            <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $booking['duration']; ?> menit</p>
+                            <p><i class="bi bi-hourglass-split"></i> Durasi</p>
+                            <strong><?php echo $booking['duration']; ?> menit</strong>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;"><i class="bi bi-cash"></i> Harga</p>
-                            <p style="margin: 5px 0 0 0; font-weight: 600; color: #1a5276;"><?php echo $price_formatted; ?></p>
+                            <p><i class="bi bi-cash"></i> Harga</p>
+                            <strong class="price-val"><?php echo $price_formatted; ?></strong>
                         </div>
                     </div>
                     <?php if ($booking['notes']): ?>
-                    <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                        <p style="margin: 0; color: #666; font-size: 13px; margin-bottom: 5px;">ðŸ“ Catatan:</p>
-                        <p style="margin: 0; color: #333;"><?php echo htmlspecialchars($booking['notes']); ?></p>
+                    <div class="notes-container">
+                        <p class="notes-title"><i class="bi bi-chat-left-text"></i> Catatan:</p>
+                        <p class="notes-text"><?php echo htmlspecialchars($booking['notes']); ?></p>
                     </div>
                     <?php endif; ?>
                     <?php if ($booking['status'] == 'completed'): ?>
-                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                    <div class="booking-actions">
                         <button class="btn-review" onclick="openReviewModal(<?php echo $booking['id']; ?>)">
-                            â­ Beri Review
+                            <i class="bi bi-star-fill"></i> Beri Review
                         </button>
-                        <a href="sesi_saya.php" style="padding: 10px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">
-                            Booking Lagi
+                        <a href="sesi_saya.php" class="btn-book-again">
+                            <i class="bi bi-arrow-repeat"></i> Booking Lagi
                         </a>
                     </div>
                     <?php endif; ?>
@@ -438,11 +622,11 @@ $logoPath = "../../../assets/img/logo.png";
                 <?php endwhile; ?>
             <?php else: ?>
                 <div class="empty-state">
-                    <div style="font-size: 64px; margin-bottom: 20px;"><i class="bi bi-journal-x"></i></div>
+                    <div class="empty-state-icon"><i class="bi bi-journal-x"></i></div>
                     <h3>Belum ada riwayat booking</h3>
                     <p>Riwayat booking yang sudah selesai atau dibatalkan akan muncul di sini</p>
                     <p style="margin-top: 20px;">
-                        <a href="../public/search_result.php" style="color: #1a5276; font-weight: 600; text-decoration: none;">
+                        <a href="../public/search_result.php" class="empty-state-btn">
                             Cari Tutor Sekarang <i class="bi bi-arrow-right"></i>
                         </a>
                     </p>
@@ -453,8 +637,8 @@ $logoPath = "../../../assets/img/logo.png";
 </div>
 
 <!-- Review Modal -->
-<div class="review-modal" id="reviewModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center;">
-    <div class="review-modal-content" style="background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative;">
+<div class="review-modal" id="reviewModal">
+    <div class="review-modal-content">
         <button onclick="closeReviewModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 30px; cursor: pointer; color: #999;">&times;</button>
         <div style="margin-bottom: 30px;">
             <h2 style="color: #1a5276; margin: 0 0 10px 0;">Beri Rating & Review</h2>
@@ -466,15 +650,15 @@ $logoPath = "../../../assets/img/logo.png";
             <div style="margin-bottom: 25px; text-align: center;">
                 <div class="rating-input" style="display: flex; flex-direction: row-reverse; justify-content: center; gap: 10px;">
                     <input type="radio" name="rating" value="5" id="rating5" required style="display: none;">
-                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(5)">â­</label>
+                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(5)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="4" id="rating4" style="display: none;">
-                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(4)">â­</label>
+                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(4)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="3" id="rating3" style="display: none;">
-                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(3)">â­</label>
+                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(3)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="2" id="rating2" style="display: none;">
-                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(2)">â­</label>
+                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(2)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="1" id="rating1" style="display: none;">
-                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(1)">â­</label>
+                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(1)"><i class="bi bi-star-fill"></i></label>
                 </div>
             </div>
             

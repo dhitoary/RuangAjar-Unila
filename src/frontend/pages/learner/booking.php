@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -40,56 +40,11 @@ if ($tutor_id > 0) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Tutor - RuangAjar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-</head>
-<body>
+<?php
+$assetPath = "../../assets/";
+include '../../layouts/header.php';
+?>
 
-<!-- NAVBAR KHUSUS LEARNER -->
-<nav class="sb-navbar" style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100;">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #1a5276;">
-            <img src="/kelompok/kelompok_21/src/assets/img/logo.png" alt="RuangAjar Logo" style="width: 40px; height: 40px;">
-            <span>RuangAjar</span>
-        </div>
-
-        <ul style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
-            <li><a href="dashboard_mahasiswa.php" style="text-decoration: none; color: #333; font-weight: 500;">Beranda</a></li>
-            <li><a href="../public/search_result.php" style="text-decoration: none; color: #333; font-weight: 500;">Cari Tutor</a></li>
-            <li><a href="sesi_saya.php" style="text-decoration: none; color: #333; font-weight: 500;">Sesi Saya</a></li>
-            <li><a href="riwayat.php" style="text-decoration: none; color: #333; font-weight: 500;">Riwayat Booking</a></li>
-        </ul>
-
-        <div>
-            <div style="position: relative;">
-                <button onclick="toggleDropdown()" style="display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); color: white; padding: 10px 25px; border-radius: 25px; border: none; cursor: pointer; font-weight: 600;">
-                    <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?>
-                </button>
-                <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000;">
-                    <div style="padding: 12px 16px; border-bottom: 1px solid #eee;">
-                        <p style="margin: 0; font-weight: 600; color: #333;"><?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?></p>
-                        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;"><?php echo $siswa_data['jenjang'] . ' - ' . $siswa_data['kelas']; ?></p>
-                    </div>
-                    <a href="profil.php" style="display: block; padding: 12px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">
-                        <i class="bi bi-person"></i> Profil Saya
-                    </a>
-                    <a href="sesi_saya.php" style="display: block; padding: 12px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">
-                        <i class="bi bi-calendar-check"></i> Sesi Belajar
-                    </a>
-                    <a href="../../../backend/auth/logout.php" style="display: block; padding: 12px 16px; color: #dc3545; text-decoration: none;">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
 
 <style>
 .booking-container {

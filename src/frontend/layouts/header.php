@@ -39,9 +39,9 @@ $userRole = $_SESSION['user_role'] ?? '';
     <ul class="sb-menu">
       <?php if ($isLoggedIn && $userRole === 'learner'): ?>
         <li><a href="../learner/dashboard_mahasiswa.php" class="<?php echo $currentPage == 'dashboard_mahasiswa.php' ? 'active' : ''; ?>">Beranda</a></li>
-        <li><a href="../public/search_result.php" class="<?php echo $currentPage == 'search_result.php' ? 'active' : ''; ?>">Cari Tutor</a></li>
+        <li><a href="../learner/cari_tutor.php" class="<?php echo $currentPage == 'cari_tutor.php' ? 'active' : ''; ?>">Cari Tutor</a></li>
         <li><a href="../learner/sesi_saya.php" class="<?php echo $currentPage == 'sesi_saya.php' ? 'active' : ''; ?>">Sesi Saya</a></li>
-        <li><a href="../learner/riwayat.php" class="<?php echo $currentPage == 'riwayat.php' ? 'active' : ''; ?>">Riwayat</a></li>
+        <li><a href="../learner/riwayat.php" class="<?php echo $currentPage == 'riwayat.php' ? 'active' : ''; ?>">Riwayat Booking</a></li>
       <?php elseif ($isLoggedIn && $userRole === 'tutor'): ?>
         <li><a href="../tutor/dashboard_tutor.php" class="<?php echo $currentPage == 'dashboard_tutor.php' ? 'active' : ''; ?>">Beranda</a></li>
         <li><a href="../tutor/jadwal_saya.php" class="<?php echo $currentPage == 'jadwal_saya.php' ? 'active' : ''; ?>">Jadwal Saya</a></li>

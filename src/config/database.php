@@ -3,7 +3,7 @@ $host = '127.0.0.1';
 $user = 'root';
 $pass = '';
 $db   = 'ruangajar';
-$port = 3306; // sesuaikan dengan port MySQL Laragon lokal
+$port = 3307; // sesuaikan dengan port MySQL Laragon lokal
 
 $conn = mysqli_connect($host, $user, $pass, $db, $port);
 

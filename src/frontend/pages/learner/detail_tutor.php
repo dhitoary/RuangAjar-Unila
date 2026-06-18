@@ -3,12 +3,25 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
 $assetPath = "../../assets/";
-include '../../layouts/header.php';
-
-// Koneksi database
 require_once '../../../config/database.php';
+
+// Check if learner is logged in
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['user_role'] !== 'learner') {
+    // If not logged in as learner, maybe they should use public detail tutor
+    // But since they are here, just let it pass or handle auth.
+    // For now, allow viewing but header_learner expects learner auth.
+}
+
+// Get user data for header_learner if needed
+$learner_id = $_SESSION['user_id'] ?? 0;
+$query_siswa = "SELECT nama_lengkap, jenjang, kelas, sekolah, email, minat FROM mahasiswa WHERE email = ?";
+$stmt_siswa = mysqli_prepare($conn, $query_siswa);
+mysqli_stmt_bind_param($stmt_siswa, "s", $_SESSION['user_email']);
+mysqli_stmt_execute($stmt_siswa);
+$siswa_data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt_siswa));
+
+include '../../layouts/header.php';
 
 // Get tutor ID from URL - support both 'tutor_id' and 'id' parameters for backward compatibility
 $tutor_id = 0;
