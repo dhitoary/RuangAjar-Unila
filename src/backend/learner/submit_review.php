@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../config/database.php';
 
@@ -32,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Validasi input
     if (empty($booking_id) || $rating < 1 || $rating > 5) {
-        header("Location: ../../frontend/pages/learner/testimoni.php?error=invalid_rating");
+        header("Location: ../../frontend/pages/learner/sesi_saya.php?error=invalid_rating");
         exit();
     }
     
     if (empty($review_text)) {
-        header("Location: ../../frontend/pages/learner/testimoni.php?error=empty_review&booking_id=" . $booking_id);
+        header("Location: ../../frontend/pages/learner/sesi_saya.php?error=empty_review&booking_id=" . $booking_id);
         exit();
     }
     
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (mysqli_num_rows($booking_result) == 0) {
         mysqli_stmt_close($stmt);
-        header("Location: ../../frontend/pages/learner/testimoni.php?error=invalid_booking");
+        header("Location: ../../frontend/pages/learner/sesi_saya.php?error=invalid_booking");
         exit();
     }
     
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (mysqli_num_rows($review_result) > 0) {
         mysqli_stmt_close($stmt);
-        header("Location: ../../frontend/pages/learner/testimoni.php?error=review_exists");
+        header("Location: ../../frontend/pages/learner/sesi_saya.php?error=review_exists");
         exit();
     }
     mysqli_stmt_close($stmt);
@@ -81,15 +81,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (mysqli_stmt_execute($stmt)) {
         mysqli_stmt_close($stmt);
-        header("Location: ../../frontend/pages/learner/testimoni.php?status=review_success");
+        header("Location: ../../frontend/pages/learner/sesi_saya.php?status=review_success");
     } else {
         mysqli_stmt_close($stmt);
-        header("Location: ../../frontend/pages/learner/testimoni.php?error=db_error&booking_id=" . $booking_id);
+        header("Location: ../../frontend/pages/learner/sesi_saya.php?error=db_error&booking_id=" . $booking_id);
     }
     exit();
     
 } else {
-    header("Location: ../../frontend/pages/learner/testimoni.php");
+    header("Location: ../../frontend/pages/learner/sesi_saya.php");
     exit();
 }
 ?>

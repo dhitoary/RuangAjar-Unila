@@ -337,7 +337,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
                     </div>
 
                     <div class="subject-actions">
-                        <button onclick="window.location.href='edit_subject.php?id=<?php echo $subject['id']; ?>'" class="btn-action btn-edit">
+                        <button onclick="openEditModal(<?php echo $subject['id']; ?>, '<?php echo htmlspecialchars(addslashes($subject['subject_name']), ENT_QUOTES); ?>', '<?php echo htmlspecialchars(addslashes($subject['description'] ?? ''), ENT_QUOTES); ?>', <?php echo $subject['price']; ?>)" class="btn-action btn-edit">
                             <i class="bi bi-pencil"></i> Edit
                         </button>
                         <button onclick="deleteSubject(<?php echo $subject['id']; ?>, '<?php echo htmlspecialchars($subject['subject_name'], ENT_QUOTES); ?>')" class="btn-action btn-delete">
@@ -392,8 +392,107 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
     </div>
 </div>
 
+<!-- Edit Subject Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <h2 style="margin: 0; color: #1a202c;">Edit Mata Kuliah</h2>
+            <button onclick="closeEditModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+        </div>
+
+        <form action="../../../backend/tutor/edit_subject.php" method="POST">
+            <input type="hidden" name="id" id="edit_subject_id">
+            <div class="form-group">
+                <label class="form-label">Nama Mata Kuliah</label>
+                <input type="text" name="subject_name" id="edit_subject_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Deskripsi</label>
+                <textarea name="description" id="edit_subject_description" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Harga Per Sesi (Rp)</label>
+                <input type="number" name="price" id="edit_subject_price" class="form-control" min="0" step="1000" required>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button type="submit" class="btn-save">
+                    <i class="bi bi-save"></i> Simpan Perubahan
+                </button>
+                <button type="button" onclick="closeEditModal()" style="padding: 12px 30px; border: 2px solid #e0e0e0; border-radius: 8px; background: white; color: #666; font-weight: 600; cursor: pointer;">
+                    Batal
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+// === Add Modal ===
+function openAddModal() {
+    document.getElementById('addModal').style.display = 'block';
+}
+
+function closeAddModal() {
+    document.getElementById('addModal').style.display = 'none';
+}
+
+// === Edit Modal ===
+function openEditModal(id, name, description, price) {
+    document.getElementById('edit_subject_id').value = id;
+    document.getElementById('edit_subject_name').value = name;
+    document.getElementById('edit_subject_description').value = description;
+    document.getElementById('edit_subject_price').value = price;
+    document.getElementById('editModal').style.display = 'block';
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+
+// === Delete Subject ===
+function deleteSubject(id, name) {
+    Swal.fire({
+        title: 'Hapus Mata Kuliah?',
+        html: `Apakah Anda yakin ingin menghapus <strong>${name}</strong>?<br><small class="text-muted">Tindakan ini tidak dapat dibatalkan.</small>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `../../../backend/tutor/delete_subject.php?id=${id}`;
+        }
+    });
+}
+
+// === Close modals when clicking outside ===
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+}
+
+// === Toast Alerts ===
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('success') === 'added') {
+    Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Mata kuliah berhasil ditambahkan.', timer: 2000, showConfirmButton: false });
+} else if (urlParams.get('success') === 'deleted') {
+    Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Mata kuliah berhasil dihapus.', timer: 2000, showConfirmButton: false });
+} else if (urlParams.get('success') === 'updated') {
+    Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Mata kuliah berhasil diperbarui.', timer: 2000, showConfirmButton: false });
+} else if (urlParams.has('error')) {
+    Swal.fire({ icon: 'error', title: 'Gagal', text: decodeURIComponent(urlParams.get('error')) });
+}
+</script>
 </body>
 </html>
+
 
 
 

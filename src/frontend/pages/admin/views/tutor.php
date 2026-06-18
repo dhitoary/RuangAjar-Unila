@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 global $conn;
 if (!$conn) { echo "<div class='alert alert-danger'>Koneksi database gagal!</div>"; exit; }
 
@@ -92,24 +92,24 @@ $total_tutor = mysqli_num_rows($result);
                     <tr>
                         <td class="ps-4">
                             <div class="d-flex align-items-center">
-                                <img src="https://ui-avatars.com/api/?name=<?= urlencode($row['nama_lengkap']) ?>&background=random" class="rounded-circle me-3" width="40">
+                                <img src="https://ui-avatars.com/api/?name=<?= urlencode($row['nama_lengkap'] ?? '') ?>&background=random" class="rounded-circle me-3" width="40">
                                 <div>
-                                    <div class="fw-bold name-col"><?= htmlspecialchars($row['nama_lengkap']) ?></div>
-                                    <div class="small text-muted"><?= htmlspecialchars($row['email']) ?></div>
+                                    <div class="fw-bold name-col"><?= htmlspecialchars($row['nama_lengkap'] ?? '') ?></div>
+                                    <div class="small text-muted"><?= htmlspecialchars($row['email'] ?? '') ?></div>
                                 </div>
                             </div>
                         </td>
-                        <td><span class="badge bg-<?= $catColor ?> bg-opacity-10 text-<?= $catColor == 'dark' ? 'dark' : $catColor ?> category-col"><?= $row['keahlian'] ?></span></td>
-                        <td><?= htmlspecialchars($row['pendidikan']) ?></td>
-                        <td><span class="badge bg-<?= $statColor ?> status-col"><?= $row['status'] ?></span></td>
+                        <td><span class="badge bg-<?= $catColor ?> bg-opacity-10 text-<?= $catColor == 'dark' ? 'dark' : $catColor ?> category-col"><?= htmlspecialchars($row['keahlian'] ?? '') ?></span></td>
+                        <td><?= htmlspecialchars($row['pendidikan'] ?? '') ?></td>
+                        <td><span class="badge bg-<?= $statColor ?> status-col"><?= htmlspecialchars($row['status'] ?? '') ?></span></td>
                         <td class="text-end pe-4">
                             <button class="btn btn-sm btn-light text-info" 
                                 onclick="showDetailTutor(
-                                    '<?= addslashes($row['nama_lengkap']) ?>', 
-                                    '<?= $row['email'] ?>', 
-                                    '<?= $row['keahlian'] ?>', 
-                                    '<?= $row['status'] ?>', 
-                                    '<?= addslashes($row['pendidikan']) ?>'
+                                    '<?= addslashes($row['nama_lengkap'] ?? '') ?>', 
+                                    '<?= $row['email'] ?? '' ?>', 
+                                    '<?= $row['keahlian'] ?? '' ?>', 
+                                    '<?= $row['status'] ?? '' ?>', 
+                                    '<?= addslashes($row['pendidikan'] ?? '') ?>'
                                 )">
                                 <i class="fas fa-eye"></i>
                             </button>

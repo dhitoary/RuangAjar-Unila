@@ -527,6 +527,8 @@ function submitAndPay() {
     btn.disabled = true;
     btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Memproses...';
 
+    let savedBookingId = null;
+
     // First submit booking via AJAX
     fetch('../../../backend/learner/booking_process.php', {
         method: 'POST',
@@ -535,6 +537,7 @@ function submitAndPay() {
     .then(res => res.json())
     .then(data => {
         if (data.booking_id) {
+            savedBookingId = data.booking_id;
             // Create Midtrans transaction
             return fetch('../../../backend/learner/create_transaction.php', {
                 method: 'POST',
@@ -549,10 +552,10 @@ function submitAndPay() {
         if (data.snap_token) {
             window.snap.pay(data.snap_token, {
                 onSuccess: function() {
-                    window.location.href = 'sesi_saya.php?status=payment_success';
+                    window.location.href = 'sesi_saya.php?status=payment_success&booking_id=' + savedBookingId;
                 },
                 onPending: function() {
-                    window.location.href = 'sesi_saya.php?status=payment_pending';
+                    window.location.href = 'sesi_saya.php?status=payment_pending&booking_id=' + savedBookingId;
                 },
                 onError: function() {
                     alert('Pembayaran gagal. Silakan coba lagi.');

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 global $conn; 
 
 if (!$conn) {
@@ -31,10 +31,11 @@ $result = mysqli_query($conn, $query);
     <div class="col-md-3">
         <select id="filterJenjang" class="form-select border-0 shadow-sm" onchange="filterSiswa()" 
                 style="background: linear-gradient(135deg, rgba(255, 147, 41, 0.15) 0%, rgba(255, 184, 102, 0.15) 100%);">
-            <option value="">ðŸŽ“ Semua Jenjang</option>
-            <option value="SD">ðŸ“š SD</option>
-            <option value="SMP">ðŸ“– SMP</option>
-            <option value="SMA">ðŸŽ¯ SMA</option>
+            <option value="">🎓 Semua Jenjang</option>
+            <option value="SD">🏫 SD</option>
+            <option value="SMP">🏫 SMP</option>
+            <option value="SMA">🏫 SMA</option>
+            <option value="S1">🎓 S1</option>
         </select>
     </div>
     <div class="col-md-6">
@@ -66,36 +67,38 @@ $result = mysqli_query($conn, $query);
                 if (mysqli_num_rows($result) > 0) {
                     while($row = mysqli_fetch_assoc($result)) {
                         $badgeColor = 'primary'; 
-                        if($row['jenjang'] == 'SD') $badgeColor = 'info text-dark';
-                        if($row['jenjang'] == 'SMP') $badgeColor = 'warning text-dark';
+                        if(($row['jenjang'] ?? '') == 'SD') $badgeColor = 'info text-dark';
+                        if(($row['jenjang'] ?? '') == 'SMP') $badgeColor = 'warning text-dark';
+                        if(($row['jenjang'] ?? '') == 'SMA') $badgeColor = 'primary';
+                        if(($row['jenjang'] ?? '') == 'S1') $badgeColor = 'info text-dark';
 
                         $statusColor = 'success';
-                        if($row['status'] == 'Cuti') $statusColor = 'warning text-dark';
-                        if($row['status'] == 'Non-Aktif') $statusColor = 'secondary';
+                        if(($row['status'] ?? '') == 'Cuti') $statusColor = 'warning text-dark';
+                        if(($row['status'] ?? '') == 'Non-Aktif') $statusColor = 'secondary';
                 ?>
                 
                 <tr>
                     <td class="ps-4">
                         <div class="d-flex align-items-center">
-                            <img src="https://ui-avatars.com/api/?name=<?= urlencode($row['nama_lengkap']) ?>&background=random" class="rounded-circle me-3" width="35">
+                            <img src="https://ui-avatars.com/api/?name=<?= urlencode($row['nama_lengkap'] ?? '') ?>&background=random" class="rounded-circle me-3" width="35">
                             <div>
-                                <div class="fw-bold nama-col"><?= htmlspecialchars($row['nama_lengkap']) ?></div>
-                                <small class="text-muted"><?= htmlspecialchars($row['email']) ?></small>
+                                <div class="fw-bold nama-col"><?= htmlspecialchars($row['nama_lengkap'] ?? '') ?></div>
+                                <small class="text-muted"><?= htmlspecialchars($row['email'] ?? '') ?></small>
                             </div>
                         </div>
                     </td>
-                    <td><span class="badge bg-<?= $badgeColor ?> jenjang-col"><?= $row['jenjang'] ?></span></td>
-                    <td><?= htmlspecialchars($row['sekolah']) ?></td>
-                    <td><?= htmlspecialchars($row['kelas']) ?></td>
-                    <td><span class="badge bg-<?= $statusColor ?>"><?= $row['status'] ?></span></td>
+                    <td><span class="badge bg-<?= $badgeColor ?> jenjang-col"><?= htmlspecialchars($row['jenjang'] ?? 'Univ') ?></span></td>
+                    <td><?= htmlspecialchars($row['sekolah'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($row['kelas'] ?? '') ?></td>
+                    <td><span class="badge bg-<?= $statusColor ?>"><?= htmlspecialchars($row['status'] ?? '') ?></span></td>
                     <td class="text-end pe-4">
                         <button class="btn btn-sm btn-light text-info" 
                                 onclick="showDetailSiswa(
-                                    '<?= addslashes($row['nama_lengkap']) ?>', 
-                                    '<?= $row['jenjang'] ?>', 
-                                    '<?= addslashes($row['sekolah']) ?>', 
-                                    '<?= addslashes($row['kelas']) ?>', 
-                                    '<?= addslashes($row['minat']) ?>'
+                                    '<?= addslashes($row['nama_lengkap'] ?? '') ?>', 
+                                    '<?= $row['jenjang'] ?? 'Univ' ?>', 
+                                    '<?= addslashes($row['sekolah'] ?? '') ?>', 
+                                    '<?= addslashes($row['kelas'] ?? '') ?>', 
+                                    '<?= addslashes($row['minat'] ?? '') ?>'
                                 )">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -153,6 +156,7 @@ $result = mysqli_query($conn, $query);
                                 <option value="SD">SD</option>
                                 <option value="SMP">SMP</option>
                                 <option value="SMA">SMA</option>
+                                <option value="S1">S1</option>
                             </select>
                         </div>
                         <div class="col-md-4">

@@ -22,10 +22,15 @@ if (!$siswa_data) {
 $siswa_id = $siswa_data['id'];
 
 // Handle payment success callback from redirect (fallback for localhost development)
-if (isset($_GET['status']) && $_GET['status'] == 'payment_success' && isset($_GET['booking_id'])) {
+if (isset($_GET['status']) && isset($_GET['booking_id'])) {
     $pay_booking_id = intval($_GET['booking_id']);
-    $update_query = "UPDATE bookings SET payment_status = 'paid', status = 'confirmed' WHERE id = $pay_booking_id AND learner_id = '$siswa_id'";
-    mysqli_query($conn, $update_query);
+    if ($_GET['status'] == 'payment_success') {
+        $update_query = "UPDATE bookings SET payment_status = 'paid', status = 'confirmed' WHERE id = $pay_booking_id AND learner_id = '$siswa_id'";
+        mysqli_query($conn, $update_query);
+    } elseif ($_GET['status'] == 'payment_pending') {
+        $update_query = "UPDATE bookings SET payment_status = 'pending' WHERE id = $pay_booking_id AND learner_id = '$siswa_id'";
+        mysqli_query($conn, $update_query);
+    }
 }
 
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'semua';
@@ -46,10 +51,13 @@ $bookings_query = "SELECT
     t.foto_profil,
     s.subject_name,
     s.price,
-    (SELECT COUNT(*) FROM reviews WHERE booking_id = b.id) as has_review
+    r.id as review_id,
+    r.rating as review_rating,
+    r.review_text as review_text
 FROM bookings b
 INNER JOIN tutor t ON b.tutor_id = t.id
 INNER JOIN subjects s ON b.subject_id = s.id
+LEFT JOIN reviews r ON r.booking_id = b.id
 $where_clause
 ORDER BY b.booking_date DESC, b.booking_time DESC";
 
@@ -197,6 +205,11 @@ include '../../layouts/header.php';
         color: #b91c1c;
         border: 1px solid #fca5a5;
     }
+    .badge-failed {
+        background: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fca5a5;
+    }
     .session-actions {
         display: flex;
         flex-direction: column;
@@ -284,6 +297,22 @@ include '../../layouts/header.php';
                 <span style="font-size: 14px;">Sesi bimbingan Anda telah dikonfirmasi dan status pembayaran berubah menjadi Lunas.</span>
             </div>
         </div>
+    <?php elseif (isset($_GET['status']) && $_GET['status'] == 'payment_pending'): ?>
+        <div style="background: #fef3c7; color: #92400e; padding: 16px; border-radius: 12px; margin-bottom: 24px; border: 1px solid #fcd34d; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <i class="bi bi-hourglass-split" style="font-size: 20px;"></i>
+            <div>
+                <strong style="display: block; margin-bottom: 2px;">Pembayaran Sedang Diproses</strong>
+                <span style="font-size: 14px;">Pembayaran Anda sedang diverifikasi. Status akan berubah otomatis setelah konfirmasi.</span>
+            </div>
+        </div>
+    <?php elseif (isset($_GET['status']) && $_GET['status'] == 'review_success'): ?>
+        <div style="background: #e6f4ea; color: #137333; padding: 16px; border-radius: 12px; margin-bottom: 24px; border: 1px solid #ceead6; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <i class="bi bi-star-fill" style="font-size: 20px;"></i>
+            <div>
+                <strong style="display: block; margin-bottom: 2px;">Review Berhasil Dikirim!</strong>
+                <span style="font-size: 14px;">Terima kasih atas ulasan Anda. Review akan membantu mahasiswa lain dalam memilih tutor.</span>
+            </div>
+        </div>
     <?php endif; ?>
 
     <!-- Tab Navigation -->
@@ -357,7 +386,20 @@ include '../../layouts/header.php';
                         <button onclick="payNow(<?php echo $booking['id']; ?>, '<?php echo $booking['snap_token']; ?>', this)" class="btn-pay" id="payBtn-<?php echo $booking['id']; ?>">
                             <i class="bi bi-credit-card"></i> Bayar Sekarang
                         </button>
-                    <?php elseif ($booking['status'] == 'completed' && $booking['has_review'] == 0): ?>
+                    <?php elseif ($booking['status'] == 'completed' && !empty($booking['review_id'])): ?>
+                        <!-- Review sudah ada, tampilkan isi review -->
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; max-width: 280px; text-align: left;">
+                            <div style="margin-bottom: 6px;">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span style="color: <?php echo $i <= $booking['review_rating'] ? '#f59e0b' : '#d1d5db'; ?>; font-size: 16px;">★</span>
+                                <?php endfor; ?>
+                                <span style="color: #6b7280; font-size: 12px; margin-left: 4px;">(<?php echo $booking['review_rating']; ?>/5)</span>
+                            </div>
+                            <p style="margin: 0; color: #374151; font-size: 13px; line-height: 1.5; word-break: break-word;">
+                                "<?php echo htmlspecialchars(mb_strimwidth($booking['review_text'], 0, 120, '...')); ?>"
+                            </p>
+                        </div>
+                    <?php elseif ($booking['status'] == 'completed'): ?>
                         <button onclick="openReviewModal(<?php echo $booking['id']; ?>)" class="btn-review">
                             <i class="bi bi-chat-left-text"></i> Beri Ulasan
                         </button>

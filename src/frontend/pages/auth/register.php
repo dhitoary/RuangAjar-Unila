@@ -151,8 +151,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Pendidikan Terakhir</label>
-                        <input type="text" name="pendidikan" class="form-input" placeholder="Contoh: S1 Pendidikan Matematika Unila">
+                        <label class="form-label">Program Studi & Universitas</label>
+                        <input type="text" name="pendidikan" class="form-input" placeholder="Contoh: S1 Ilmu Komputer Universitas Lampung">
                     </div>
 
                     <div class="form-group">
@@ -244,7 +244,7 @@
 
                 if (!telepon || !keahlian || !pendidikan) {
                     e.preventDefault();
-                    alert('Untuk registrasi tutor, harap lengkapi: Telepon, Keahlian, dan Pendidikan');
+                    alert('Untuk registrasi tutor, harap lengkapi: Telepon, Keahlian, dan Program Studi & Universitas');
                     return false;
                 }
             }

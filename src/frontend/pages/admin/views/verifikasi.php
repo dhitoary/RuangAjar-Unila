@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 global $conn;
 
 // Query untuk tutor yang belum diverifikasi (status Non-Aktif dan baru dibuat)
@@ -95,11 +95,11 @@ $historyResult = mysqli_query($conn, $historyQuery);
                         </div>
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-4 border-bottom pb-3">
-                                <img src="https://ui-avatars.com/api/?name=<?= urlencode($tutor['nama_lengkap']) ?>&background=random" class="rounded-circle me-3" width="60">
+                                <img src="https://ui-avatars.com/api/?name=<?= urlencode($tutor['nama_lengkap'] ?? '') ?>&background=random" class="rounded-circle me-3" width="60">
                                 <div>
-                                    <h5 class="mb-1 fw-bold"><?= htmlspecialchars($tutor['nama_lengkap']) ?></h5>
-                                    <p class="text-muted mb-0 small">Mendaftar sebagai: <strong>Tutor <?= htmlspecialchars($tutor['keahlian']) ?></strong></p>
-                                    <?php if ($tutor['pendidikan']): ?>
+                                    <h5 class="mb-1 fw-bold"><?= htmlspecialchars($tutor['nama_lengkap'] ?? '') ?></h5>
+                                    <p class="text-muted mb-0 small">Mendaftar sebagai: <strong>Tutor <?= htmlspecialchars($tutor['keahlian'] ?? '') ?></strong></p>
+                                    <?php if (!empty($tutor['pendidikan'])): ?>
                                         <small class="text-secondary"><i class="fas fa-university me-1"></i> <?= htmlspecialchars($tutor['pendidikan']) ?></small>
                                     <?php endif; ?>
                                 </div>
@@ -109,9 +109,9 @@ $historyResult = mysqli_query($conn, $historyQuery);
                             <div class="small mb-4">
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted">Email:</span>
-                                    <span class="fw-bold"><?= htmlspecialchars($tutor['email']) ?></span>
+                                    <span class="fw-bold"><?= htmlspecialchars($tutor['email'] ?? '') ?></span>
                                 </div>
-                                <?php if ($tutor['telepon']): ?>
+                                <?php if (!empty($tutor['telepon'])): ?>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted">Telepon:</span>
                                     <span class="fw-bold"><?= htmlspecialchars($tutor['telepon']) ?></span>
@@ -127,7 +127,7 @@ $historyResult = mysqli_query($conn, $historyQuery);
                                 </div>
                             </div>
 
-                            <?php if ($tutor['deskripsi']): ?>
+                            <?php if (!empty($tutor['deskripsi'])): ?>
                             <div class="mb-4">
                                 <h6 class="fw-bold text-uppercase small text-muted mb-2">Deskripsi</h6>
                                 <p class="small text-secondary"><?= nl2br(htmlspecialchars($tutor['deskripsi'])) ?></p>
@@ -135,10 +135,10 @@ $historyResult = mysqli_query($conn, $historyQuery);
                             <?php endif; ?>
 
                             <div class="d-grid gap-2 d-md-flex">
-                                <button class="btn btn-success flex-grow-1 py-2" onclick="verifyTutor(<?= $tutor['id'] ?>, '<?= addslashes($tutor['nama_lengkap']) ?>', 'approve')">
+                                <button class="btn btn-success flex-grow-1 py-2" onclick="verifyTutor(<?= $tutor['id'] ?>, '<?= addslashes($tutor['nama_lengkap'] ?? '') ?>', 'approve')">
                                     <i class="fas fa-check-circle me-2"></i> Terima
                                 </button>
-                                <button class="btn btn-outline-danger flex-grow-1 py-2" onclick="verifyTutor(<?= $tutor['id'] ?>, '<?= addslashes($tutor['nama_lengkap']) ?>', 'reject')">
+                                <button class="btn btn-outline-danger flex-grow-1 py-2" onclick="verifyTutor(<?= $tutor['id'] ?>, '<?= addslashes($tutor['nama_lengkap'] ?? '') ?>', 'reject')">
                                     <i class="fas fa-times-circle me-2"></i> Tolak
                                 </button>
                             </div>
@@ -199,11 +199,11 @@ $historyResult = mysqli_query($conn, $historyQuery);
                         <div class="list-group-item border-0 border-bottom py-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center flex-grow-1">
-                                    <img src="https://ui-avatars.com/api/?name=<?= urlencode($history['nama_lengkap']) ?>&background=random" class="rounded-circle me-3 shadow-sm" width="50" height="50">
+                                    <img src="https://ui-avatars.com/api/?name=<?= urlencode($history['nama_lengkap'] ?? '') ?>&background=random" class="rounded-circle me-3 shadow-sm" width="50" height="50">
                                     <div>
-                                        <h6 class="mb-1 fw-bold"><?= htmlspecialchars($history['nama_lengkap']) ?></h6>
+                                        <h6 class="mb-1 fw-bold"><?= htmlspecialchars($history['nama_lengkap'] ?? '') ?></h6>
                                         <div class="small text-muted">
-                                            <i class="fas fa-graduation-cap me-1"></i>Tutor <?= htmlspecialchars($history['keahlian']) ?>
+                                            <i class="fas fa-graduation-cap me-1"></i>Tutor <?= htmlspecialchars($history['keahlian'] ?? '') ?>
                                         </div>
                                         <div class="small text-muted">
                                             <i class="far fa-clock me-1"></i><?= $timeText ?>

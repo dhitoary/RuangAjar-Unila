@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../config/database.php';
 
@@ -43,13 +43,12 @@ function createSiswa($conn) {
         return;
     }
     
-    // Cek apakah email sudah ada menggunakan prepared statement
-    $checkEmail = "SELECT id FROM mahasiswa WHERE email = ?";
+    // Cek apakah email sudah ada di users
+    $checkEmail = "SELECT id FROM users WHERE email = ?";
     $stmt = mysqli_prepare($conn, $checkEmail);
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    
     if (mysqli_num_rows($result) > 0) {
         mysqli_stmt_close($stmt);
         echo json_encode(['success' => false, 'message' => 'Email sudah terdaftar']);
@@ -57,18 +56,37 @@ function createSiswa($conn) {
     }
     mysqli_stmt_close($stmt);
     
-    // Insert dengan prepared statement
-    $query = "INSERT INTO mahasiswa (nama_lengkap, email, jenjang, sekolah, kelas, minat, status, created_at) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssssss", $nama, $email, $jenjang, $sekolah, $kelas, $minat, $status);
-    
-    if (mysqli_stmt_execute($stmt)) {
+    mysqli_begin_transaction($conn);
+    try {
+        // Create user in users table
+        $default_password = password_hash('RuangAjar123', PASSWORD_DEFAULT);
+        $user_query = "INSERT INTO users (nama_lengkap, email, password, role) VALUES (?, ?, ?, 'learner')";
+        $stmt_user = mysqli_prepare($conn, $user_query);
+        mysqli_stmt_bind_param($stmt_user, "sss", $nama, $email, $default_password);
+        if (!mysqli_stmt_execute($stmt_user)) {
+            throw new Exception("Gagal membuat user login");
+        }
+        $user_id = mysqli_insert_id($conn);
+        mysqli_stmt_close($stmt_user);
+        
+        // Generate NIM
+        $nim = 'SIS' . date('Y') . str_pad($user_id, 4, '0', STR_PAD_LEFT);
+        
+        // Insert into mahasiswa table
+        $query = "INSERT INTO mahasiswa (nim, nama_lengkap, email, jenjang, sekolah, kelas, minat, status, created_at) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ssssssss", $nim, $nama, $email, $jenjang, $sekolah, $kelas, $minat, $status);
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Gagal menambahkan data mahasiswa");
+        }
         mysqli_stmt_close($stmt);
-        echo json_encode(['success' => true, 'message' => 'Mahasiswa berhasil ditambahkan']);
-    } else {
-        mysqli_stmt_close($stmt);
-        echo json_encode(['success' => false, 'message' => 'Gagal menambahkan mahasiswa!']);
+        
+        mysqli_commit($conn);
+        echo json_encode(['success' => true, 'message' => 'Mahasiswa berhasil ditambahkan (Password default: RuangAjar123)']);
+    } catch (Exception $e) {
+        mysqli_rollback($conn);
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
 }
 
@@ -88,39 +106,68 @@ function updateSiswa($conn) {
         return;
     }
     
-    // Cek apakah email sudah digunakan oleh mahasiswa lain
-    $checkEmail = "SELECT id FROM mahasiswa WHERE email = ? AND id != ?";
+    // Ambil email lama
+    $oldQuery = "SELECT email FROM mahasiswa WHERE id = ?";
+    $stmt_old = mysqli_prepare($conn, $oldQuery);
+    mysqli_stmt_bind_param($stmt_old, "i", $id);
+    mysqli_stmt_execute($stmt_old);
+    $res_old = mysqli_stmt_get_result($stmt_old);
+    $row_old = mysqli_fetch_assoc($res_old);
+    mysqli_stmt_close($stmt_old);
+    
+    if (!$row_old) {
+        echo json_encode(['success' => false, 'message' => 'Mahasiswa tidak ditemukan']);
+        return;
+    }
+    $old_email = $row_old['email'];
+    
+    // Cek apakah email baru sudah digunakan oleh user lain
+    $checkEmail = "SELECT id FROM users WHERE email = ? AND email != ?";
     $stmt = mysqli_prepare($conn, $checkEmail);
-    mysqli_stmt_bind_param($stmt, "si", $email, $id);
+    mysqli_stmt_bind_param($stmt, "ss", $email, $old_email);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    
     if (mysqli_num_rows($result) > 0) {
         mysqli_stmt_close($stmt);
-        echo json_encode(['success' => false, 'message' => 'Email sudah digunakan oleh mahasiswa lain']);
+        echo json_encode(['success' => false, 'message' => 'Email sudah digunakan oleh user lain']);
         return;
     }
     mysqli_stmt_close($stmt);
     
-    $query = "UPDATE mahasiswa SET 
-              nama_lengkap = ?,
-              email = ?,
-              jenjang = ?,
-              sekolah = ?,
-              kelas = ?,
-              minat = ?,
-              status = ?
-              WHERE id = ?";
-    
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssssssi", $nama, $email, $jenjang, $sekolah, $kelas, $minat, $status, $id);
-    
-    if (mysqli_stmt_execute($stmt)) {
+    mysqli_begin_transaction($conn);
+    try {
+        // Update users table
+        $user_query = "UPDATE users SET nama_lengkap = ?, email = ? WHERE email = ?";
+        $stmt_user = mysqli_prepare($conn, $user_query);
+        mysqli_stmt_bind_param($stmt_user, "sss", $nama, $email, $old_email);
+        if (!mysqli_stmt_execute($stmt_user)) {
+            throw new Exception("Gagal mengupdate user login");
+        }
+        mysqli_stmt_close($stmt_user);
+        
+        // Update mahasiswa table
+        $query = "UPDATE mahasiswa SET 
+                  nama_lengkap = ?,
+                  email = ?,
+                  jenjang = ?,
+                  sekolah = ?,
+                  kelas = ?,
+                  minat = ?,
+                  status = ?
+                  WHERE id = ?";
+        
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "sssssssi", $nama, $email, $jenjang, $sekolah, $kelas, $minat, $status, $id);
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Gagal mengupdate data mahasiswa");
+        }
         mysqli_stmt_close($stmt);
+        
+        mysqli_commit($conn);
         echo json_encode(['success' => true, 'message' => 'Data mahasiswa berhasil diupdate']);
-    } else {
-        mysqli_stmt_close($stmt);
-        echo json_encode(['success' => false, 'message' => 'Gagal mengupdate mahasiswa: ' . mysqli_error($conn)]);
+    } catch (Exception $e) {
+        mysqli_rollback($conn);
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
 }
 
@@ -146,16 +193,46 @@ function deleteSiswa($conn) {
         return;
     }
     
-    $query = "DELETE FROM mahasiswa WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "i", $id);
+    // Ambil email mahasiswa
+    $emailQuery = "SELECT email FROM mahasiswa WHERE id = ?";
+    $stmt_email = mysqli_prepare($conn, $emailQuery);
+    mysqli_stmt_bind_param($stmt_email, "i", $id);
+    mysqli_stmt_execute($stmt_email);
+    $res_email = mysqli_stmt_get_result($stmt_email);
+    $row_email = mysqli_fetch_assoc($res_email);
+    mysqli_stmt_close($stmt_email);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (!$row_email) {
+        echo json_encode(['success' => false, 'message' => 'Mahasiswa tidak ditemukan']);
+        return;
+    }
+    $email = $row_email['email'];
+    
+    mysqli_begin_transaction($conn);
+    try {
+        // Hapus dari mahasiswa
+        $query = "DELETE FROM mahasiswa WHERE id = ?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Gagal menghapus data mahasiswa");
+        }
         mysqli_stmt_close($stmt);
+        
+        // Hapus dari users
+        $query_user = "DELETE FROM users WHERE email = ?";
+        $stmt_user = mysqli_prepare($conn, $query_user);
+        mysqli_stmt_bind_param($stmt_user, "s", $email);
+        if (!mysqli_stmt_execute($stmt_user)) {
+            throw new Exception("Gagal menghapus user login");
+        }
+        mysqli_stmt_close($stmt_user);
+        
+        mysqli_commit($conn);
         echo json_encode(['success' => true, 'message' => 'Mahasiswa berhasil dihapus']);
-    } else {
-        mysqli_stmt_close($stmt);
-        echo json_encode(['success' => false, 'message' => 'Gagal menghapus mahasiswa!']);
+    } catch (Exception $e) {
+        mysqli_rollback($conn);
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
 }
 
@@ -182,4 +259,3 @@ function readSiswa($conn) {
     }
 }
 ?>
-

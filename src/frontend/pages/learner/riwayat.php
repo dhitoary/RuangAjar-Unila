@@ -27,46 +27,14 @@ $riwayat_query = "SELECT
     t.keahlian,
     t.foto_profil,
     s.subject_name,
-    s.price
+    s.price,
+    r.id as review_id,
+    r.rating as review_rating,
+    r.review_text as review_text
 FROM bookings b
 INNER JOIN tutor t ON b.tutor_id = t.id
 INNER JOIN subjects s ON b.subject_id = s.id
-WHERE b.learner_id = '$siswa_id' AND b.status IN ('completed', 'cancelled')
-ORDER BY b.booking_date DESC, b.created_at DESC";
-
-$riwayat_result = mysqli_query($conn, $riwayat_query);
-
-// Count statistik
-$count_completed_result = mysqli_query($conn, "SELECT COUNT(*) as total FROM bookings WHERE learner_id = '$siswa_id' AND status = 'completed'");
-$count_completed = $count_completed_result ? mysqli_fetch_assoc($count_completed_result)['total'] : 0;
-
-$count_cancelled_result = mysqli_query($conn, "SELECT COUNT(*) as total FROM bookings WHERE learner_id = '$siswa_id' AND status = 'cancelled'");
-$count_cancelled = $count_cancelled_result ? mysqli_fetch_assoc($count_cancelled_result)['total'] : 0;
-
-$user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : (isset($_SESSION['email']) ? $_SESSION['email'] : '');
-
-$siswa_query = "SELECT * FROM mahasiswa WHERE email = '$user_email' LIMIT 1";
-$siswa_result = mysqli_query($conn, $siswa_query);
-$siswa_data = mysqli_fetch_assoc($siswa_result);
-
-if (!$siswa_data) {
-    header("Location: ../auth/login.php?error=no_student_data");
-    exit();
-}
-
-$siswa_id = $siswa_data['id'];
-
-// Query untuk riwayat booking yang sudah selesai atau dibatalkan
-$riwayat_query = "SELECT 
-    b.*,
-    t.nama_lengkap as tutor_name,
-    t.keahlian,
-    t.foto_profil,
-    s.subject_name,
-    s.price
-FROM bookings b
-INNER JOIN tutor t ON b.tutor_id = t.id
-INNER JOIN subjects s ON b.subject_id = s.id
+LEFT JOIN reviews r ON r.booking_id = b.id
 WHERE b.learner_id = '$siswa_id' AND b.status IN ('completed', 'cancelled')
 ORDER BY b.booking_date DESC, b.created_at DESC";
 
@@ -610,9 +578,23 @@ include '../../layouts/header.php';
                     <?php endif; ?>
                     <?php if ($booking['status'] == 'completed'): ?>
                     <div class="booking-actions">
-                        <button class="btn-review" onclick="openReviewModal(<?php echo $booking['id']; ?>)">
-                            <i class="bi bi-star-fill"></i> Beri Review
-                        </button>
+                        <?php if (empty($booking['review_id'])): ?>
+                            <button class="btn-review" onclick="openReviewModal(<?php echo $booking['id']; ?>)">
+                                <i class="bi bi-star-fill"></i> Beri Review
+                            </button>
+                        <?php else: ?>
+                            <!-- Review sudah ada, tampilkan isinya -->
+                            <div style="background: #fdf6e3; border: 1px solid #f39c12; border-radius: 10px; padding: 10px 15px; text-align: left; margin-right: 15px; display: inline-block;">
+                                <div style="margin-bottom: 4px;">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <span style="color: <?php echo $i <= $booking['review_rating'] ? '#f39c12' : '#ddd'; ?>; font-size: 14px;">★</span>
+                                    <?php endfor; ?>
+                                </div>
+                                <p style="margin: 0; color: #555; font-size: 12px; line-height: 1.4; word-break: break-word; font-style: italic;">
+                                    "<?php echo htmlspecialchars(mb_strimwidth($booking['review_text'], 0, 80, '...')); ?>"
+                                </p>
+                            </div>
+                        <?php endif; ?>
                         <a href="sesi_saya.php" class="btn-book-again">
                             <i class="bi bi-arrow-repeat"></i> Booking Lagi
                         </a>

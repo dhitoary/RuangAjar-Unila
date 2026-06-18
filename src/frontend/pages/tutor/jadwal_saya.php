@@ -309,6 +309,59 @@ $bookings_result = mysqli_query($conn, $bookings_query);
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function updateBookingStatus(id, status) {
+    let confirmText, confirmButtonColor, title;
+    
+    if (status === 'confirmed') {
+        title = 'Konfirmasi Jadwal?';
+        confirmText = 'Ya, Konfirmasi!';
+        confirmButtonColor = '#28a745';
+    } else if (status === 'completed') {
+        title = 'Selesaikan Kelas?';
+        confirmText = 'Ya, Selesai!';
+        confirmButtonColor = '#007bff';
+    } else if (status === 'cancelled') {
+        title = 'Tolak/Batalkan Jadwal?';
+        confirmText = 'Ya, Tolak/Batal!';
+        confirmButtonColor = '#dc3545';
+    }
+
+    Swal.fire({
+        title: title,
+        text: "Tindakan ini akan mengubah status jadwal.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: confirmButtonColor,
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: confirmText,
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `../../../backend/tutor/update_booking_status.php?id=${id}&status=${status}`;
+        }
+    });
+}
+
+// Check query parameters for toast alerts
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('success')) {
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Status jadwal berhasil diperbarui.',
+        timer: 2000,
+        showConfirmButton: false
+    });
+} else if (urlParams.has('error')) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal',
+        text: 'Terjadi kesalahan saat memperbarui status jadwal.'
+    });
+}
+</script>
 </body>
 </html>
 
