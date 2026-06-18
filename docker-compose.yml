@@ -27,7 +27,7 @@ services:
 
   # MariaDB Database (MySQL drop-in replacement, optimized for low memory footprint)
   ruangajar-db:
-    image: mariadb:10.11-alpine
+    image: mariadb:10.11
     container_name: ruangajar-db
     restart: always
     environment:

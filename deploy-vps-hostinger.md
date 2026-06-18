@@ -1,6 +1,6 @@
 # 🚀 Panduan Deploy RuangAjar Unila — VPS Hostinger (Production-Safe)
 
-> **Target:** Deploy aplikasi RuangAjar Unila (PHP Native + MariaDB Alpine) ke VPS Hostinger yang **sudah menjalankan 16 kontainer produksi**, tanpa mengganggu kluster MER System, POLARIS WebGIS, maupun stack Monitoring/Telemetri yang sedang aktif.
+> **Target:** Deploy aplikasi RuangAjar Unila (PHP Native + MariaDB) ke VPS Hostinger yang **sudah menjalankan 16 kontainer produksi**, tanpa mengganggu kluster MER System, POLARIS WebGIS, maupun stack Monitoring/Telemetri yang sedang aktif.
 >
 > **Konteks:** Proyek ini dideploy menggunakan container Docker dengan alokasi resource RAM dan storage seminimal mungkin agar hemat dan stabil berdampingan dengan kontainer lain. Akses dilayani dengan format **HTTPS** menggunakan subdomain **ruangajar-unila.firmanfarel.site**.
 
@@ -159,7 +159,7 @@ Metode ini paling aman dan tidak rentan masalah path atau error Windows.
 3. Jalankan git clone di VPS langsung:
    ```bash
    cd /home/ruangajar-unila
-   git clone https://github.com/<USERNAME>/RuangAjar-Unila.git app
+   git clone -b deploy --single-branch https://github.com/dhitoary/RuangAjar-Unila.git
    ```
 
 ---
@@ -172,13 +172,13 @@ Gunakan Windows PowerShell untuk mengirim folder project langsung ke VPS.
 # Gunakan backtick (`) untuk melanjutan baris di PowerShell.
 # Pastikan path folder project lokal Anda sesuai.
 scp -P 49152 -i "$HOME\.ssh\id_ed25519" -r C:\laragon\www\RuangAjar-Unila `
-  ruangajar-unila@<IP_VPS_ANDA>:/home/ruangajar-unila/app/
+  ruangajar-unila@<IP_VPS_ANDA>:/home/ruangajar-unila/RuangAjar-Unila/
 ```
 *(Catatan: Jika nama file key Anda adalah `id_rsa`, ganti `id_ed25519` dengan `id_rsa`. Jika path SSH Key Anda berada di folder lain, sesuaikan path `-i` tersebut).*
 
 **Jika SSH Key sudah terdaftar di SSH Agent Windows (atau tanpa flag `-i`):**
 ```powershell
-scp -P 49152 -r C:\laragon\www\RuangAjar-Unila ruangajar-unila@<IP_VPS_ANDA>:/home/ruangajar-unila/app/
+scp -P 49152 -r C:\laragon\www\RuangAjar-Unila ruangajar-unila@<IP_VPS_ANDA>:/home/ruangajar-unila/RuangAjar-Unila/
 ```
 
 > [!CAUTION]
@@ -199,7 +199,7 @@ ssh -p 49152 -i "$HOME\.ssh\id_ed25519" ruangajar-unila@<IP_VPS_ANDA>
 *(Catatan: Sesuaikan nama key atau hilangkan flag `-i` jika menggunakan SSH agent).*
 Buat file environment variabel:
 ```bash
-cd /home/ruangajar-unila/app
+cd /home/ruangajar-unila/RuangAjar-Unila
 nano .env
 ```
 Isi dengan kredensial yang aman:
@@ -223,7 +223,7 @@ Gunakan perintah `docker compose` dengan menggabungkan base file dan override pr
 
 ### Langkah 6.1 — Jalankan Build
 ```bash
-cd /home/ruangajar-unila/app
+cd /home/ruangajar-unila/RuangAjar-Unila
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
 ```
 
@@ -235,7 +235,7 @@ Output yang diharapkan:
 ```
 NAME            IMAGE                  STATUS                  PORTS
 ruangajar-app   ruangajar-unila-app    Up                      172.20.1.1:8090->80/tcp
-ruangajar-db    mariadb:10.11-alpine   Up (healthy)            3306/tcp
+ruangajar-db    mariadb:10.11          Up (healthy)            3306/tcp
 ```
 *(Perhatikan bahwa database `ruangajar-db` statusnya harus `healthy` dan portnya tidak di-expose keluar).*
 
@@ -380,7 +380,7 @@ curl -sI http://127.0.0.1:3000 | head -n 1
 
 ### Mengelola Kontainer RuangAjar Unila (Sebagai User `ruangajar-unila`)
 ```bash
-cd /home/ruangajar-unila/app
+cd /home/ruangajar-unila/RuangAjar-Unila
 
 # Jalankan Container (Build ulang jika ada perubahan file)
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
