@@ -64,19 +64,21 @@ Untuk menghindari konflik port, konfigurasi alokasi port di-set sebagai berikut:
 
 ## 2. Konfigurasi DNS Subdomain di Hostinger
 
+Karena Anda mengelola DNS langsung melalui Hostinger, Anda hanya perlu menambahkan A record baru yang mengarah ke IP VPS Anda.
+
 ### Langkah 2.1 — Login ke Hostinger Panel
 1. Buka [https://hpanel.hostinger.com](https://hpanel.hostinger.com)
-2. Login dengan akun Anda.
+2. Login ke akun Hostinger Anda.
 3. Pilih domain `firmanfarel.site` dari menu Domain.
 
-### Langkah 2.2 — Buat DNS Record Baru
+### Langkah 2.2 — Tambahkan DNS Record Baru
 Masuk ke menu **DNS / Nameservers** → **DNS Records**, lalu tambahkan record berikut:
 
-| Type | Name | Value | TTL |
-|------|------|-------|-----|
+| Type | Name | Value (IP VPS) | TTL |
+|------|------|----------------|-----|
 | `A` | `ruangajar-unila` | `<IP_VPS_ANDA>` | 3600 |
 
-*Ganti `<IP_VPS_ANDA>` dengan IP publik VPS Hostinger Anda.*
+*Ganti `<IP_VPS_ANDA>` dengan IP publik VPS Hostinger Anda. Tunggu propagasi DNS (biasanya 5-15 menit) sebelum melangkah lebih jauh.*
 
 ---
 
@@ -192,11 +194,16 @@ scp -P 49152 -r C:\laragon\www\RuangAjar-Unila ruangajar-unila@<IP_VPS_ANDA>:/ho
 Docker konfigurasi di VPS sudah disesuaikan agar seminimal mungkin menggunakan memory.
 
 ### Langkah 5.1 — Buat File `.env` di VPS
-SSH ke VPS sebagai user `ruangajar-unila` (Gunakan path SSH Key Windows Anda, contoh: `"$HOME\.ssh\id_ed25519"` atau `"$HOME\.ssh\id_rsa"`):
+Hubungkan ke VPS sebagai user `ruangajar-unila`. Jika Anda saat ini sedang terhubung sebagai admin `firmanfarelrichardo`, Anda bisa langsung berpindah user dengan perintah:
+```bash
+sudo su - ruangajar-unila
+```
+*(Namun jika Anda ingin terhubung langsung dari komputer lokal Anda, jalankan command SSH berikut):*
 ```bash
 ssh -p 49152 -i "$HOME\.ssh\id_ed25519" ruangajar-unila@<IP_VPS_ANDA>
 ```
-*(Catatan: Sesuaikan nama key atau hilangkan flag `-i` jika menggunakan SSH agent).*
+*(Catatan: Jika sudah terhubung, lewati baris perintah SSH).*
+
 Buat file environment variabel:
 ```bash
 cd /home/ruangajar-unila/RuangAjar-Unila
@@ -275,13 +282,24 @@ docker exec -it ruangajar-db mysql -u ruangajar_user -pGantiDenganDBPassAnda -e 
 
 Layanan Nginx utama berjalan di dalam kontainer `mer-web-prod`. Kita perlu mendaftarkan server block baru agar Nginx di container tersebut mengarahkan request subdomain ke container `ruangajar-app` pada port `172.20.1.1:8090`.
 
+> [!WARNING]
+> **PENTING: JANGAN RELOAD/RESTART NGINX SEBELUM MEMBUAT SSL!**
+> Karena konfigurasi Nginx baru yang akan kita masukkan merujuk ke file sertifikat Let's Encrypt (`/etc/letsencrypt/...`), Nginx akan **mengalami crash dan boot-loop (selalu restarting)** jika file sertifikat tersebut belum ada di VPS.
+> 
+> Ikuti urutan langkah dengan hati-hati:
+> 1. Edit dan simpan konfigurasi Nginx di **Langkah 8.1 & 8.2**.
+> 2. **JANGAN jalankan reload Nginx dulu**.
+> 3. Hentikan Nginx, buat SSL Let's Encrypt di **Langkah 9.1 & 9.2**.
+> 4. Setelah SSL sukses dibuat, baru hidupkan kembali Nginx dan jalankan reload di **Langkah 8.3**.
+
 ### Langkah 8.1 — Edit Config Nginx
-Masuk kembali sebagai admin `firmanfarelrichardo` (sudo user) menggunakan SSH key Anda:
+Jika Anda saat ini **tidak sedang terhubung** ke VPS, hubungkan kembali sebagai admin `firmanfarelrichardo` (sudo user) dari komputer lokal Anda:
 ```bash
 ssh -p 49152 -i "$HOME\.ssh\id_ed25519" firmanfarelrichardo@<IP_VPS_ANDA>
 ```
-*(Catatan: Sesuaikan nama key atau hilangkan flag `-i` jika menggunakan SSH agent).*
-Buka file konfigurasi Nginx:
+*(Catatan: Jika Anda sudah terhubung ke VPS, **lewati perintah SSH di atas**).*
+
+Buka file konfigurasi Nginx di dalam VPS:
 ```bash
 sudo nano /var/www/mer-system/production/deployment/production/nginx.conf
 ```
@@ -295,15 +313,17 @@ Gulir ke bagian akhir (di dalam lingkup `http { ... }`), kemudian sisipkan serve
     # Subdomain : ruangajar-unila.firmanfarel.site
     # Upstream  : Host IP -> 172.20.1.1:8090
     # ============================================================
+    # RuangAjar Unila — Application Reverse Proxy
+    # Subdomain : ruangajar-unila.firmanfarel.site
+    # Upstream  : Host IP -> 172.20.1.1:8090
+    # ============================================================
     server {
         listen 443 ssl;
         server_name ruangajar-unila.firmanfarel.site;
 
-        # --- Sertifikat SSL Cloudflare ---
-        ssl_certificate /etc/ssl/cloudflare/origin-cert.pem;
-        ssl_certificate_key /etc/ssl/cloudflare/origin-key.pem;
-        ssl_client_certificate /etc/ssl/cloudflare/authenticated-origin-pull-ca.pem;
-        ssl_verify_client on;
+        # --- Sertifikat SSL Let's Encrypt (Disalin dari Host) ---
+        ssl_certificate /etc/ssl/cloudflare/ruangajar-unila/fullchain.pem;
+        ssl_certificate_key /etc/ssl/cloudflare/ruangajar-unila/privkey.pem;
 
         ssl_protocols TLSv1.2 TLSv1.3;
         ssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384';
@@ -354,10 +374,37 @@ sudo docker exec mer-web-prod nginx -s reload
 
 ---
 
-## 9. Setup SSL & HTTPS (Cloudflare Origin Pulls)
+## 9. Setup SSL dengan Certbot (Let's Encrypt)
 
-Karena domain `firmanfarel.site` menggunakan Cloudflare dengan **Cloudflare Authenticated Origin Pulls**, subdomain baru `ruangajar-unila.firmanfarel.site` secara otomatis terenkripsi penuh via HTTPS menggunakan sertifikat Cloudflare origin yang sudah terpasang. 
-Anda **tidak perlu** menginstal Certbot / Let's Encrypt secara terpisah di host OS.
+Karena Anda menggunakan DNS Hostinger (bukan Cloudflare Proxy), Anda harus membuat sertifikat SSL publik tepercaya secara manual menggunakan Certbot di Host OS VPS.
+
+### Langkah 9.1 — Buat Sertifikat SSL via Certbot Standalone
+Jalankan perintah ini sebagai user `firmanfarelrichardo` di VPS:
+
+```bash
+# 1. Hentikan sementara container proxy Nginx agar port 80/443 kosong
+sudo docker stop mer-web-prod
+
+# 2. Jalankan certbot standalone untuk membuat SSL Let's Encrypt
+sudo certbot certonly --standalone -d ruangajar-unila.firmanfarel.site
+
+# 3. Buat direktori ssl di dalam folder yang di-mount ke kontainer Nginx
+sudo mkdir -p /etc/ssl/cloudflare/ruangajar-unila
+
+# 4. Salin isi sertifikat asli (gunakan flag -L untuk dereference symlinks)
+sudo cp -L /etc/letsencrypt/live/ruangajar-unila.firmanfarel.site/fullchain.pem /etc/ssl/cloudflare/ruangajar-unila/fullchain.pem
+sudo cp -L /etc/letsencrypt/live/ruangajar-unila.firmanfarel.site/privkey.pem /etc/ssl/cloudflare/ruangajar-unila/privkey.pem
+
+# 5. Jalankan kembali container proxy Nginx
+sudo docker start mer-web-prod
+```
+*(Catatan: Langkah 4 wajib menggunakan parameter `-L` agar file fisik sertifikat yang disalin, bukan sekadar symlink penunjuknya. Folder `/etc/ssl/cloudflare` di Host OS sudah ter-mount otomatis ke dalam kontainer).*
+
+### Langkah 9.2 — Verifikasi Sertifikat
+```bash
+sudo certbot certificates
+```
+Pastikan sertifikat untuk domain `ruangajar-unila.firmanfarel.site` telah terdaftar dan berstatus VALID (aktif).
 
 ---
 
@@ -415,3 +462,22 @@ sudo docker exec mer-web-prod nginx -t
 # Reload Konfigurasi Nginx (Tanpa Downtime)
 sudo docker exec mer-web-prod nginx -s reload
 ```
+
+---
+
+## 13. Troubleshooting SSL: `NET::ERR_CERT_AUTHORITY_INVALID` / File Not Found
+
+Jika Nginx Anda gagal ter-reload atau menampilkan error SSL di browser:
+
+* **Masalah 1**: Container Nginx (`mer-web-prod`) gagal di-reload karena folder `/etc/letsencrypt` tidak di-mount di dalam container.
+  * *Solusi*: Pastikan Anda sudah menjalankan langkah salin sertifikat pada **Langkah 9.1 (Langkah 3 & 4)** ke path `/etc/ssl/cloudflare/ruangajar-unila/`. Folder ini adalah folder yang di-bind ke dalam kontainer, sehingga Nginx dapat membaca file fisik sertifikat Anda secara aman.
+* **Masalah 2**: Nginx tetap tidak bisa membaca file (sertifikat kosong atau link rusak).
+  * *Solusi*: Pastikan saat menyalin sertifikat Anda menggunakan flag `-L` (`sudo cp -L ...`). Jika tidak, Linux hanya akan menyalin symlink kosong yang tidak dapat dibaca oleh Nginx dari dalam kontainer.
+* **Masalah 3**: Browser memicu `NET::ERR_CERT_AUTHORITY_INVALID` setelah reload Nginx.
+  * *Solusi*: Jalankan `sudo docker exec mer-web-prod nginx -t` untuk memverifikasi file konfigurasi yang sedang aktif dan pastikan file konfigurasi Nginx di **Langkah 8.2** Anda sudah benar-benar dirujuk ke file hasil salinan (`/etc/ssl/cloudflare/ruangajar-unila/...`).
+* **Masalah 4**: PHP memicu error `Failed to open stream: No such file or directory` saat mengakses file `database.php` dari browser.
+  * *Solusi*: Secara default di Ubuntu/VPS, folder home user baru (`/home/ruangajar-unila`) di-set dengan hak akses `700` (hanya bisa diakses oleh user itu sendiri). Karena proses Apache-PHP di dalam kontainer berjalan sebagai user `www-data` (UID 33), sistem operasi VPS memblokir kontainer untuk membaca file project Anda. Jalankan perintah ini di VPS sebagai sudo user (`firmanfarelrichardo`) untuk membuka akses baca bagi kontainer:
+    ```bash
+    sudo chmod 755 /home/ruangajar-unila
+    sudo chmod -R 755 /home/ruangajar-unila/RuangAjar-Unila
+    ```
