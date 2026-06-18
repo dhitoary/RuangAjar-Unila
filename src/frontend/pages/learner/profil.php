@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $confirm_password = $_POST['confirm_password'];
         
         // Verify current password
-        $check_query = "SELECT password FROM mahasiswa WHERE email = ?";
+        $check_query = "SELECT password FROM users WHERE email = ?";
         $stmt = mysqli_prepare($conn, $check_query);
         mysqli_stmt_bind_param($stmt, "s", $user_email);
         mysqli_stmt_execute($stmt);
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($new_password === $confirm_password) {
                 if (strlen($new_password) >= 6) {
                     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-                    $update_pwd_query = "UPDATE mahasiswa SET password = ? WHERE email = ?";
+                    $update_pwd_query = "UPDATE users SET password = ? WHERE email = ?";
                     $stmt = mysqli_prepare($conn, $update_pwd_query);
                     mysqli_stmt_bind_param($stmt, "ss", $hashed_password, $user_email);
                     
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $minat = $_POST['minat'];
         
         // Handle Photo Upload
-        $foto_profil = $siswa_data['foto_profil'];
+        $foto_profil = $siswa_data['foto_profil'] ?? '';
         if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] == 0) {
             $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
             $max_size = 2 * 1024 * 1024; // 2MB
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
                     if (move_uploaded_file($_FILES['foto_profil']['tmp_name'], $upload_path)) {
                         // Delete old photo if exists
-                        if ($siswa_data['foto_profil'] && file_exists('../../../' . $siswa_data['foto_profil'])) {
+                        if (!empty($siswa_data['foto_profil']) && file_exists('../../../' . $siswa_data['foto_profil'])) {
                             unlink('../../../' . $siswa_data['foto_profil']);
                         }
                         $foto_profil = 'uploads/profiles/' . $new_filename;
@@ -124,6 +124,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             mysqli_stmt_bind_param($stmt, "ssssssss", $nama_lengkap, $nim, $jenjang, $kelas, $sekolah, $minat, $foto_profil, $user_email);
             
             if (mysqli_stmt_execute($stmt)) {
+                // Update users table name
+                $update_user_query = "UPDATE users SET nama_lengkap = ? WHERE email = ?";
+                $stmt_user = mysqli_prepare($conn, $update_user_query);
+                mysqli_stmt_bind_param($stmt_user, "ss", $nama_lengkap, $user_email);
+                mysqli_stmt_execute($stmt_user);
+                mysqli_stmt_close($stmt_user);
+
+                // Update session variables
+                $_SESSION['user_name'] = $nama_lengkap;
+                $_SESSION['name'] = $nama_lengkap;
+
                 $success_message = 'Profil berhasil diperbarui!';
                 // Refresh data
                 $stmt2 = mysqli_prepare($conn, "SELECT * FROM mahasiswa WHERE email = ? LIMIT 1");

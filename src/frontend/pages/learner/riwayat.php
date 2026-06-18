@@ -331,11 +331,11 @@ include '../../layouts/header.php';
 <div class="riwayat-container">
     <div class="container">
         <div class="riwayat-header">
-            <h1>ðŸ“š Riwayat Booking</h1>
+            <h1><i class="bi bi-clock-history"></i> Riwayat Booking</h1>
             <p>Lihat semua sesi belajar yang telah selesai atau dibatalkan</p>
             <div style="margin-top: 15px; display: flex; gap: 20px;">
-                <span style="color: #10b981; font-weight: 600;">âœ… Selesai: <?php echo $count_completed; ?></span>
-                <span style="color: #ef4444; font-weight: 600;">âŒ Dibatalkan: <?php echo $count_cancelled; ?></span>
+                <span style="color: #10b981; font-weight: 600;"><i class="bi bi-check-circle-fill"></i> Selesai: <?php echo $count_completed; ?></span>
+                <span style="color: #ef4444; font-weight: 600;"><i class="bi bi-x-circle-fill"></i> Dibatalkan: <?php echo $count_cancelled; ?></span>
             </div>
         </div>
 
@@ -397,11 +397,11 @@ include '../../layouts/header.php';
                             <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $date_formatted; ?></p>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">ðŸ• Waktu</p>
+                            <p style="margin: 0; color: #666; font-size: 13px;"><i class="bi bi-clock"></i> Waktu</p>
                             <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $time_formatted; ?> WIB</p>
                         </div>
                         <div>
-                            <p style="margin: 0; color: #666; font-size: 13px;">â±ï¸ Durasi</p>
+                            <p style="margin: 0; color: #666; font-size: 13px;"><i class="bi bi-hourglass-split"></i> Durasi</p>
                             <p style="margin: 5px 0 0 0; font-weight: 600; color: #333;"><?php echo $booking['duration']; ?> menit</p>
                         </div>
                         <div>
@@ -411,14 +411,14 @@ include '../../layouts/header.php';
                     </div>
                     <?php if ($booking['notes']): ?>
                     <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                        <p style="margin: 0; color: #666; font-size: 13px; margin-bottom: 5px;">ðŸ“ Catatan:</p>
+                        <p style="margin: 0; color: #666; font-size: 13px; margin-bottom: 5px;"><i class="bi bi-chat-left-text"></i> Catatan:</p>
                         <p style="margin: 0; color: #333;"><?php echo htmlspecialchars($booking['notes']); ?></p>
                     </div>
                     <?php endif; ?>
                     <?php if ($booking['status'] == 'completed'): ?>
                     <div style="margin-top: 15px; display: flex; gap: 10px;">
                         <button class="btn-review" onclick="openReviewModal(<?php echo $booking['id']; ?>)">
-                            â­ Beri Review
+                            <i class="bi bi-star-fill"></i> Beri Review
                         </button>
                         <a href="sesi_saya.php" style="padding: 10px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">
                             Booking Lagi
@@ -457,15 +457,15 @@ include '../../layouts/header.php';
             <div style="margin-bottom: 25px; text-align: center;">
                 <div class="rating-input" style="display: flex; flex-direction: row-reverse; justify-content: center; gap: 10px;">
                     <input type="radio" name="rating" value="5" id="rating5" required style="display: none;">
-                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(5)">â­</label>
+                    <label for="rating5" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(5)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="4" id="rating4" style="display: none;">
-                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(4)">â­</label>
+                    <label for="rating4" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(4)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="3" id="rating3" style="display: none;">
-                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(3)">â­</label>
+                    <label for="rating3" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(3)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="2" id="rating2" style="display: none;">
-                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(2)">â­</label>
+                    <label for="rating2" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(2)"><i class="bi bi-star-fill"></i></label>
                     <input type="radio" name="rating" value="1" id="rating1" style="display: none;">
-                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(1)">â­</label>
+                    <label for="rating1" style="font-size: 40px; cursor: pointer; transition: all 0.3s; filter: grayscale(100%); opacity: 0.3;" onclick="selectRating(1)"><i class="bi bi-star-fill"></i></label>
                 </div>
             </div>
             
