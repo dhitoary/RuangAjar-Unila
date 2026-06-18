@@ -333,7 +333,7 @@ include '../../layouts/header.php';
     <div class="profile-header">
         <?php if (!empty($siswa_data['foto_profil'])): ?>
             <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 5px solid rgba(255,255,255,0.3);">
-                <img src="<?php echo $assetPath . '../' . htmlspecialchars($siswa_data['foto_profil']); ?>" alt="Foto Profil" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="<?php echo '../../../' . htmlspecialchars($siswa_data['foto_profil']); ?>" alt="Foto Profil" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         <?php else: ?>
             <div class="profile-avatar">
