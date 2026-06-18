@@ -1,7 +1,7 @@
 # Current Progress (Scratchpad)
 
 ## Active Task
-Memperbaiki koneksi database lokal setelah MySQL menolak koneksi pada port `3307`.
+Memperbarui PlantUML use case dan activity diagram agar menyerupai referensi visual yang diberikan user.
 
 ## Files Modified (Current Session)
 - `context/system-instructions.md` -> Instruksi kerja AI, coding rules, dan batas keamanan proyek.
@@ -24,6 +24,20 @@ Memperbaiki koneksi database lokal setelah MySQL menolak koneksi pada port `3307
 - `src/config/database.php` -> Mengubah port MySQL dari `3307` ke `3306` agar sesuai database lokal yang sedang dipakai.
 - `context/current-progress.md` -> Mencatat perbaikan koneksi database lokal.
 - `context/changelog.md` -> Mencatat perubahan konfigurasi database lokal.
+- `docs/usecase.md` -> Diagram use case PlantUML global untuk Public, Learner, Tutor, Admin, dan Midtrans.
+- `docs/activitydiagram-public.md` -> Activity diagram PlantUML untuk alur public visitor.
+- `docs/activitydiagram-admin.md` -> Activity diagram PlantUML untuk alur admin.
+- `docs/activitydiagram-tutor.md` -> Activity diagram PlantUML untuk alur tutor.
+- `docs/activitydiagram-learner.md` -> Activity diagram PlantUML untuk alur learner, booking, payment, dan review.
+- `context/current-progress.md` -> Mencatat status pembuatan diagram PlantUML.
+- `context/changelog.md` -> Mencatat penambahan diagram PlantUML.
+- `docs/usecase.md` -> Diperbarui menjadi diagram use case dengan boundary sistem besar, aktor di sisi luar, dan relasi include/extend yang lebih menyerupai referensi.
+- `docs/activitydiagram-public.md` -> Diperbarui menjadi activity diagram swimlane Public Visitor dan Sistem.
+- `docs/activitydiagram-admin.md` -> Diperbarui menjadi activity diagram swimlane Admin dan Sistem.
+- `docs/activitydiagram-tutor.md` -> Diperbarui menjadi activity diagram swimlane Tutor dan Sistem.
+- `docs/activitydiagram-learner.md` -> Diperbarui menjadi activity diagram swimlane Learner dan Sistem.
+- `context/current-progress.md` -> Mencatat pembaruan gaya diagram sesuai referensi.
+- `context/changelog.md` -> Mencatat pembaruan diagram PlantUML.
 
 ## Blockers / Bugs Found
 - `git status --short` gagal dijalankan karena error sandbox Windows `CreateProcessWithLogonW failed: 1056`; perubahan file tetap dilanjutkan karena hanya membuat dokumentasi context.
@@ -31,4 +45,4 @@ Memperbaiki koneksi database lokal setelah MySQL menolak koneksi pada port `3307
 - Error runtime: `mysqli_sql_exception: No connection could be made because the target machine actively refused it` terjadi karena aplikasi mencoba konek ke MySQL port `3307`, sementara database lokal tersedia di port `3306`.
 
 ## Next Immediate Action
-- Refresh halaman aplikasi dan pastikan koneksi database berhasil menggunakan port `3306`.
+- Render ulang file PlantUML di `docs/` dan cek layout visual terhadap referensi user.

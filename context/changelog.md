@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.6] - 2026-06-18 13:25 WIB
+### Changed
+- Memperbarui `docs/usecase.md` agar lebih menyerupai referensi: boundary sistem besar, aktor di sisi luar, use case oval, dan relasi `<<include>>`/`<<extend>>`.
+- Memperbarui activity diagram public, admin, tutor, dan learner menjadi format swimlane stakeholder vs sistem seperti referensi.
+
+## [0.1.5] - 2026-06-18 13:16 WIB
+### Added
+- Menambahkan `docs/usecase.md` berisi kode PlantUML use case diagram sistem RuangAjar Unila.
+- Menambahkan activity diagram PlantUML untuk stakeholder public, admin, tutor, dan learner pada folder `docs/`.
+- Memperbarui `current-progress.md` untuk mencatat dokumentasi diagram sistem.
+
 ## [0.1.4] - 2026-06-18 12:23 WIB
 ### Fixed
 - Mengubah port MySQL di `src/config/database.php` dari `3307` ke `3306` untuk menyesuaikan database lokal yang sedang dipakai.
