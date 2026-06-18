@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -74,19 +74,10 @@ $top_tutors_query = "SELECT * FROM tutor WHERE status = 'Aktif' ORDER BY rating 
 $top_tutors_result = mysqli_query($conn, $top_tutors_query);
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Mahasiswa - RuangAjar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-</head>
-<body>
-
-<!-- NAVBAR LEARNER -->
-<?php include '../../layouts/header_learner.php'; ?>
+<?php
+$assetPath = "../../assets/";
+include '../../layouts/header.php';
+?>
 
 <style>
 
@@ -645,14 +636,8 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
     color: var(--color-text-light);
     font-size: 14px;
     display: flex;
-    align-items: start;
+    align-items: center;
     gap: 10px;
-}
-
-.tips-list li::before {
-    content: 'ðŸ’¡';
-    font-size: 16px;
-    flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -691,10 +676,10 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
         <div class="dashboard-header">
             <div class="dashboard-header-content">
                 <h1>Dashboard Mahasiswa</h1>
-                <p>Selamat datang kembali, <strong><?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?></strong>! ðŸ‘‹</p>
+                <p>Selamat datang kembali, <strong><?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?></strong>! <i class="bi bi-hand-wave text-warning"></i></p>
             </div>
             <div class="welcome-badge">
-                ðŸŽ“ <?php echo $siswa_data['jenjang']; ?> - <?php echo $siswa_data['kelas']; ?>
+                <i class="bi bi-mortarboard-fill"></i> <?php echo $siswa_data['jenjang']; ?> - <?php echo $siswa_data['kelas']; ?>
             </div>
         </div>
 
@@ -705,7 +690,7 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
                         <h3>Total Booking</h3>
                         <div class="stat-value"><?php echo $stats['total_booking'] ?? 0; ?></div>
                     </div>
-                    <div class="stat-icon">ðŸ“š</div>
+                    <div class="stat-icon"><i class="bi bi-book"></i></div>
                 </div>
             </div>
             <div class="stat-card stat-success">
@@ -714,7 +699,7 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
                         <h3>Booking Aktif</h3>
                         <div class="stat-value"><?php echo $stats['active_booking'] ?? 0; ?></div>
                     </div>
-                    <div class="stat-icon">âœ…</div>
+                    <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
                 </div>
             </div>
             <div class="stat-card stat-warning">
@@ -723,18 +708,18 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
                         <h3>Review Diberikan</h3>
                         <div class="stat-value"><?php echo $stats['total_reviews'] ?? 0; ?></div>
                     </div>
-                    <div class="stat-icon">â­</div>
+                    <div class="stat-icon"><i class="bi bi-star"></i></div>
                 </div>
             </div>
         </div>
 
         <div class="quick-actions">
-            <a href="../public/search_result.php" class="btn-action">
-                <span>ðŸ”</span>
+            <a href="cari_tutor.php" class="btn-action">
+                <span><i class="bi bi-search"></i></span>
                 <span>Cari Tutor</span>
             </a>
-            <a href="../learner/riwayat.php" class="btn-action secondary">
-                <span>ðŸ“‹</span>
+            <a href="riwayat.php" class="btn-action secondary">
+                <span><i class="bi bi-journal-text"></i></span>
                 <span>Riwayat Booking</span>
             </a>
         </div>
@@ -750,7 +735,7 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
         ?>
             <div class="upcoming-booking-card">
                 <div class="upcoming-header">
-                    <div class="upcoming-icon">â°</div>
+                    <div class="upcoming-icon"><i class="bi bi-clock"></i></div>
                     <div>
                         <h3>Sesi Berikutnya</h3>
                         <p class="upcoming-subtitle">Jangan lupa jadwal belajar Anda!</p>
@@ -768,15 +753,15 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
                     </div>
                     <div class="upcoming-datetime">
                         <div class="datetime-item">
-                            <span class="datetime-label">ðŸ“… Tanggal</span>
+                            <span class="datetime-label"><i class="bi bi-calendar-event"></i> Tanggal</span>
                             <span class="datetime-value"><?php echo $upcoming_date->format('d M Y'); ?></span>
                         </div>
                         <div class="datetime-item">
-                            <span class="datetime-label">ðŸ• Waktu</span>
+                            <span class="datetime-label"><i class="bi bi-clock"></i> Waktu</span>
                             <span class="datetime-value"><?php echo $upcoming_time; ?> WIB</span>
                         </div>
                         <div class="datetime-item">
-                            <span class="datetime-label">â³ Waktu Tersisa</span>
+                            <span class="datetime-label"><i class="bi bi-hourglass-split"></i> Waktu Tersisa</span>
                             <span class="datetime-value highlight">
                                 <?php 
                                 if ($days_left > 0) {
@@ -801,7 +786,7 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
 
         <div style="background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); margin-bottom: 30px;">
             <h3 style="margin: 0 0 20px 0; color: #1a5276; display: flex; align-items: center; gap: 10px;">
-                <span>ðŸ“</span>
+                <span><i class="bi bi-person-badge"></i></span>
                 <span>Profil Mahasiswa</span>
             </h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
@@ -826,20 +811,20 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
 
         <div class="quick-tips">
             <h3>
-                <span>ðŸ’¡</span>
+                <span><i class="bi bi-lightbulb"></i></span>
                 <span>Tips Belajar Efektif</span>
             </h3>
             <ul class="tips-list">
-                <li>Siapkan pertanyaan sebelum sesi dimulai</li>
-                <li>Review materi sebelumnya untuk memaksimalkan waktu belajar</li>
-                <li>Catat poin-poin penting selama sesi berlangsung</li>
+                <li><i class="bi bi-lightbulb-fill text-warning"></i> Siapkan pertanyaan sebelum sesi dimulai</li>
+                <li><i class="bi bi-lightbulb-fill text-warning"></i> Review materi sebelumnya untuk memaksimalkan waktu belajar</li>
+                <li><i class="bi bi-lightbulb-fill text-warning"></i> Catat poin-poin penting selama sesi berlangsung</li>
             </ul>
         </div>
 
         <div class="recent-bookings">
             <div class="recent-bookings-header">
                 <h2>Booking Terbaru</h2>
-                <a href="sesi_saya.php" class="view-all-link">Lihat Semua â†’</a>
+                <a href="sesi_saya.php" class="view-all-link">Lihat Semua <i class="bi bi-arrow-right"></i></a>
             </div>
             <?php if ($recent_bookings_result && mysqli_num_rows($recent_bookings_result) > 0): ?>
                 <?php while ($booking = mysqli_fetch_assoc($recent_bookings_result)): 
@@ -856,11 +841,11 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
                                 <h4><?php echo htmlspecialchars($booking['tutor_name']); ?></h4>
                                 <p><?php echo htmlspecialchars($booking['subject_name'] ?? 'Mata Kuliah'); ?></p>
                                 <p>
-                                    <span>ðŸ“… <?php echo $date_formatted; ?></span>
-                                    <span style="margin: 0 8px;">â€¢</span>
-                                    <span>ðŸ• <?php echo $time_formatted; ?> WIB</span>
-                                    <span style="margin: 0 8px;">â€¢</span>
-                                    <span>â±ï¸ <?php echo $booking['duration']; ?> menit</span>
+                                    <span><i class="bi bi-calendar-event"></i> <?php echo $date_formatted; ?></span>
+                                    <span style="margin: 0 8px;">•</span>
+                                    <span><i class="bi bi-clock"></i> <?php echo $time_formatted; ?> WIB</span>
+                                    <span style="margin: 0 8px;">•</span>
+                                    <span><i class="bi bi-hourglass"></i> <?php echo $booking['duration']; ?> menit</span>
                                 </p>
                                 <p class="booking-price"><?php echo $price_formatted; ?></p>
                             </div>
@@ -882,23 +867,19 @@ $top_tutors_result = mysqli_query($conn, $top_tutors_query);
                 <?php endwhile; ?>
             <?php else: ?>
                 <div class="empty-state">
-                    <div class="empty-state-icon">ðŸ“</div>
+                    <div class="empty-state-icon"><i class="bi bi-calendar-x"></i></div>
                     <h3>Belum ada booking</h3>
                     <p>Mulai perjalanan belajar Anda dengan mencari tutor yang tepat!</p>
                     <p style="margin-top: 15px;">
-                        <a href="../public/search_result.php">Cari tutor sekarang â†’</a>
+                        <a href="cari_tutor.php">Cari tutor sekarang <i class="bi bi-arrow-right"></i></a>
                     </p>
                 </div>
             <?php endif; ?>
-        </div>
+</div>
     </div>
 </div>
 
 <?php require_once '../../layouts/footer.php'; ?>
-
-
-
-
 
 
 

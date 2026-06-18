@@ -83,19 +83,10 @@ $count_cancelled = $count_cancelled_result ? mysqli_fetch_assoc($count_cancelled
 $logoPath = "../../../assets/img/logo.png";
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Booking - RuangAjar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-</head>
-<body>
-
-<!-- NAVBAR LEARNER -->
-<?php include '../../layouts/header_learner.php'; ?>
+<?php
+$assetPath = "../../assets/";
+include '../../layouts/header.php';
+?>
 
 <div style="padding-top: 20px;">
 

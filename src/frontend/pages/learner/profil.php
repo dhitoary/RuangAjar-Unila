@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once '../../../config/database.php';
 
@@ -139,203 +139,280 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+
+$assetPath = "../../assets/";
+include '../../layouts/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Saya - RuangAjar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <style>
-        
+<style>
+    .profile-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 0 30px;
+    }
 
-        
+    .profile-header {
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        background: white;
+        color: #1a5276;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        margin: 0 auto 20px;
+        border: 5px solid rgba(255,255,255,0.3);
+    }
 
-        .sb-brand .logo {
-            width: 40px;
-            height: 40px;
-        }
+    .profile-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
 
-        
+    .form-section {
+        margin-bottom: 30px;
+    }
 
-        
+    .form-section h3 {
+        color: #1a5276;
+        font-size: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #2e86c1;
+    }
 
-        
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
 
-        
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
 
-        
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
 
-        .profile-container {
-            max-width: 900px;
-            margin: 50px auto;
-            padding: 0 30px;
-        }
+    .form-label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
 
-        .profile-header {
-            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .form-input {
+        padding: 12px 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
 
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            background: white;
-            color: #1a5276;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            margin: 0 auto 20px;
-            border: 5px solid rgba(255,255,255,0.3);
-        }
+    .form-input:focus {
+        outline: none;
+        border-color: #2e86c1;
+        box-shadow: 0 0 0 3px rgba(154, 212, 214, 0.1);
+    }
 
-        .profile-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
+    .form-input:disabled {
+        background: #f5f5f5;
+        cursor: not-allowed;
+    }
 
-        .form-section {
-            margin-bottom: 30px;
-        }
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        margin-top: 30px;
+    }
 
-        .form-section h3 {
-            color: #1a5276;
-            font-size: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #2e86c1;
-        }
+    .btn {
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+    }
 
+    .btn-primary {
+        background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background: #e0e0e0;
+    }
+
+    .alert {
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    @media (max-width: 768px) {
         .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr;
         }
-
-        .form-group {
-            display: flex;
+        
+        .btn-group {
             flex-direction: column;
         }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .form-input {
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #2e86c1;
-            box-shadow: 0 0 0 3px rgba(154, 212, 214, 0.1);
-        }
-
-        .form-input:disabled {
-            background: #f5f5f5;
-            cursor: not-allowed;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            margin-top: 30px;
-        }
-
+        
         .btn {
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
+            width: 100%;
         }
+    }
+</style>
 
-        .btn-primary {
-            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
-            color: white;
-        }
+<div class="profile-container">
+    <?php if ($success_message): ?>
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle"></i> <?php echo htmlspecialchars($success_message); ?>
+        </div>
+    <?php endif; ?>
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-        }
+    <?php if ($error_message): ?>
+        <div class="alert alert-error">
+            <i class="bi bi-exclamation-circle"></i> <?php echo htmlspecialchars($error_message); ?>
+        </div>
+    <?php endif; ?>
 
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
+    <div class="profile-header">
+        <?php if (!empty($siswa_data['foto_profil'])): ?>
+            <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 5px solid rgba(255,255,255,0.3);">
+                <img src="<?php echo $assetPath . '../' . htmlspecialchars($siswa_data['foto_profil']); ?>" alt="Foto Profil" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        <?php else: ?>
+            <div class="profile-avatar">
+                <i class="bi bi-person"></i>
+            </div>
+        <?php endif; ?>
+        <h2 style="margin: 0 0 10px 0;"><?php echo htmlspecialchars($siswa_data['nama_lengkap']); ?></h2>
+        <p style="margin: 0; opacity: 0.9;"><?php echo htmlspecialchars($siswa_data['email']); ?></p>
+    </div>
 
-        .btn-secondary:hover {
-            background: #e0e0e0;
-        }
+    <div class="profile-card">
+        <!-- Profile Update Form -->
+        <form action="" method="POST" enctype="multipart/form-data" class="form-section">
+            <h3>Informasi Pribadi</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" name="nama_lengkap" class="form-input" value="<?php echo htmlspecialchars($siswa_data['nama_lengkap'] ?? ''); ?>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">NIM / NPM</label>
+                    <input type="text" name="nim" class="form-input" value="<?php echo htmlspecialchars($siswa_data['nim'] ?? ''); ?>" required>
+                </div>
 
-        .alert {
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+                <div class="form-group">
+                    <label class="form-label">Fakultas / Sekolah</label>
+                    <input type="text" name="sekolah" class="form-input" value="<?php echo htmlspecialchars($siswa_data['sekolah'] ?? ''); ?>" placeholder="Contoh: FISIP atau FEB">
+                </div>
 
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+                <div class="form-group">
+                    <label class="form-label">Program Studi / Kelas</label>
+                    <input type="text" name="kelas" class="form-input" value="<?php echo htmlspecialchars($siswa_data['kelas'] ?? ''); ?>" placeholder="Contoh: S1 Ilmu Komputer">
+                </div>
 
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+                <div class="form-group">
+                    <label class="form-label">Jenjang Pendidikan</label>
+                    <select name="jenjang" class="form-input">
+                        <option value="S1" <?php echo ($siswa_data['jenjang'] ?? '') == 'S1' ? 'selected' : ''; ?>>Sarjana (S1)</option>
+                        <option value="Diploma Tiga" <?php echo ($siswa_data['jenjang'] ?? '') == 'Diploma Tiga' ? 'selected' : ''; ?>>Diploma Tiga (D3)</option>
+                        <option value="Diploma Empat" <?php echo ($siswa_data['jenjang'] ?? '') == 'Diploma Empat' ? 'selected' : ''; ?>>Diploma Empat (D4)</option>
+                        <option value="S2" <?php echo ($siswa_data['jenjang'] ?? '') == 'S2' ? 'selected' : ''; ?>>Magister (S2)</option>
+                    </select>
+                </div>
 
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
+                <div class="form-group">
+                    <label class="form-label">Minat Belajar</label>
+                    <input type="text" name="minat" class="form-input" value="<?php echo htmlspecialchars($siswa_data['minat'] ?? ''); ?>" placeholder="Contoh: Kalkulus, Pemrograman Web">
+                </div>
 
-<!-- NAVBAR LEARNER -->
-<?php include '../../layouts/header_learner.php'; ?>
+                <div class="form-group full-width">
+                    <label class="form-label">Foto Profil</label>
+                    <input type="file" name="foto_profil" class="form-input" accept="image/*">
+                    <small style="color: #666; margin-top: 5px;">Maksimal 2MB. Format: JPG, JPEG, PNG, GIF</small>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+        </form>
+
+        <hr style="border: 0; border-top: 2px solid #e0e0e0; margin: 40px 0;">
+
+        <!-- Change Password Form -->
+        <form action="" method="POST" class="form-section">
+            <h3>Ganti Password</h3>
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label class="form-label">Password Saat Ini</label>
+                    <input type="password" name="current_password" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password Baru</label>
+                    <input type="password" name="new_password" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Konfirmasi Password Baru</label>
+                    <input type="password" name="confirm_password" class="form-input" required>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" name="change_password" class="btn btn-primary">Ubah Password</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <?php require_once '../../layouts/footer.php'; ?>
 

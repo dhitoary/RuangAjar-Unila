@@ -77,26 +77,12 @@ if (empty($tutorsData)) {
 }
 ?>
 
-<?php if ($isLoggedIn && $userRole == 'learner' && $siswa_data): ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cari Tutor - RuangAjar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $assetPath; ?>css/style.css">
-</head>
-<body>
+<?php
+$assetPath = "../../assets/";
+include '../../layouts/header.php';
+?>
 
-<!-- NAVBAR LEARNER -->
-<?php include '../../layouts/header_learner.php'; ?>
-
-<?php else: ?>
-<?php include '../../layouts/header.php'; ?>
-<?php endif; ?>
-
-<main style="background: #f8f9fa; min-height: 100vh; padding-top: <?php echo ($isLoggedIn && $userRole == 'learner') ? '20px' : '100px'; ?>;">
+<main style="background: #f8f9fa; min-height: 100vh; padding-top: 20px;">
   <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 40px 120px;">
 
     <!-- TITLE & SEARCH -->
@@ -735,28 +721,7 @@ function resetFilters() {
 }
 </style>
 
-<?php if ($isLoggedIn && $userRole == 'learner' && $siswa_data): ?>
-<script>
-// Dropdown toggle function for learner navbar
-function toggleDropdown() {
-    const dropdown = document.getElementById('profileDropdown');
-    dropdown.classList.toggle('show');
-}
-
-// Close dropdown when clicking outside
-window.onclick = function(event) {
-    if (!event.target.matches('.profile-trigger, .profile-trigger *')) {
-        const dropdown = document.getElementById('profileDropdown');
-        if (dropdown && dropdown.classList.contains('show')) {
-            dropdown.classList.remove('show');
-        }
-    }
-}
-</script>
-</body>
-</html>
-<?php else: ?>
-<?php endif; ?>
+<?php include '../../layouts/footer.php'; ?>
 
 
 
